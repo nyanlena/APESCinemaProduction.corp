@@ -1,0 +1,4 @@
+DB_NAME=apescorp
+DB_PASS=null
+DB_USER=nyanlena
+PORT=3001
