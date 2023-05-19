@@ -51,4 +51,8 @@ authRouter.get("/check", async (req, res) => {
   return res.sendStatus(401);
 });
 
+authRouter.get("/signup/role", async (req, res) => {
+  res.json(200)
+});
+
 module.exports = authRouter;

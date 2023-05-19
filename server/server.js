@@ -6,6 +6,11 @@ const store = require("session-file-store");
 const authRouter = require("./routers/authRouter");
 const { pathMiddlewares } = require("./middlewares/pathMiddlewares");
 const mainRouter = require("./routers/mainRouter");
+const profieRouter = require("./routers/profieRouter");
+const seachRouter = require("./routers/seachRouter");
+const favoriteRouter = require("./routers/favoriteRouter");
+const orderRouter = require("./routers/orderRouter");
+
 // const transactionRouter = require("./routers/transactionsRouter");
 require("dotenv").config();
 
@@ -40,5 +45,9 @@ app.use(pathMiddlewares);
 // app.use("/api/lk", transactionRouter);
 app.use("/", mainRouter);
 app.use("/api/auth", authRouter);
+app.use("/profile", profieRouter);
+app.use("/seach", seachRouter);
+app.use("/favorites", favoriteRouter);
+app.use("/orders", orderRouter);
 
 app.listen(PORT, () => console.log(`Server has started on PORT ${PORT}`));

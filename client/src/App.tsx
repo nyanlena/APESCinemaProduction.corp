@@ -25,12 +25,13 @@ function App(): JSX.Element {
           <Route path="/" element={<MainPage />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/chooserole" element={<ChooseRole />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/searchprofiles" element={<SearchProfiles />} />
-          <Route path="/searchprojects" element={<SerachProjects />} />
+          <Route path="/signup/role" element={<ChooseRole />} />
+          <Route path="/profile/:id" element={<Profile />} />
+          {/* <Route path="/profile/:setting" element={<Profile />} /> */}
+          <Route path="/search/profiles" element={<SearchProfiles />} />
+          <Route path="/search/projects" element={<SerachProjects />} />
           <Route path="/favorites" element={<Favorites />} />
-          <Route path="/project" element={<Project />} />
+          <Route path="/projects/:id" element={<Project />} />
           <Route path="/orders" element={<Orders />} />
         </Routes>
         <Footer />
