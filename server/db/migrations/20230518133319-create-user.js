@@ -23,33 +23,42 @@ module.exports = {
       },
       patronymicname: {
         type: Sequelize.STRING,
+        defaultValue: Sequelize.fn("now"),
       },
       img: {
         type: Sequelize.STRING,
+        defaultValue: Sequelize.fn("now"),
       },
       education: {
         type: Sequelize.TEXT,
+        defaultValue: Sequelize.fn("now"),
       },
       experience: {
         type: Sequelize.TEXT,
+        defaultValue: Sequelize.fn("now"),
       },
       aboutMe: {
         type: Sequelize.TEXT,
+        defaultValue: Sequelize.fn("now"),
       },
       linkPortfolio: {
         type: Sequelize.TEXT,
+        defaultValue: Sequelize.fn("now"),
       },
       phone: {
         type: Sequelize.STRING,
       },
       linkTg: {
         type: Sequelize.STRING,
+        defaultValue: Sequelize.fn("now"),
       },
       linkInst: {
         type: Sequelize.STRING,
+        defaultValue: Sequelize.fn("now"),
       },
       linkWA: {
         type: Sequelize.STRING,
+        defaultValue: Sequelize.fn("now"),
       },
       categoryId: {
         type: Sequelize.INTEGER,
