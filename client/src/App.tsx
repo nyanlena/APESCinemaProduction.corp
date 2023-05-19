@@ -7,18 +7,19 @@ import Footer from './components/Ui/Footer';
 import SignUp from './components/Pages/SignUp';
 import Login from './components/Pages/Login';
 import ChooseRole from './components/Pages/ChooseRole';
-import Profile from './components/Pages/Profile';
+import ProfilePage from './components/Pages/ProfilePage';
 import SearchProfiles from './components/Pages/SearchProfiles';
 import SerachProjects from './components/Pages/SerachProjects';
 import Favorites from './components/Pages/Favorites';
 import Project from './components/Pages/Project';
 import Orders from './components/Pages/Orders';
+import SettingPage from './components/Pages/SettingPage';
 // import Loader from './HOC/Loader';
 
 function App(): JSX.Element {
   return (
     <Container>
-      {/* <Loader > */}
+      {/* <Loader> */}
       <>
         <Navbar />
         <Routes>
@@ -26,8 +27,8 @@ function App(): JSX.Element {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup/role" element={<ChooseRole />} />
-          <Route path="/profile/:id" element={<Profile />} />
-          {/* <Route path="/profile/:setting" element={<Profile />} /> */}
+          <Route path="/profile/:id" element={<ProfilePage />} />
+          <Route path="/profile/setting" element={<SettingPage />} />
           <Route path="/search/profiles" element={<SearchProfiles />} />
           <Route path="/search/projects" element={<SerachProjects />} />
           <Route path="/favorites" element={<Favorites />} />
