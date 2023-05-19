@@ -52,7 +52,7 @@ authRouter.get("/check", async (req, res) => {
 });
 
 authRouter.get("/signup/role", async (req, res) => {
-  res.json(200)
+  res.json(200);
 });
 
 module.exports = authRouter;
