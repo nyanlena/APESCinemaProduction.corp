@@ -5,6 +5,8 @@ export type BackendUserType = {
   firstName: string;
   lastName: string;
   patronymicname: string;
+  city: string;
+  age: string;
   img: string;
   education: string;
   experience: string;
