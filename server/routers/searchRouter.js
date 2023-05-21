@@ -2,13 +2,13 @@ const express = require('express');
 const { User, Category } = require('../db/models');
 const { Op } = require('sequelize');
 
-const seachRouter = express.Router();
+const searchRouter = express.Router();
 
-seachRouter.get('/projects', (req, res) => {
+searchRouter.get('/projects', (req, res) => {
   res.json(200);
 });
 
-seachRouter.get('/profiles', async (req, res) => {
+searchRouter.get('/profiles', async (req, res) => {
   try {
     const allProfiles = await User.findAll();
     res.json(allProfiles);
@@ -17,7 +17,7 @@ seachRouter.get('/profiles', async (req, res) => {
   }
 });
 
-seachRouter.get('/categories', async (req, res) => {
+searchRouter.get('/categories', async (req, res) => {
   try {
     const categories = await Category.findAll();
     res.json(categories);
@@ -26,7 +26,7 @@ seachRouter.get('/categories', async (req, res) => {
   }
 });
 
-seachRouter.post('/profiles', async (req, res) => {
+searchRouter.post('/profiles', async (req, res) => {
   try {
     const { searchQuery } = req.body;
 
@@ -55,12 +55,12 @@ seachRouter.post('/profiles', async (req, res) => {
   }
 });
 
-seachRouter.get('/projects/:id', (req, res) => {
+searchRouter.get('/projects/:id', (req, res) => {
   res.json(200);
 });
 
-seachRouter.get('/profiles/:id', (req, res) => {
+searchRouter.get('/profiles/:id', (req, res) => {
   res.json(200);
 });
 
-module.exports = seachRouter;
+module.exports = searchRouter;
