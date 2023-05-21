@@ -2,11 +2,14 @@ import type { AnyAction, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import type { TypedUseSelectorHook } from 'react-redux';
+import profileCategoriesReducer from './searchProfile/searchProfileSlice';
 import userReducer from './user/userSlice';
 
 const store = configureStore({
   reducer: {
     user: userReducer,
+    profiles: profileCategoriesReducer,
+    categories: profileCategoriesReducer,
   },
 });
 
