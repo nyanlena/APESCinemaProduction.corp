@@ -12,30 +12,30 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
       },
-      password: {k
+      password: {
         type: Sequelize.STRING,
-      },k
-      firstName: {л
+      },
+      firstName: {
         type: Sequelize.STRING,
-      },k
+      },
       lastName: {
         type: Sequelize.STRING,
-      },k
+      },
       patronymicname: {
         type: Sequelize.STRING,
         defaultValue: Sequelize.fn("now"),
-      },k
+      },
       img: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),k
+        defaultValue: Sequelize.fn("now"),
       },
       education: {
         type: Sequelize.TEXT,
         defaultValue: Sequelize.fn("now"),
       },
-      experience: {kл
-        type: Sequelize.TEXT,kk
-        defaultValue: Sequelize.fn("now"),k
+      experience: {
+        type: Sequelize.TEXT,
+        defaultValue: Sequelize.fn("now"),
       },
       aboutMe: {
         type: Sequelize.TEXT,
