@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Users", {
+    await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -23,64 +23,72 @@ module.exports = {
       },
       patronymicname: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
+      },
+      city: {
+        type: Sequelize.STRING,
+        defaultValue: Sequelize.fn('now'),
+      },
+      age: {
+        type: Sequelize.STRING,
+        defaultValue: Sequelize.fn('now'),
       },
       img: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
       education: {
         type: Sequelize.TEXT,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
       experience: {
         type: Sequelize.TEXT,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
       aboutMe: {
         type: Sequelize.TEXT,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
       linkPortfolio: {
         type: Sequelize.TEXT,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
       phone: {
         type: Sequelize.STRING,
       },
       linkTg: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
       linkInst: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
       linkWA: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
       categoryId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Categories",
-          key: "id",
+          model: 'Categories',
+          key: 'id',
         },
-        onDelete: "SET NULL",
+        onDelete: 'SET NULL',
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn('now'),
       },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Users");
+    await queryInterface.dropTable('Users');
   },
 };

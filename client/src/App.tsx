@@ -24,7 +24,7 @@ function App(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(checkUserThunk());
+    void dispatch(checkUserThunk());
   }, []);
   return (
     <Container>
@@ -39,7 +39,7 @@ function App(): JSX.Element {
           </Route>
           <Route
             element={
-              <PrivateRouter isAllowed={user.status === 'logged'} redirectPath="/profile/:id" />
+              <PrivateRouter isAllowed={user.status === 'logged'} redirectPath="/favorites" />
             }
           >
             <Route path="/signup/role" element={<ChooseRole />} />
