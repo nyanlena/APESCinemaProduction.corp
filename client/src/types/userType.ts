@@ -17,6 +17,7 @@ export type BackendUserType = {
   linkInst: string;
   linkWA: string;
   categoryId: number;
+  Category?: { id: number; title: string };
   portfolioLink: string;
 };
 

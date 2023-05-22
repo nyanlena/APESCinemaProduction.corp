@@ -1,5 +1,5 @@
 const express = require("express");
-const { User } = require("../db/models");
+const { User, Category } = require("../db/models");
 
 const profileRouter = express.Router();
 
@@ -15,7 +15,9 @@ const profileRouter = express.Router();
 
 profileRouter.get("/:id", async (req, res) => {
   try {
-    const foundUser = await User.findByPk(req.params.id);
+    const foundUser = await User.findByPk(req.params.id, {
+      include: Category,
+    });
     if (foundUser) {
       return res.json(foundUser);
     }

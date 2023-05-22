@@ -27,6 +27,7 @@ function ProfilePage(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const oneUser = useAppSelector((store) => store.oneProfile.oneUser);
+  const user = useAppSelector((store) => store.user);
 
   useEffect(() => {
     dispatch(profileThunk(Number(id)));
@@ -190,22 +191,23 @@ function ProfilePage(): JSX.Element {
           <>
             <p> Город: {oneUser.city !== null ? oneUser.city : 'Город не указан'}</p>
             <p> Возраст: {oneUser.age !== null ? oneUser.age : 'Возраст не указан'}</p>
-            <p> Должность: {oneUser.categoryId}</p>
+            <p> Должность: {oneUser.Category?.title}</p>
           </>
           {/* Прогресс-бар */}
-          {calculateProgress() >= 0 && calculateProgress() < 100 ? (
-            <Row>
-              <p>Продолжите заполнять Ваш профиль, чтобы Вами заинтересовались.</p>
-              <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
-            </Row>
-          ) : (
-            'Ваш профиль заполнен!'
-          )}
+          {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+            (calculateProgress() >= 0 && calculateProgress() < 100 ? (
+              <Row>
+                <p>Продолжите заполнять Ваш профиль, чтобы Вами заинтересовались.</p>
+                <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
+              </Row>
+            ) : (
+              'Ваш профиль заполнен!'
+            ))}
         </Col>
         {/* конец блока основная информация */}
         {/* Кнопки  настроек и лайка */}
         <Col sm={1}>
-          {Number(id) === 1 && (
+          {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') && (
             <Dropdown>
               <Dropdown.Toggle
                 variant="outline-secondary"
@@ -228,7 +230,7 @@ function ProfilePage(): JSX.Element {
               </Dropdown.Menu>
             </Dropdown>
           )}
-          {Number(id) !== 1 && (
+          {Number(id) !== (user.status === 'logged' ? user.id : 'Ошибка') && (
             <Button
               variant="outline-secondary"
               style={{
@@ -248,17 +250,18 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Образование</Card.Title>
-              {!educationVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenEducationInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !educationVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenEducationInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
               {oneUser.education ? `${oneUser.education}` : 'Добавьте информацию об образовании'}
@@ -294,17 +297,18 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Опыт работы</Card.Title>
-              {!experienceVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenExperienceInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !experienceVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenExperienceInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
               {oneUser.experience ? `${oneUser.experience}` : 'Добавьте информацию об опыте работы'}
@@ -342,7 +346,7 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>О себе</Card.Title>
-              {!aboutVisible && (
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') && !aboutVisible && (
                 <Button
                   variant="outline-secondary"
                   onClick={handleOpenAboutInput}
@@ -391,17 +395,18 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Портфолио</Card.Title>
-              {!portfolioVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenPortfolioInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !portfolioVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenPortfolioInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
               {oneUser.portfolioLink ? `${oneUser.portfolioLink}` : 'Добавьте ссылку на портфолио'}

@@ -42,7 +42,7 @@ function App(): JSX.Element {
             <Route element={<PrivateRouter isAllowed={user.status === 'logged'} />}>
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/profile/setting" element={<SettingPage />} />
-              <Route path="/search/profiles" element={<SearchProfiles />} />
+              <Route path="/seach/profiles" element={<SearchProfiles />} />
               <Route path="/search/projects" element={<SearchProjects />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/projects/:id" element={<Project />} />
