@@ -11,6 +11,7 @@ const seachRouter = require("./routers/seachRouter");
 const favoriteRouter = require("./routers/favoriteRouter");
 const orderRouter = require("./routers/orderRouter");
 const projectRouter = require("./routers/projectRouter");
+const searchRouter = require("./routers/searchRouter");
 
 // const transactionRouter = require("./routers/transactionsRouter");
 require("dotenv").config();
@@ -49,6 +50,7 @@ app.use("/", mainRouter);
 app.use("/api/auth", authRouter);
 app.use("/profile", profieRouter);
 app.use("/seach", seachRouter);
+app.use("/search", searchRouter);
 app.use("/projects", projectRouter);
 app.use("/favorites", favoriteRouter);
 app.use("/orders", orderRouter);
