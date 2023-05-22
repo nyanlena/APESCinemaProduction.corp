@@ -1,5 +1,5 @@
 export type BackendUserType = {
-  id: number;
+  id?: number;
   email: string;
   password: string;
   firstName: string;
@@ -17,6 +17,7 @@ export type BackendUserType = {
   linkInst: string;
   linkWA: string;
   categoryId: number;
+  portfolioLink: string;
 };
 
 export type LoggedUserType = {

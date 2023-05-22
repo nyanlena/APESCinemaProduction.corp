@@ -26,7 +26,7 @@ profileRouter.get("/:id", async (req, res) => {
   }
 });
 
-profileRouter.patch("/:id", async (req, res) => {
+profileRouter.patch("/api/:id", async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) {

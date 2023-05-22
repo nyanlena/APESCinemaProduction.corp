@@ -26,6 +26,7 @@ module.exports = {
           linkInst: 'https://instagram.com/bloody_maggie?igshid=NTc4MTIwNjQ2YQ==',
           linkWA: null,
           categoryId: 1,
+
         },
         {
           email: 'ainaomuk@gmail.com',
@@ -45,6 +46,7 @@ module.exports = {
           linkInst: 'https://instagram.com/nyanlena?igshid=NTc4MTIwNjQ2YQ==',
           linkWA: null,
           categoryId: 6,
+          portfolioLink: 'https://instagram.com/nyanlena?igshid'
         },
       ],
       {},
