@@ -29,7 +29,7 @@ function App(): JSX.Element {
           <Route path="/profile/:id" element={<Profile />} />
           {/* <Route path="/profile/:setting" element={<Profile />} /> */}
           <Route path="/search/profiles" element={<SearchProfiles />} />
-          <Route path="/search/projects" element={<SeachProjects />} />
+          <Route path="/seach/projects" element={<SeachProjects />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/projects/:id" element={<Project />} />
           <Route path="/orders" element={<Orders />} />

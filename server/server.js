@@ -10,6 +10,7 @@ const profieRouter = require("./routers/profieRouter");
 const seachRouter = require("./routers/seachRouter");
 const favoriteRouter = require("./routers/favoriteRouter");
 const orderRouter = require("./routers/orderRouter");
+const projectRouter = require("./routers/projectRouter");
 
 // const transactionRouter = require("./routers/transactionsRouter");
 require("dotenv").config();
@@ -47,7 +48,13 @@ app.use("/", mainRouter);
 app.use("/api/auth", authRouter);
 app.use("/profile", profieRouter);
 app.use("/seach", seachRouter);
+app.use("/projects", projectRouter);
 app.use("/favorites", favoriteRouter);
 app.use("/orders", orderRouter);
+
+app.use((err, req, res, next) => {
+  // logic
+  console.log(err);
+});
 
 app.listen(PORT, () => console.log(`Server has started on PORT ${PORT}`));

@@ -2,9 +2,12 @@ import type { AnyAction, ThunkAction } from '@reduxjs/toolkit';
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import type { TypedUseSelectorHook } from 'react-redux';
+import postsProjectsReducer from './seachProjects/seachProjSlice';
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    postsProjects: postsProjectsReducer,
+  },
 });
 
 export default store;
