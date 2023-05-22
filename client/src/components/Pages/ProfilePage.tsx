@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import ProgressBar from 'react-bootstrap/ProgressBar';
 import Row from 'react-bootstrap/Row';
 import {
   BsWrenchAdjustable,
@@ -12,27 +11,28 @@ import { FaTelegram, FaWhatsapp } from 'react-icons/fa';
 import { FcLike } from 'react-icons/fc';
 import { FiEye } from 'react-icons/fi';
 import Col from 'react-bootstrap/Col';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { ProgressBar } from 'react-bootstrap';
+import { useAppDispatch, useAppSelector } from '../../features/redux/store';
+import { profileThunk } from '../../features/redux/profile/profileThunk';
 // import Accordion from 'react-bootstrap/Accordion';
 
 function ProfilePage(): JSX.Element {
   const { id } = useParams();
-  const war = 1; // это проверка на сессию
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const oneUser = useAppSelector((store) => store.oneProfile.oneUser);
+
   useEffect(() => {
-    if (id && Number(id) === Number(war)) {
-      navigate(`/profile/${war}`);
-    }
+    dispatch(profileThunk(Number(id)));
   }, []);
 
-  const [profileCompletion, setProfileCompletion] = useState(0);
-
+  /// /// Что-то со стейтами/////////
   const [educationVisible, setEducationVisible] = useState(false);
   const [educationValue, setEducationValue] = useState('');
   const [educationSavedValue, setEducationSavedValue] = useState('');
@@ -48,14 +48,28 @@ function ProfilePage(): JSX.Element {
   const [portfolioVisible, setPortfolioVisible] = useState(false);
   const [portfolioValue, setPortfolioValue] = useState('');
   const [portfolioSavedValue, setPortfolioSavedValue] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  /// ///////что-то с изменениями закончилось///////
 
+  // модальное окно с фотографией
+  const [showModal, setShowModal] = useState(false);
+
+  const handleToggleModal = (): void => {
+    setShowModal(!showModal);
+  };
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = (): void => {
+    setIsHovered(!isHovered);
+  };
+  /// /////////////////////////////////////////////////////////////
+
+  /// прогресс бар///
+  const [profileCompletion, setProfileCompletion] = useState(20);
   function calculateProgress(): number {
-    let progress = 0;
-    if (educationSavedValue) progress += 25;
-    if (experienceSavedValue) progress += 25;
-    if (aboutSavedValue) progress += 25;
-    if (portfolioSavedValue) progress += 25;
+    let progress = 20;
+    if (educationSavedValue) progress += 20;
+    if (experienceSavedValue) progress += 20;
+    if (aboutSavedValue) progress += 20;
+    if (portfolioSavedValue) progress += 20;
     return progress;
   }
   useMemo(() => {
@@ -69,6 +83,7 @@ function ProfilePage(): JSX.Element {
   const handleOpenEducationInput = (): void => {
     setEducationVisible(true);
   };
+  /// /////////////////////////////////////////////////////////////
 
   const handleSaveEducationInput = (): void => {
     setEducationSavedValue(educationValue);
@@ -106,30 +121,24 @@ function ProfilePage(): JSX.Element {
     setPortfolioVisible(false);
     setPortfolioValue('');
   };
-  const [showModal, setShowModal] = useState(false);
-
-  const handleToggleModal = (): void => {
-    setShowModal(!showModal);
-  };
-  const [isHovered, setIsHovered] = useState(false);
-  const handleMouseEnter = (): void => {
-    setIsHovered(!isHovered);
-  };
 
   return (
     <>
       <Row className="mt-3 p-2">
         <Col sm={3}>
+          {/* Фото профиля */}
           <div style={{ position: 'relative' }}>
             <Image
-              src="https://via.placeholder.com/400"
+              src={oneUser.img !== null ? oneUser.img : 'https://via.placeholder.com/400'}
               alt="Your Image"
               fluid
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseEnter}
+              style={{ width: '400px', height: '400px' }}
             />
 
-            <div
+            <Button
+              variant="outline-secondary"
               style={{
                 fontSize: '35px',
                 position: 'absolute',
@@ -137,19 +146,22 @@ function ProfilePage(): JSX.Element {
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
                 zIndex: 1,
+                border: 'none',
                 cursor: 'pointer',
                 opacity: isHovered ? 1 : 0, // Изменяем прозрачность иконки при наведении
                 transition: 'opacity 0.3s', // Добавляем плавный переход для плавного появления/исчезновения иконки
               }}
               onClick={handleToggleModal}
             >
-              {/* Иконка может быть здесь */}
               <FiEye />
-            </div>
-
+            </Button>
             <Modal show={showModal} onHide={handleToggleModal} centered>
               <Modal.Body>
-                <Image src="https://via.placeholder.com/800" alt="Your Image" fluid />
+                <Image
+                  src={oneUser.img !== null ? oneUser.img : 'https://via.placeholder.com/800'}
+                  alt="Your Image"
+                  fluid
+                />
                 <Button
                   style={{
                     position: 'absolute',
@@ -168,26 +180,31 @@ function ProfilePage(): JSX.Element {
               </Modal.Body>
             </Modal>
           </div>
+          {/* тут конец фото профиля */}
         </Col>
+        {/* Основная информация */}
         <Col sm={8}>
-          <h1>Имя Фамилия</h1>
+          <h1>{`${oneUser.firstName} ${oneUser.lastName}`}</h1>
           <h6>Основная информация:</h6>
           <>
-            <p> Город: {1 === 0 ? 'Москва' : 'Город не указан'}</p>
-            <p> Возраст: {1 === 0 ? '18' : 'Возраст не указан'}</p>
-            <p> Должность: {1 === 0 ? '18' : 'Должность не указана'}</p>
+            <p> Город: {oneUser.city !== null ? oneUser.city : 'Город не указан'}</p>
+            <p> Возраст: {oneUser.age !== null ? oneUser.age : 'Возраст не указан'}</p>
+            <p> Должность: {oneUser.categoryId}</p>
           </>
+          {/* Прогресс-бар */}
           {calculateProgress() >= 0 && calculateProgress() < 100 ? (
             <Row>
-              <p>Заполните Ваш профиль, чтобы Вами заинтересовались.</p>
+              <p>Продолжите заполнять Ваш профиль, чтобы Вами заинтересовались.</p>
               <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
             </Row>
           ) : (
             'Ваш профиль заполнен!'
           )}
         </Col>
+        {/* конец блока основная информация */}
+        {/* Кнопки  настроек и лайка */}
         <Col sm={1}>
-          {war === 1 && (
+          {Number(id) === 1 && (
             <Dropdown>
               <Dropdown.Toggle
                 variant="outline-secondary"
@@ -210,7 +227,7 @@ function ProfilePage(): JSX.Element {
               </Dropdown.Menu>
             </Dropdown>
           )}
-          {war !== 1 && (
+          {Number(id) !== 1 && (
             <Button
               variant="outline-secondary"
               style={{
@@ -222,192 +239,7 @@ function ProfilePage(): JSX.Element {
           )}
         </Col>
       </Row>
-      {/* <Row>
-        <h5>Дополнительная информация:</h5>
-        <Accordion flush>
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>Образование</Accordion.Header>
-            <Accordion.Body>
-              <Row>
-                <Col sm={10}>
-                  <p>
-                    {educationSavedValue
-                      ? `${educationSavedValue}`
-                      : 'Добавьте информацию об образовании'}
-                  </p>
-                </Col>
-                <Col sm={2}>
-                  {!educationVisible && (
-                    <Button variant="outline-secondary" onClick={handleOpenEducationInput}>
-                      <BsFillPencilFill />
-                    </Button>
-                  )}
-                </Col>
-                {educationVisible && (
-                  <Modal show={educationVisible} onHide={() => setEducationVisible(false)}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Образование</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <Form.Control
-                        type="text"
-                        value={educationValue}
-                        onChange={(e) => setEducationValue(e.target.value)}
-                        placeholder={
-                          educationSavedValue ? `${educationSavedValue}` : `Добавьте информацию`
-                        }
-                      />
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={() => setEducationVisible(false)}>
-                        Закрыть
-                      </Button>
-                      <Button variant="success" onClick={handleSaveEducationInput}>
-                        Сохранить
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                )}
-              </Row>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="1">
-            <Accordion.Header>Опыт работы</Accordion.Header>
-            <Accordion.Body>
-              <Row>
-                <Col sm={10}>
-                  <p>
-                    {experienceSavedValue
-                      ? `${experienceSavedValue}`
-                      : 'Добавьте информацию об опыте работы'}
-                  </p>
-                </Col>
-                <Col sm={2}>
-                  {!experienceVisible && (
-                    <Button variant="outline-secondary" onClick={handleOpenExperienceInput}>
-                      <BsFillPencilFill />
-                    </Button>
-                  )}
-                </Col>
-                {experienceVisible && (
-                  <Modal show={experienceVisible} onHide={() => setExperienceVisible(false)}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Опыт работы</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <Form.Control
-                        type="text"
-                        value={experienceValue}
-                        onChange={(e) => setExperienceValue(e.target.value)}
-                        placeholder={
-                          experienceSavedValue ? `${experienceSavedValue}` : `Добавьте информацию`
-                        }
-                      />
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={() => setExperienceVisible(false)}>
-                        Закрыть
-                      </Button>
-                      <Button variant="success" onClick={handleSaveExperienceInput}>
-                        Сохранить
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                )}
-              </Row>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="2">
-            <Accordion.Header>О себе</Accordion.Header>
-            <Accordion.Body>
-              <Row>
-                <Col sm={10}>
-                  <p>{aboutSavedValue ? `${aboutSavedValue}` : 'Расскажите немного о себе'}</p>
-                </Col>
-                <Col sm={2}>
-                  {!aboutVisible && (
-                    <Button variant="outline-secondary" onClick={handleOpenAboutInput}>
-                      <BsFillPencilFill />
-                    </Button>
-                  )}
-                </Col>
-                {aboutVisible && (
-                  <Modal show={aboutVisible} onHide={() => setAboutVisible(false)}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>О себе</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <Form.Control
-                        as="textarea"
-                        value={aboutValue}
-                        onChange={(e) => setAboutValue(e.target.value)}
-                        rows={3}
-                        placeholder={
-                          aboutSavedValue ? `${aboutSavedValue}` : `Расскажите немного о себе`
-                        }
-                      />
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={() => setAboutVisible(false)}>
-                        Закрыть
-                      </Button>
-                      <Button variant="success" onClick={handleSaveAboutInput}>
-                        Сохранить
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                )}
-              </Row>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="3">
-            <Accordion.Header>Портфолио</Accordion.Header>
-            <Accordion.Body>
-              <Row>
-                <Col sm={10}>
-                  <p>
-                    {portfolioSavedValue
-                      ? `${portfolioSavedValue}`
-                      : 'Добавьте ссылку на портфолио'}
-                  </p>
-                </Col>
-                <Col sm={2}>
-                  {!portfolioVisible && (
-                    <Button variant="outline-secondary" onClick={handleOpenPortfolioInput}>
-                      <BsFillPencilFill />
-                    </Button>
-                  )}
-                </Col>
-                {portfolioVisible && (
-                  <Modal show={portfolioVisible} onHide={() => setPortfolioVisible(false)}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Портфолио</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <Form.Control
-                        type="text"
-                        value={portfolioValue}
-                        onChange={(e) => setPortfolioValue(e.target.value)}
-                        placeholder={
-                          portfolioSavedValue ? `${portfolioSavedValue}` : `Добавьте ссылку`
-                        }
-                      />
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={() => setPortfolioVisible(false)}>
-                        Закрыть
-                      </Button>
-                      <Button variant="success" onClick={handleSavePortfolioInput}>
-                        Сохранить
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                )}
-              </Row>
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-      </Row> */}
+
       <Row className="mb-3">
         <h5>Дополнительная информация:</h5>
 

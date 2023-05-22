@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import SearchProfileForm from '../Ui/SearchProfileForm';
 import SearchProfileList from '../Ui/SearchProfileList';
-import { BackendUserType } from '../../types';
+import type { BackendUserType } from '../../types';
 import { useAppSelector } from '../../features/redux/store';
 
 export default function SearchProfiles(): JSX.Element {
