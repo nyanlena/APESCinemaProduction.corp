@@ -43,7 +43,7 @@ function App(): JSX.Element {
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/profile/setting" element={<SettingPage />} />
               <Route path="/search/profiles" element={<SearchProfiles />} />
-              <Route path="/search/projects" element={<SearchProjects />} />
+              <Route path="/seach/projects" element={<SearchProjects />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/projects/:id" element={<Project />} />
               <Route path="/orders" element={<Orders />} />

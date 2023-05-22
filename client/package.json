@@ -10,6 +10,10 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.1",
     "@pbe/react-yandex-maps": "^1.2.4",
     "@react-oauth/google": "^0.11.0",
     "@reduxjs/toolkit": "^1.9.5",

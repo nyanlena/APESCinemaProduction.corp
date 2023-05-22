@@ -1,5 +1,4 @@
 const express = require('express');
-// const passport = require('passport');
 const morgan = require('morgan');
 const cors = require('cors');
 const session = require('express-session');
