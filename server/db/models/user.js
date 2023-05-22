@@ -1,3 +1,5 @@
+"use strict";
+const { Model } = require("sequelize");
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
@@ -7,9 +9,17 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ Project, ProjectUser, Category, Chat, Favorite }) {
+    static associate({
+      Project,
+      ProjectUser,
+      Category,
+      Chat,
+      Favorite,
+      Status,
+    }) {
       // define association here
       this.belongsTo(Category, { foreignKey: "categoryId" });
+      this.belongsTo(Status, { foreignKey: "statusId" });
       this.hasMany(Project, { foreignKey: "userId" });
       this.hasMany(ProjectUser, { foreignKey: "userId" });
       this.hasMany(Chat, { foreignKey: "userId" });
@@ -37,6 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       linkWA: DataTypes.STRING,
       categoryId: DataTypes.INTEGER,
       portfolioLink: DataTypes.STRING,
+      statusId: DataTypes.INTEGER,
     },
     {
       sequelize,

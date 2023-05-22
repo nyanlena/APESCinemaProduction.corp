@@ -1,9 +1,9 @@
 import React from 'react';
-import { BackendUserType } from '../../types';
 import { Card } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { useAppSelector } from '../../features/redux/store';
 import { Col, Container } from 'react-bootstrap';
+import { BackendUserType } from '../../types';
 
 type favoriteProps = {
   profile: BackendUserType;
@@ -29,7 +29,7 @@ export default function FavoriteCards({ profile }: favoriteProps): JSX.Element {
           }
         >
           <Meta
-            title={profile.lastName + ' ' + profile.firstName + ' ' + profile.patronymicname}
+            title={`${profile.lastName} ${profile.firstName} ${profile.patronymicname}`}
             description={categoryTitle || 'No category'}
           />
         </Card>
