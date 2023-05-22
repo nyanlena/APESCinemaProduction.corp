@@ -14,7 +14,7 @@ seachRouter.get("/projects", async (req, res) => {
 seachRouter.post("/projects", async (req, res) => {
   const newPost = await Project.create({
     ...req.body,
-    // userId: req.session.user.id,
+    userId: req.session.user.id,
   });
   res.json(newPost);
 });

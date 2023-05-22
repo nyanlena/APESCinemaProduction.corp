@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { TypedUseSelectorHook } from 'react-redux';
 import postsProjectsReducer from './seachProjects/seachProjSlice';
 import profileCategoriesReducer from './searchProfile/searchProfileSlice';
+import oneProfileReduser from './profile/profileSlice';
 import userReducer from './user/userSlice';
 import FavoritesReducer from './favorite/favoriteSlice';
 
@@ -12,6 +13,7 @@ const store = configureStore({
   reducer: {
     postsProjects: postsProjectsReducer,
     user: userReducer,
+    oneProfile: oneProfileReduser,
     profiles: profileCategoriesReducer,
     categories: profileCategoriesReducer,
     favorites: FavoritesReducer,
