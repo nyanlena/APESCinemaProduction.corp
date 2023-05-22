@@ -22,7 +22,7 @@ export default function Navbar(): JSX.Element {
   };
 
   const mainMenuItems = [
-    { key: 'portfolio', label: 'Портфолио', path: '/portfolio' },
+    // { key: 'portfolio', label: 'Портфолио', path: '/portfolio' },
     { key: 'search', label: 'Поиск', path: '/search/profiles' },
     { key: 'favorites', label: 'Избранное', path: '/favorites' },
     { key: 'projects', label: 'Проекты', path: '/projects' },

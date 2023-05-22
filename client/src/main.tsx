@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
 import { Provider } from 'react-redux';
+import { YMaps } from '@pbe/react-yandex-maps';
 import App from './App';
 import 'antd/dist/reset.css';
 import 'bootstrap/dist/css/bootstrap.min.css';

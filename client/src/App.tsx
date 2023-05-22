@@ -9,7 +9,7 @@ import Login from './components/Pages/Login';
 import ChooseRole from './components/Pages/ChooseRole';
 import ProfilePage from './components/Pages/ProfilePage';
 import SearchProfiles from './components/Pages/SearchProfiles';
-import SerachProjects from './components/Pages/SerachProjects';
+import SearchProjects from './components/Pages/SeachProjects';
 import Favorites from './components/Pages/Favorites';
 import Project from './components/Pages/Project';
 import Orders from './components/Pages/Orders';
@@ -43,7 +43,7 @@ function App(): JSX.Element {
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/profile/setting" element={<SettingPage />} />
               <Route path="/search/profiles" element={<SearchProfiles />} />
-              <Route path="/search/projects" element={<SerachProjects />} />
+              <Route path="/search/projects" element={<SearchProjects />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/projects/:id" element={<Project />} />
               <Route path="/orders" element={<Orders />} />
