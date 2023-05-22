@@ -59,11 +59,11 @@ export default function Navbar(): JSX.Element {
           ))}
         </Menu>
         <Menu theme="dark" mode="horizontal">
-          <Menu.Item>
+          {/* <Menu.Item>
                 <Link to="/profile/1" style={{ textDecoration: 'none' }}>
                   Мой профиль
                 </Link>
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item key={logoutItem.key}>
             <Link to={logoutItem.path} style={{ textDecoration: 'none' }}>
               {logoutItem.label}
