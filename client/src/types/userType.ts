@@ -36,4 +36,13 @@ export type SignUpType = {
   password: string;
 };
 
+export type StatusType = {
+  statusId: number;
+};
+
+export type LoginType = {
+  email: string;
+  password: string;
+};
+
 export type UserType = LoggedUserType | GuestUserType | FetchingUserType;

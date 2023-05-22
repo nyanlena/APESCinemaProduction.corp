@@ -17,44 +17,41 @@ import SettingPage from './components/Pages/SettingPage';
 import { useAppDispatch, useAppSelector } from './features/redux/store';
 import { checkUserThunk } from './features/redux/user/thunkActions';
 import PrivateRouter from './HOC/PrivateRouter';
-// import Loader from './HOC/Loader';
+import Loader from './HOC/Loader';
 
 function App(): JSX.Element {
   const user = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    void dispatch(checkUserThunk());
+    dispatch(checkUserThunk());
   }, []);
   return (
     <Container>
-      {/* <Loader> */}
-      <>
-        <Navbar />
-        <Routes>
-          <Route element={<PrivateRouter isAllowed={user.status === 'guest'} />}>
+      <Loader>
+        <>
+          <Navbar />
+          <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/signup" element={<SignUp />} />
+            {/* <Route element={<PrivateRouter isAllowed={user.status === 'guest'} />}> */}
             <Route path="/login" element={<Login />} />
-          </Route>
-          <Route
-            element={
-              <PrivateRouter isAllowed={user.status === 'logged'} redirectPath="/favorites" />
-            }
-          >
+            <Route path="/signup" element={<SignUp />} />
+            {/* </Route> */}
             <Route path="/signup/role" element={<ChooseRole />} />
-            <Route path="/profile/:id" element={<ProfilePage />} />
-            <Route path="/profile/setting" element={<SettingPage />} />
-            <Route path="/search/profiles" element={<SearchProfiles />} />
-            <Route path="/search/projects" element={<SerachProjects />} />
-            <Route path="/favorites" element={<Favorites />} />
-            <Route path="/projects/:id" element={<Project />} />
-            <Route path="/orders" element={<Orders />} />
-          </Route>
-        </Routes>
-        <Footer />
-      </>
-      {/* </Loader> */}
+
+            <Route element={<PrivateRouter isAllowed={user.status === 'logged'} />}>
+              <Route path="/profile/:id" element={<ProfilePage />} />
+              <Route path="/profile/setting" element={<SettingPage />} />
+              <Route path="/search/profiles" element={<SearchProfiles />} />
+              <Route path="/search/projects" element={<SerachProjects />} />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/projects/:id" element={<Project />} />
+              <Route path="/orders" element={<Orders />} />
+            </Route>
+          </Routes>
+          <Footer />
+        </>
+      </Loader>
     </Container>
   );
 }
