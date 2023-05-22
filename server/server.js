@@ -54,11 +54,18 @@ app.use(express.json());
 app.use(pathMiddlewares);
 
 // app.use("/api/lk", transactionRouter);
+
 app.use('/', mainRouter);
 app.use('/api/auth', authRouter);
-app.use('/profile', profileRouter);
-app.use('/search', seachRouter);
+app.use('/profile', profieRouter);
+app.use('/seach', seachRouter);
+app.use('/projects', projectRouter);
 app.use('/favorites', favoriteRouter);
 app.use('/orders', orderRouter);
+
+app.use((err, req, res, next) => {
+  // logic
+  console.log(err);
+});
 
 app.listen(PORT, () => console.log(`Server has started on PORT ${PORT}`));
