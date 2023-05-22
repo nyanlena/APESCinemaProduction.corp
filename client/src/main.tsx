@@ -5,12 +5,16 @@ import axios from 'axios';
 import App from './App';
 import 'antd/dist/reset.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Provider } from 'react-redux';
+import store from './features/redux/store';
 
 axios.defaults.baseURL = 'http://localhost:3001/';
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </BrowserRouter>,
 );

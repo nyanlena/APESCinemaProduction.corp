@@ -1,5 +1,5 @@
-const { Model } = require("sequelize");
-
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -9,12 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ Project, ProjectUser, Category, Chat, Favorite }) {
       // define association here
-      this.belongsTo(Category, { foreignKey: "categoryId" });
-      this.hasMany(Project, { foreignKey: "userId" });
-      this.hasMany(ProjectUser, { foreignKey: "userId" });
-      this.hasMany(Chat, { foreignKey: "userId" });
-      this.hasMany(Favorite, { foreignKey: "fromId", as: "Sent" });
-      this.hasMany(Favorite, { foreignKey: "toId", as: "Received" });
+      this.belongsTo(Category, { foreignKey: 'categoryId' });
+      this.hasMany(Project, { foreignKey: 'userId' });
+      this.hasMany(ProjectUser, { foreignKey: 'userId' });
+      this.hasMany(Chat, { foreignKey: 'userId' });
+      this.hasMany(Favorite, { foreignKey: 'fromId', as: 'Sent' });
+      this.hasMany(Favorite, { foreignKey: 'toId', as: 'Received' });
     }
   }
   User.init(
@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
       patronymicname: DataTypes.STRING,
+      city: DataTypes.STRING,
+      age: DataTypes.STRING,
       img: DataTypes.STRING,
       education: DataTypes.TEXT,
       experience: DataTypes.TEXT,
@@ -37,8 +39,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "User",
-    }
+      modelName: 'User',
+    },
   );
   return User;
 };

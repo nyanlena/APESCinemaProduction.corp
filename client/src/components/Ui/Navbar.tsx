@@ -1,5 +1,6 @@
 import React from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme, Breadcrumb } from 'antd';
+import { Link } from 'react-router-dom';
 
 export default function Navbar(): JSX.Element {
   const { Header } = Layout;
@@ -7,6 +8,25 @@ export default function Navbar(): JSX.Element {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const logoItem = {
+    key: 'welcome',
+    label: 'logo',
+    path: '/',
+    logoSrc: '/monkeyWithRice.jpg',
+  };
+
+  const mainMenuItems = [
+    // { key: 'portfolio', label: 'Портфолио', path: '/portfolio' },
+    { key: 'search', label: 'Поиск', path: '/search/profiles' },
+    { key: 'favorites', label: 'Избранное', path: '/favorites' },
+    { key: 'projects', label: 'Проекты', path: '/projects' },
+    { key: 'register', label: 'Регистрация', path: '/signup' },
+    { key: 'login', label: 'Войти', path: '/login' },
+    { key: 'requests', label: 'Заявки', path: '/orders' },
+  ];
+
+  const logoutItem = { key: 'logout', label: 'Выйти', path: '/logout' };
 
   return (
     <Layout>
@@ -18,37 +38,39 @@ export default function Navbar(): JSX.Element {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <div className="demo-logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['2']}
-          items={new Array(
-            'Welcome',
-            'Портфолио',
-            'Избранное',
-            'Проекты',
-            'Регистрация',
-            'Войти',
-            'Заявки',
-            'Выйти',
-          ).map((el) => ({
-            key: String(el),
-            label: `${el}`,
-          }))}
-        />
+        <Link to={logoItem.path}>
+          <img
+            src={logoItem.logoSrc}
+            alt={logoItem.label}
+            className="demo-logo"
+            style={{ width: '50px', borderRadius: '50%', border: '1px solid white' }}
+          />
+        </Link>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+          {mainMenuItems.map((item) => (
+            <Menu.Item key={item.key}>
+              <Link to={item.path} style={{ textDecoration: 'none' }}>
+                {item.label}
+              </Link>
+            </Menu.Item>
+          ))}
+        </Menu>
+        <Menu theme="dark" mode="horizontal">
+          <Menu.Item>
+                <Link to="/profile/1" style={{ textDecoration: 'none' }}>
+                  Мой профиль
+                </Link>
+          </Menu.Item>
+          <Menu.Item key={logoutItem.key}>
+            <Link to={logoutItem.path} style={{ textDecoration: 'none' }}>
+              {logoutItem.label}
+            </Link>
+          </Menu.Item>
+        </Menu>
       </Header>
-      {/* <Content className="site-layout" style={{ padding: '0 50px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <div style={{ padding: 24, minHeight: 380, background: colorBgContainer }}>Content</div>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer> */}
     </Layout>
   );
 }
