@@ -6,7 +6,7 @@ const store = require("session-file-store");
 const authRouter = require("./routers/authRouter");
 const pathMiddlewares = require("./middlewares/pathMiddlewares");
 const mainRouter = require("./routers/mainRouter");
-const profieRouter = require("./routers/profieRouter");
+const profieRouter = require("./routers/profileRouter");
 const seachRouter = require("./routers/seachRouter");
 const favoriteRouter = require("./routers/favoriteRouter");
 const orderRouter = require("./routers/orderRouter");
@@ -44,6 +44,7 @@ app.use(express.json());
 app.use(pathMiddlewares);
 
 // app.use("/api/lk", transactionRouter);
+
 app.use("/", mainRouter);
 app.use("/api/auth", authRouter);
 app.use("/profile", profieRouter);

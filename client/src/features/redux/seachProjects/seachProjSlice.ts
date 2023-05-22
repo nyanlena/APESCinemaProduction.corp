@@ -1,7 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import type { ProjectTypes } from '../../../types';
-import FormAddProjectType from '../../../types/formAddProject';
+import type { FormAddProjectType } from '../../../types/formAddProject';
 
 // Define a type for the slice state
 type SeachProjState = {
