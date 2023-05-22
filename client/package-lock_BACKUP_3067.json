@@ -14,7 +14,11 @@
         "antd": "^5.5.0",
         "axios": "^1.4.0",
         "bootstrap": "^5.2.3",
+
+        "bootstrap-icons": "^1.10.5",
+
         "framer-motion": "^10.12.12",
+
         "react": "^18.2.0",
         "react-bootstrap": "^2.7.4",
         "react-dom": "^18.2.0",
@@ -31,6 +35,7 @@
         "@typescript-eslint/eslint-plugin": "^5.54.0",
         "@typescript-eslint/parser": "^5.54.0",
         "@vitejs/plugin-react": "^3.1.0",
+        "@yandex/ymaps3-types": "^0.0.5",
         "eslint": "^8.35.0",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-airbnb-typescript": "^17.0.0",
@@ -3538,6 +3543,7 @@
         "node": ">= 8"
       }
     },
+
     "node_modules/@pbe/react-yandex-maps": {
       "version": "1.2.4",
       "resolved": "https://registry.npmjs.org/@pbe/react-yandex-maps/-/react-yandex-maps-1.2.4.tgz",
@@ -3550,8 +3556,8 @@
       },
       "peerDependencies": {
         "react": "^16.x || ^17.x || ^18.x"
-      }
-    },
+      }},
+
     "node_modules/@pmmmwh/react-refresh-webpack-plugin": {
       "version": "0.5.10",
       "resolved": "https://registry.npmjs.org/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.5.10.tgz",
@@ -3599,6 +3605,7 @@
         "webpack-plugin-serve": {
           "optional": true
         }
+
       }
     },
     "node_modules/@popperjs/core": {
@@ -4450,6 +4457,13 @@
       "resolved": "https://registry.npmjs.org/@types/warning/-/warning-3.0.0.tgz",
       "integrity": "sha512-t/Tvs5qR47OLOr+4E9ckN8AmP2Tf16gWq+/qA4iUGS/OOyHVO8wv2vjJuX8SNOUTJyWb+2t7wJm6cXILFnOROA=="
     },
+
+    "node_modules/@types/yandex-maps": {
+      "version": "2.1.29",
+      "resolved": "https://registry.npmjs.org/@types/yandex-maps/-/yandex-maps-2.1.29.tgz",
+      "integrity": "sha512-nuibRWj3RU/9KXlCzTrRtDE+n6V9l7NbT9JakicqZ5OXIdwyb6blvV2Uwn6lB58WYm3DSUDP2I2AWlnWMc8z2w=="
+    },
+
     "node_modules/@types/ws": {
       "version": "8.5.4",
       "resolved": "https://registry.npmjs.org/@types/ws/-/ws-8.5.4.tgz",
@@ -4457,11 +4471,6 @@
       "dependencies": {
         "@types/node": "*"
       }
-    },
-    "node_modules/@types/yandex-maps": {
-      "version": "2.1.29",
-      "resolved": "https://registry.npmjs.org/@types/yandex-maps/-/yandex-maps-2.1.29.tgz",
-      "integrity": "sha512-nuibRWj3RU/9KXlCzTrRtDE+n6V9l7NbT9JakicqZ5OXIdwyb6blvV2Uwn6lB58WYm3DSUDP2I2AWlnWMc8z2w=="
     },
     "node_modules/@types/yargs": {
       "version": "16.0.5",
@@ -4475,6 +4484,7 @@
       "version": "21.0.0",
       "resolved": "https://registry.npmjs.org/@types/yargs-parser/-/yargs-parser-21.0.0.tgz",
       "integrity": "sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA=="
+
     },
     "node_modules/@typescript-eslint/eslint-plugin": {
       "version": "5.54.0",
@@ -4947,6 +4957,13 @@
       "peerDependencies": {
         "vite": "^4.1.0-beta.0"
       }
+    },
+
+    "node_modules/@yandex/ymaps3-types": {
+      "version": "0.0.5",
+      "resolved": "https://registry.npmjs.org/@yandex/ymaps3-types/-/ymaps3-types-0.0.5.tgz",
+      "integrity": "sha512-M7DmUjIop5Kfk4xr2dxmnRFu/FYz/sfNAe+PXdgjV1U58I7Eh6NAC0sbFhsRmnfNs9aQX/cQgF1J7pHeHmOTVA==",
+      "dev": true
     },
     "node_modules/@webassemblyjs/ast": {
       "version": "1.11.6",
@@ -6023,6 +6040,21 @@
       "peerDependencies": {
         "@popperjs/core": "^2.11.6"
       }
+    },
+    "node_modules/bootstrap-icons": {
+      "version": "1.10.5",
+      "resolved": "https://registry.npmjs.org/bootstrap-icons/-/bootstrap-icons-1.10.5.tgz",
+      "integrity": "sha512-oSX26F37V7QV7NCE53PPEL45d7EGXmBgHG3pDpZvcRaKVzWMqIRL9wcqJUyEha1esFtM3NJzvmxFXDxjJYD0jQ==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/twbs"
+        },
+        {
+          "type": "opencollective",
+          "url": "https://opencollective.com/bootstrap"
+        }
+      ]
     },
     "node_modules/brace-expansion": {
       "version": "1.1.11",
