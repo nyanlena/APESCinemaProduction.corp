@@ -51,10 +51,6 @@ authRouter.get('/check', async (req, res) => {
   return res.sendStatus(401);
 });
 
-<<<<<<< HEAD
-authRouter.get('/signup/role', async (req, res) => {
-  res.json(200);
-=======
 authRouter.post("/signup/role", async (req, res) => {
   const { statusId } = req.body;
   console.log(statusId);
@@ -76,7 +72,6 @@ authRouter.post("/signup/role", async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
->>>>>>> main
 });
 
 // authRouter.get('/google', {
