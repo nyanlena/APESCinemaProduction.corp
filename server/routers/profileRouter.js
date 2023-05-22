@@ -13,14 +13,19 @@ const profileRouter = express.Router();
 //   }
 // });
 
-profileRouter.get("/api/:id", async (req, res) => {
+profileRouter.get("/:id", async (req, res) => {
   try {
     const foundUser = await User.findByPk(req.params.id);
-    return res.json(foundUser);
+    if (foundUser) {
+      return res.json(foundUser);
+    }
+    return res.status(404).json({ error: "User not found" });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ error: "Failed to fetch profile data" });
   }
 });
+
 profileRouter.patch("/:id", async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);

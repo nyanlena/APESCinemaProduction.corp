@@ -1,30 +1,20 @@
 import axios from 'axios';
+import { modifyUserProfile, setUserProfile } from './profileSlice';
+import type { BackendUserType } from '../../../types';
 import type { ThunkActionCreater } from '../store';
-import type { BackendUserType, SignUpType } from '../../../types';
-import { logoutUser, setUser } from './userSlice';
 
-export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
-  axios<BackendUserType>('/api/auth/check')
-    .then(({ data }) => dispatch(setUser({ ...data, status: 'logged' })))
-    .catch(() => dispatch(setUser({ status: 'guest' })));
+export const profileThunk: ThunkActionCreater<number> = (num) => (dispatch) => {
+  if (num) {
+    axios<BackendUserType>(`profile/${num}`)
+      .then(({ data }) => dispatch(setUserProfile(data)))
+      .catch(console.log);
+  } else console.log('Ошибка: значение num отсутствует');
 };
 
-export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
-  axios('/api/auth/logout')
-    .then(() => dispatch(logoutUser()))
-    .catch((err) => console.log(err));
-};
-
-export const signUpThunk: ThunkActionCreater<SignUpType> = (userData) => (dispatch) => {
-  axios
-    .post<BackendUserType>('/api/auth/signup', userData)
-    .then(({ data }) => dispatch(setUser({ ...data, status: 'logged' })))
-    .catch((err) => console.log(err));
-};
-
-export const loginThunk: ThunkActionCreater<SignUpType> = (userData) => (dispatch) => {
-  axios
-    .post<BackendUserType>('/api/auth/login', userData)
-    .then(({ data }) => dispatch(setUser({ ...data, status: 'logged' })))
-    .catch((err) => console.log(err));
-};
+export const changeProfileThunk: ThunkActionCreater<BackendUserType> =
+  (newProfile) => (dispatch) => {
+    axios
+      .patch<BackendUserType>(`profile/1`, newProfile)
+      .then(({ data }) => dispatch(modifyUserProfile(data)))
+      .catch(console.log);
+  };
