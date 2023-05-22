@@ -1,4 +1,5 @@
 const express = require('express');
+// const passport = require('passport');
 const morgan = require('morgan');
 const cors = require('cors');
 const session = require('express-session');
@@ -15,6 +16,7 @@ const orderRouter = require('./routers/orderRouter');
 require('dotenv').config();
 
 const app = express();
+require('./google/auth');
 const PORT = process.env.PORT || 3001;
 
 const FileStore = store(session);
@@ -37,6 +39,15 @@ app.use(
     origin: true,
   }),
 );
+// app.use(
+//   session({
+//     secret: 'key',
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false },
+//   }),
+// );
+
 app.use(session(sessionConfig));
 app.use(morgan('dev'));
 app.use(express.json());
