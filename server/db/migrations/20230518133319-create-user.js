@@ -1,4 +1,3 @@
-"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -23,42 +22,42 @@ module.exports = {
       },
       patronymicname: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: null,
       },
       img: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: null,
       },
       education: {
         type: Sequelize.TEXT,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: null,
       },
       experience: {
         type: Sequelize.TEXT,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: null,
       },
       aboutMe: {
         type: Sequelize.TEXT,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: null,
       },
       linkPortfolio: {
         type: Sequelize.TEXT,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: null,
       },
       phone: {
         type: Sequelize.STRING,
       },
       linkTg: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: null,
       },
       linkInst: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: null,
       },
       linkWA: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: null,
       },
       categoryId: {
         type: Sequelize.INTEGER,
