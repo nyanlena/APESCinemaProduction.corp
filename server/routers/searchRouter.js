@@ -14,6 +14,7 @@ searchRouter.get('/profiles', async (req, res) => {
     res.json(allProfiles);
   } catch (error) {
     console.log('error!!!1', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -23,6 +24,7 @@ searchRouter.get('/categories', async (req, res) => {
     res.json(categories);
   } catch (error) {
     console.log('categories error!!!', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -52,6 +54,7 @@ searchRouter.post('/profiles', async (req, res) => {
     res.json(profiles);
   } catch (error) {
     console.log('error in search', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

@@ -22,11 +22,9 @@ export default function Favorites(): JSX.Element {
   return (
     <Container>
       <Row>
-        <Col>
-          {profiles.map((profile) => (
-            <FavoriteCards key={profile.id} profile={profile} />
-          ))}
-        </Col>
+        {profiles.map((profile) => (
+          <FavoriteCards key={profile.id} profile={profile} />
+        ))}
       </Row>
     </Container>
   );

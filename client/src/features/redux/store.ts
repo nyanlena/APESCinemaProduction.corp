@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { TypedUseSelectorHook } from 'react-redux';
 import profileCategoriesReducer from './searchProfile/searchProfileSlice';
 import userReducer from './user/userSlice';
+import FavoritesReducer from './favorite/favoriteSlice';
 
 const store = configureStore({
   reducer: {
     user: userReducer,
     profiles: profileCategoriesReducer,
     categories: profileCategoriesReducer,
+    favorites: FavoritesReducer,
   },
 });
 

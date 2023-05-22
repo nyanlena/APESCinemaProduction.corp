@@ -72,8 +72,8 @@ export default function SearchProfileForm({
         ))}
       </select>
       <Input
-        style={{ width: '400px', margin: '10px' }}
-        placeholder="Поиск..."
+        style={{ width: '400px', height: '37px', margin: '10px' }}
+        placeholder="Поиск по имени"
         value={input}
         onChange={changeHandler}
         id="exampleTitle"

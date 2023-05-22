@@ -16,23 +16,49 @@ favoriteRouter.get('/', async (req, res) => {
 
 // favoriteRouter
 //   .route('/')
-//   .post(async (req, res) => {
-//     const { receiverId } = req.body;
-//     const newFavorite = await Favorite.create({
-//       senderId: req.session.user.id,
-//       receiverId,
-//     });
-//     const newFavoriteWithUsers = await Favorite.findOne({
-//       where: { id: newFavorite.id },
-//       include: ['Sender', 'Receiver'],
-//     });
-//     res.json(newFavoriteWithUsers);
-//   })
 //   .get(async (req, res) => {
-//     const allFavorites = await Favorite.findAll({
-//       include: ['Sender', 'Receiver'],
-//     });
-//     res.json(allFavorites);
-//   });
+//     try {
+//       const senderId = req.session.user.id;
+//       const favorites = await Favorite.findAll({ where: { senderId }, include: ['Receiver'] });
+//       res.json(favorites.map((favorite) => favorite.Receiver));
+//     } catch (error) {
+//       console.error('favorites error!!!', error);
+//       res.status(500).json({ error: 'Internal server error' });
+//     }
+//   })
+
+favoriteRouter.post('/', async (req, res) => {
+  try {
+    const { receiverId } = req.body;
+    const newFavorite = await Favorite.create({
+      senderId: req.session.user.id,
+      receiverId,
+    });
+    const newFavoriteWithUsers = await Favorite.findOne({
+      where: { id: newFavorite.id },
+      include: ['Sender', 'Receiver'],
+    });
+    res.json(newFavoriteWithUsers);
+  } catch (error) {
+    console.log('Add to favorites error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+favoriteRouter.delete('/remove', async (req, res) => {
+  try {
+    const { receiverId } = req.body;
+    const senderId = req.session.user.id;
+    const favoriteToRemove = await Favorite.findOne({ where: { senderId, receiverId } });
+    if (!favoriteToRemove) {
+      return res.status(404).json({ error: 'Favorite not found' });
+    }
+    await favoriteToRemove.destroy();
+    res.json({ message: 'Favorite removed successfully' });
+  } catch (error) {
+    console.log('Remove from favorites error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 module.exports = favoriteRouter;

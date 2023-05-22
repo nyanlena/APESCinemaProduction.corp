@@ -1,5 +1,5 @@
 import React from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 import { Link } from 'react-router-dom';
 
 export default function Navbar(): JSX.Element {
@@ -12,7 +12,7 @@ export default function Navbar(): JSX.Element {
   const logoItem = {
     key: 'welcome',
     label: 'logo',
-    path: '/welcome',
+    path: '/',
     logoSrc: '/monkeyWithRice.jpg',
   };
 
@@ -21,9 +21,9 @@ export default function Navbar(): JSX.Element {
     { key: 'search', label: 'Поиск', path: '/search/profiles' },
     { key: 'favorites', label: 'Избранное', path: '/favorites' },
     { key: 'projects', label: 'Проекты', path: '/projects' },
-    { key: 'register', label: 'Регистрация', path: '/register' },
+    { key: 'register', label: 'Регистрация', path: '/signup' },
     { key: 'login', label: 'Войти', path: '/login' },
-    { key: 'requests', label: 'Заявки', path: '/requests' },
+    { key: 'requests', label: 'Заявки', path: '/orders' },
   ];
 
   const logoutItem = { key: 'logout', label: 'Выйти', path: '/logout' };
@@ -38,7 +38,7 @@ export default function Navbar(): JSX.Element {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between', // распределите элементы меню
+          justifyContent: 'space-between',
         }}
       >
         <Link to={logoItem.path}>
