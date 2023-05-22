@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 
 export default function Navbar(): JSX.Element {
@@ -17,7 +17,7 @@ export default function Navbar(): JSX.Element {
   };
 
   const mainMenuItems = [
-    { key: 'portfolio', label: 'Портфолио', path: '/portfolio' },
+    // { key: 'portfolio', label: 'Портфолио', path: '/portfolio' },
     { key: 'search', label: 'Поиск', path: '/search/profiles' },
     { key: 'favorites', label: 'Избранное', path: '/favorites' },
     { key: 'projects', label: 'Проекты', path: '/projects' },
@@ -59,6 +59,11 @@ export default function Navbar(): JSX.Element {
           ))}
         </Menu>
         <Menu theme="dark" mode="horizontal">
+          {/* <Menu.Item>
+                <Link to="/profile/1" style={{ textDecoration: 'none' }}>
+                  Мой профиль
+                </Link>
+          </Menu.Item> */}
           <Menu.Item key={logoutItem.key}>
             <Link to={logoutItem.path} style={{ textDecoration: 'none' }}>
               {logoutItem.label}
