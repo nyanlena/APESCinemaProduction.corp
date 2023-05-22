@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import Img from '/monkeyWithRice.jpg';
+import Img from '/work.jpg';
 
 const textAnimation = {
   hidden: {
@@ -10,27 +10,37 @@ const textAnimation = {
   visible: (custom) => ({
     x: 0,
     opacity: 1,
-    transition: { delay: custom * 0.2 },
+    transition: { delay: custom * 0.2, duration: 1 },
   }),
 };
 
 export default function MainPage(): JSX.Element {
   return (
-    <motion.section initial="hidden" whileInView="visible">
-      <div>
-        <img src={Img} alt="hero" />
-      </div>
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      style={{ display: 'flex', alignItems: 'center', gap: '20px' }}
+    >
       <article>
         <motion.h1 custom={1} variants={textAnimation}>
-          More than just shorter links
+          Добро пожаловать на наш сайт!
         </motion.h1>
         <motion.p custom={2} variants={textAnimation}>
-          Build your brand's recognition and get detailed insights on how your links are performing.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet explicabo eligendi
+          maiores, numquam enim quidem non ex ipsum. Asperiores, autem!
         </motion.p>
-        <motion.button custom={3} variants={textAnimation} size="large">
-          Get Started
+        <motion.button
+          custom={3}
+          variants={textAnimation}
+          size="large"
+          style={{ borderRadius: '10px', backgroundColor: 'blue', color: 'white' }}
+        >
+          Начать
         </motion.button>
       </article>
+      <div>
+        <motion.img src={Img} alt="hero" custom={4} variants={textAnimation} />
+      </div>
     </motion.section>
   );
 }

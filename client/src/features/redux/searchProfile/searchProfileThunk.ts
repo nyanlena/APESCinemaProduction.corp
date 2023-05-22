@@ -37,7 +37,7 @@ export const getCategoriesThunk: ThunkActionCreater = () => async (dispatch) => 
   }
 };
 
-export const getSearchedProfilesThunk: ThunkActionCreater = (searchQuery: string) => (dispatch) => {
+export const getSearchedProfilesThunk: ThunkActionCreater = (searchQuery) => (dispatch) => {
   axios
     .post<BackendUserType[]>('search/profiles', { searchQuery })
     .then(({ data }) => dispatch(setProfiles(data)));
