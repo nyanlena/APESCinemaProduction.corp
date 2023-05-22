@@ -12,7 +12,7 @@ authRouter.post('/signup', async (req, res) => {
   const [foundUser, created] = await User.findOrCreate({
     where: { email },
     defaults: {
-      hashpass,
+      password: hashpass,
     },
   });
 
@@ -30,7 +30,7 @@ authRouter.post('/login', async (req, res) => {
 
   if (!foundUser) return res.status(401).json({ message: 'No such email' });
 
-  if (await bcrypt.compare(password, foundUser.hashpass)) {
+  if (await bcrypt.compare(password, foundUser.password)) {
     req.session.user = foundUser;
     return res.json(foundUser);
   }
@@ -51,8 +51,32 @@ authRouter.get('/check', async (req, res) => {
   return res.sendStatus(401);
 });
 
+<<<<<<< HEAD
 authRouter.get('/signup/role', async (req, res) => {
   res.json(200);
+=======
+authRouter.post("/signup/role", async (req, res) => {
+  const { statusId } = req.body;
+  console.log(statusId);
+  const userId = req.session.user.id; // Получаем ID пользователя из сессии
+  try {
+    // Находим пользователя по его ID
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Устанавливаем выбранную роль пользователю
+    user.statusId = statusId;
+    await user.save();
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+>>>>>>> main
 });
 
 // authRouter.get('/google', {
