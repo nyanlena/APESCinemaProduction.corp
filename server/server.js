@@ -8,9 +8,11 @@ const authRouter = require('./routers/authRouter');
 const pathMiddlewares = require('./middlewares/pathMiddlewares');
 const mainRouter = require('./routers/mainRouter');
 const profileRouter = require('./routers/profileRouter');
-const seachRouter = require('./routers/searchRouter');
+const seachRouter = require('./routers/seachRouter');
+const searchRouter = require('./routers/searchRouter');
 const favoriteRouter = require('./routers/favoriteRouter');
 const orderRouter = require('./routers/orderRouter');
+const projectRouter = require('./routers/projectRouter');
 
 // const transactionRouter = require("./routers/transactionsRouter");
 require('dotenv').config();
@@ -57,8 +59,9 @@ app.use(pathMiddlewares);
 
 app.use('/', mainRouter);
 app.use('/api/auth', authRouter);
-app.use('/profile', profieRouter);
+app.use('/profile', profileRouter);
 app.use('/seach', seachRouter);
+app.use('/search', searchRouter);
 app.use('/projects', projectRouter);
 app.use('/favorites', favoriteRouter);
 app.use('/orders', orderRouter);

@@ -55,16 +55,16 @@ authRouter.get('/signup/role', async (req, res) => {
   res.json(200);
 });
 
-authRouter.get('/google', {
-  score: ['email', 'password'],
-});
+// authRouter.get('/google', {
+//   score: ['email', 'password'],
+// });
 
-authRouter.get(
-  '/google/callback',
-  passport.authenticate('google', {
-    successRedirect: '/google/success',
-    failureRedirect: '/google/failure',
-  }),
-);
+// authRouter.get(
+//   '/google/callback',
+//   passport.authenticate('google', {
+//     successRedirect: '/google/success',
+//     failureRedirect: '/google/failure',
+//   }),
+// );
 
 module.exports = authRouter;
