@@ -48,6 +48,7 @@ module.exports = {
           linkWA: null,
           categoryId: 6,
           statusId: 2,
+          portfolioLink: "https://instagram.com/nyanlena?igshid",
         },
       ],
       {}

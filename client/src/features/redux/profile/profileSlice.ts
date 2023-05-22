@@ -26,6 +26,7 @@ const initialState: ProfilesSliceType = {
     linkInst: '',
     linkWA: '',
     categoryId: 0,
+    portfolioLink: '',
   },
 };
 
