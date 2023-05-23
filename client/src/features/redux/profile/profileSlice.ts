@@ -1,7 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import type { BackendUserType } from '../../../types';
-import type { BackendChangeProfileSettingType } from '../../../types/profileActionType';
+import type { BackendChangeProfileSettingType, BackendChangeProfileType } from '../../../types/profileActionType';
 
 // Define the initial state using that type
 type ProfilesSliceType = {
