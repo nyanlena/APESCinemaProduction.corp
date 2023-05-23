@@ -11,14 +11,12 @@ import OneProjectCard from './OneProjectCard';
 
 export default function Project(): JSX.Element {
   const { id } = useParams();
-  console.log(id);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getOneProjThunk(Number(id)));
   }, []);
   const project = useAppSelector((store) => store.postsProjects.postsProjects);
 
-  console.log(project[0]);
   return (
     <Container>
       {project?.map((el) => (

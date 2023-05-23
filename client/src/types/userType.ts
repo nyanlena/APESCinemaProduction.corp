@@ -20,6 +20,7 @@ export type BackendUserType = {
 };
 
 export type LoggedUserType = {
+  id: number;
   status: 'logged';
 } & BackendUserType;
 
@@ -45,4 +46,4 @@ export type LoginType = {
   password: string;
 };
 
-export type UserType = LoggedUserType | GuestUserType | FetchingUserType;
+export type UserType = LoggedUserType | GuestUserType | FetchingUserType ;

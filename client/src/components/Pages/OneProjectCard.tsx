@@ -162,7 +162,7 @@
 //     </>
 //   );
 // }
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardBody,
@@ -177,10 +177,10 @@ import {
 import { Button, Form } from 'react-bootstrap';
 import { Input } from 'antd';
 import { YMaps, Map, Placemark, withYMaps } from '@pbe/react-yandex-maps';
+import moment from 'moment';
+import 'moment/locale/ru';
 import type { ProjectTypes } from '../../types';
-import type FormAddProjectType from '../../types/formAddProject';
-import { updatePostProject } from '../../features/redux/seachProjects/seachProjSlice';
-import { useAppDispatch } from '../../features/redux/store';
+import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { updateProjThunk } from '../../features/redux/seachProjects/seachProjThunk';
 
 type ProjectTypeProps = {
@@ -190,6 +190,7 @@ type ProjectTypeProps = {
 const MapWithYMaps = withYMaps(Map, true);
 
 export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Element {
+  const user = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputs, setInputs] = useState({
@@ -197,7 +198,12 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
     name: project.name,
     genre: project.genre,
     address: project.address,
+    startDate: project.startDate,
+    endDate: project.endDate,
   });
+  const [coordinates, setCoordinates] = useState({ x: null, y: null });
+  const [isPointAdded, setIsPointAdded] = useState(false);
+
   const handleCancel = (): void => {
     setIsModalOpen(false);
     setInputs({
@@ -205,6 +211,8 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
       name: project.name,
       genre: project.genre,
       address: project.address,
+      startDate: project.startDate,
+      endDate: project.endDate,
     });
   };
   const showModal = (): void => {
@@ -214,6 +222,8 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
       name: project.name,
       genre: project.genre,
       address: project.address,
+      startDate: project.startDate,
+      endDate: project.endDate,
     });
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
@@ -228,15 +238,15 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
     setIsModalOpen(false);
   };
 
-  const handleMapClick = (e: any) => {
-    const coords = e.get('coords');
-    const address = `Широта: ${coords[0]}, Долгота: ${coords[1]}`;
-    setInputs((prev) => ({
-      ...prev,
-      address,
-    }));
-  };
-
+  // const handleMapClick = (e: any) => {
+  //   const coords = e.get('coords');
+  //   const address = `Широта: ${coords[0]}, Долгота: ${coords[1]}`;
+  //   setInputs((prev) => ({
+  //     ...prev,
+  //     address,
+  //   }));
+  // };
+  console.log(project);
   return (
     <>
       <Card
@@ -253,26 +263,36 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
           <CardTitle tag="h5">Название проекта: {project.name}</CardTitle>
         </CardHeader>
         <CardBody>
+          <CardText>
+            {project.User.Category.title}:{' '}
+            <a href={`/profile/${project.userId}`}>
+              {project.User.firstName} {project.User.lastName}
+            </a>
+          </CardText>
           <CardText>Жанр проекта: {project.genre}</CardText>
+          <CardText>Дата начала: {moment(project.startDate).format('LL')}</CardText>
+          <CardText>Дата окончания: {moment(project.endDate).locale('ru').format('LL')}</CardText>
           <YMaps query={{ lang: 'en_RU' }}>
             <div>
               Адрес проведения съемки: {project.address}
               <MapWithYMaps
                 defaultState={{ center: [55.75, 37.57], zoom: 9 }}
-                onClick={handleMapClick}
+                // onClick={!isPointAdded ? handleMapClick : undefined}
                 style={{ width: '100%', height: '400px' }}
               >
-                <Placemark geometry={[55.75, 37.57]} />
+                {coordinates && <Placemark geometry={coordinates} />}
               </MapWithYMaps>
             </div>
           </YMaps>
-          <Button
-            type="button"
-            style={{ backgroundColor: '#F400A1', border: '0px' }}
-            onClick={showModal}
-          >
-            Редактировать
-          </Button>
+          {project.userId === user.id && (
+            <Button
+              type="button"
+              style={{ backgroundColor: '#F400A1', border: '0px' }}
+              onClick={showModal}
+            >
+              Редактировать
+            </Button>
+          )}
         </CardBody>
       </Card>
       <Modal isOpen={isModalOpen} toggle={handleCancel}>
@@ -305,6 +325,22 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
               style={{ marginBottom: '10px' }}
               name="address"
               value={inputs.address}
+              onChange={handleChange}
+            />
+            <p>Дата начала:</p>
+            <Input
+              placeholder="Дата начала"
+              type="date"
+              style={{ marginBottom: '10px' }}
+              name="startDate"
+              onChange={handleChange}
+            />
+            <p>Дата окончания:</p>
+            <Input
+              placeholder="Дата окончания"
+              type="date"
+              style={{ marginBottom: '10px' }}
+              name="endDate"
               onChange={handleChange}
             />
           </ModalBody>

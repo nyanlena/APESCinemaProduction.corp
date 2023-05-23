@@ -1,10 +1,12 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const { User } = require("../db/models");
+const notAuth = require("../middlewares/notAuth");
+const isAuth = require("../middlewares/isAuth");
 
 const authRouter = express.Router();
 
-authRouter.post("/signup", async (req, res) => {
+authRouter.post("/signup", notAuth, async (req, res) => {
   const { email, password } = req.body;
 
   const hashpass = await bcrypt.hash(password, 10);
@@ -13,17 +15,19 @@ authRouter.post("/signup", async (req, res) => {
     where: { email },
     defaults: {
       password: hashpass,
+      statusId: null,
     },
   });
 
   if (!created) return res.status(401).json({ message: "Email is in use" });
 
   req.session.user = foundUser;
+  console.log(req.session.user);
 
   return res.json(foundUser);
 });
 
-authRouter.post("/login", async (req, res) => {
+authRouter.post("/login", notAuth, async (req, res) => {
   const { email, password } = req.body;
 
   const foundUser = await User.findOne({ where: { email } });
@@ -38,7 +42,7 @@ authRouter.post("/login", async (req, res) => {
   return res.status(401).json({ message: "Wrong password" });
 });
 
-authRouter.get("/logout", (req, res) => {
+authRouter.get("/logout", isAuth, (req, res) => {
   req.session.destroy();
   res.clearCookie("user_sid");
   res.sendStatus(200);
@@ -59,7 +63,7 @@ authRouter.post("/signup/role", async (req, res) => {
     // Находим пользователя по его ID
     const user = await User.findByPk(userId);
 
-    if (!user) {
+    if (!user && user.statusId === null) {
       return res.status(404).json({ message: "User not found" });
     }
 
