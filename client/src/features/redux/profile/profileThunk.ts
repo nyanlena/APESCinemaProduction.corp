@@ -54,12 +54,12 @@ export const changeSettingProfileThunk: ThunkActionCreater<BackendChangeProfileS
     }
   };
 
-  export const imageProfileThunk: ThunkActionCreater<BackendChangeProfileSettingType> =
-  (apiUrl, options) => (dispatch) => {
-    fetch(apiUrl, options).then((response) => response.json())
-    .then((body) => dispatch(setUserProfile({ ...body} )))
-    .then((body) => console.log(body))
-      .catch((error) => {
-        console.log(‘error’, error);
-      });
-  };
+  // export const imageProfileThunk: ThunkActionCreater<BackendChangeProfileSettingType> =
+  // (apiUrl, options) => (dispatch) => {
+  //   fetch(apiUrl, options).then((response) => response.json())
+  //   .then((body) => dispatch(setUserProfile({ ...body} )))
+  //   .then((body) => console.log(body))
+  //     .catch((error) => {
+  //       console.log('error', error);
+  //     });
+  // };

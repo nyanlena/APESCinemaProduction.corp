@@ -52,28 +52,28 @@ export default function SettingPage(): JSX.Element {
     setInputProfileSetting(inputProfileSetting);
     alert('Изменения сохранены');
   };
-  const [image, setImage] = useState('');
-  async function ImageSettigProfile(url: any) {
-    const apiUrl = `http://localhost:3001/profile/setting`;
-    const uriParts = uri.split('.');
-    const fileType = uriParts[uriParts.length - 1];
-  }
-  const uriParts = uri.split('.');
-  const formData = new FormData();
-  formData.append('image', {
-    uri,
-    name: `image.${fileType}`,
-    type: `image/${fileType}`,
-  });
-  const options = {
-    method: 'POST',
-    body: formData,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'multipart/form-data',
-    },
-  };
-  dispatch(imageProfileThunk(apiUrl, options));}
+  // const [image, setImage] = useState('');
+  // async function ImageSettigProfile(url: any) {
+  //   const apiUrl = `http://localhost:3001/profile/setting`;
+  //   const uriParts = uri.split('.');
+  //   const fileType = uriParts[uriParts.length - 1];
+  // }
+  // const uriParts = uri.split('.');
+  // const formData = new FormData();
+  // formData.append('image', {
+  //   uri,
+  //   name: `image.${fileType}`,
+  //   type: `image/${fileType}`,
+  // });
+  // const options = {
+  //   method: 'POST',
+  //   body: formData,
+  //   headers: {
+  //     Accept: 'application/json',
+  //     'Content-Type': 'multipart/form-data',
+  //   },
+  // };
+  // dispatch(imageProfileThunk(apiUrl, options));}
   return (
     <div className="profile-settings">
       <h1 className="profile-settings__title">Настройки профиля</h1>
@@ -88,7 +88,7 @@ export default function SettingPage(): JSX.Element {
         }}
       >
         <Col md={4}>
-          <div
+          {/* <div
             className="profile-settings__photo-upload"
             style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}
           >
@@ -126,11 +126,11 @@ export default function SettingPage(): JSX.Element {
               />
               <Button variant="primary">Загрузить фото</Button>
             </div>
-          </div>
+          </div> */}
         </Col>
         <Col md={4} className="d-flex flex-column align-items-center">
           {/* ФОТОГРАФИЯ ПРОФИЛЯ */}
-          <div className="profile-settings__photo-upload" style={{ marginBottom: '20px' }}>
+          {/* <div className="profile-settings__photo-upload" style={{ marginBottom: '20px' }}>
             <div
               className="profile-settings__photo-preview"
               style={{
@@ -178,7 +178,7 @@ export default function SettingPage(): JSX.Element {
               />
               <Button variant="primary">Загрузить фото</Button>
             </div>
-          </div>
+          </div> */}
         </Col>
 
         <Col md={4}>
