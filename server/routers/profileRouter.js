@@ -3,15 +3,14 @@ const { User, Category } = require("../db/models");
 
 const profileRouter = express.Router();
 
-// profileRouter.get("/", async (req, res) => {
-//   try {
-//     const myUser = await User.findByPk(req.session.id);
-//     return res.json(myUser);
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json({ error: "Failed to fetch profile data" });
-//   }
-// });
+profileRouter.get("/setting", async (req, res) => {
+  try {
+    const userSetting = await User.findByPk(req.session.user.id);
+    return res.json(userSetting);
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to fetch user settings" });
+  }
+});
 
 profileRouter.get("/:id", async (req, res) => {
   try {
@@ -34,7 +33,7 @@ profileRouter.patch("/api/:id", async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
+    console.log(req.body, "jjjjj99999999999999uoigjhelrfnjkgbjvsbefdjhb");
     const updatedUser = await user.update(req.body);
     return res.json(updatedUser);
   } catch (error) {
@@ -43,25 +42,21 @@ profileRouter.patch("/api/:id", async (req, res) => {
   }
 });
 
-profileRouter
-  .route("/setting")
-  .get(async (req, res) => {
-    try {
-      const userSetting = await User.findByPk(req.session.id);
-      return res.json(userSetting);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ error: "Failed to fetch user settings" });
+profileRouter.patch("/setting", async (req, res) => {
+  try {
+    // const { id } = req.session;
+    console.log(req.session.user.id, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+    const foundUser = await User.findByPk(req.session.user.id);
+
+    if (!foundUser) {
+      res.status(404).json({ message: "User not found" });
     }
-  })
-  .post(async (req, res) => {
-    try {
-      const setting = await User.update(req.body, {});
-      return res.json(setting);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ error: "Failed to update user settings" });
-    }
-  });
+    await foundUser.update(req.body);
+    return res.json(foundUser);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Failed to update user settings" });
+  }
+});
 
 module.exports = profileRouter;
