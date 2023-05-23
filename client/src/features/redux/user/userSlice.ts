@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { FetchingUserType, UserType } from '../../../types';
 
-const initialState: FetchingUserType = {
+const initialState: UserType = {
   status: 'fetching',
 };
 

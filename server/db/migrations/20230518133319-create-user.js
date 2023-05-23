@@ -48,10 +48,6 @@ module.exports = {
         type: Sequelize.TEXT,
         defaultValue: null,
       },
-      linkPortfolio: {
-        type: Sequelize.TEXT,
-        defaultValue: null,
-      },
       phone: {
         type: Sequelize.STRING,
       },
@@ -63,7 +59,7 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: null,
       },
-      portfolioLink: {
+      userPortfolio: {
         type: Sequelize.STRING,
         defaultValue: null,
       },
