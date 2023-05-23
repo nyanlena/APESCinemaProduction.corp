@@ -76,6 +76,11 @@ export default function SignUpPage(): JSX.Element {
                 У вас уже есть учетная запись? Войти на сайт
               </Link>
             </Grid>
+            <a href="http://localhost:3001/auth/google">
+              <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                Войти через Google
+              </Button>
+            </a>
           </Grid>
         </Box>
       </Box>

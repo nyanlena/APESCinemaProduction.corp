@@ -11,7 +11,7 @@ import { FaTelegram, FaWhatsapp } from 'react-icons/fa';
 import { FcLike } from 'react-icons/fc';
 import { FiEye } from 'react-icons/fi';
 import Col from 'react-bootstrap/Col';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -20,34 +20,36 @@ import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { ProgressBar } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../features/redux/store';
-import { profileThunk } from '../../features/redux/profile/profileThunk';
+import { changeProfileThunk, profileThunk } from '../../features/redux/profile/profileThunk';
 // import Accordion from 'react-bootstrap/Accordion';
 
 function ProfilePage(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const oneUser = useAppSelector((store) => store.oneProfile.oneUser);
+  const user = useAppSelector((store) => store.user);
 
   useEffect(() => {
     dispatch(profileThunk(Number(id)));
+    dispatch(changeProfileThunk({ oneUser, id }));
   }, []);
 
   /// /// Что-то со стейтами/////////
   const [educationVisible, setEducationVisible] = useState(false);
   const [educationValue, setEducationValue] = useState('');
-  const [educationSavedValue, setEducationSavedValue] = useState('');
+  // const [educationSavedValue, setEducationSavedValue] = useState(oneUser.education);//
 
   const [experienceVisible, setExperienceVisible] = useState(false);
   const [experienceValue, setExperienceValue] = useState('');
-  const [experienceSavedValue, setExperienceSavedValue] = useState('');
+  // const [experienceSavedValue, setExperienceSavedValue] = useState(oneUser.experience);
 
   const [aboutVisible, setAboutVisible] = useState(false);
   const [aboutValue, setAboutValue] = useState('');
-  const [aboutSavedValue, setAboutSavedValue] = useState('');
+  // const [aboutSavedValue, setAboutSavedValue] = useState(oneUser.aboutMe);
 
   const [portfolioVisible, setPortfolioVisible] = useState(false);
   const [portfolioValue, setPortfolioValue] = useState('');
-  const [portfolioSavedValue, setPortfolioSavedValue] = useState('');
+  // const [portfolioSavedValue, setPortfolioSavedValue] = useState(oneUser.portfolioLink);
   /// ///////что-то с изменениями закончилось///////
 
   // модальное окно с фотографией
@@ -66,19 +68,19 @@ function ProfilePage(): JSX.Element {
   const [profileCompletion, setProfileCompletion] = useState(20);
   function calculateProgress(): number {
     let progress = 20;
-    if (educationSavedValue) progress += 20;
-    if (experienceSavedValue) progress += 20;
-    if (aboutSavedValue) progress += 20;
-    if (portfolioSavedValue) progress += 20;
+    if (oneUser.education) progress += 20;
+    if (oneUser.experience) progress += 20;
+    if (oneUser.aboutMe) progress += 20;
+    if (oneUser.portfolioLink) progress += 20;
     return progress;
   }
   useMemo(() => {
     const completion = calculateProgress();
-  }, [educationSavedValue, experienceSavedValue, aboutSavedValue, portfolioSavedValue]);
+  }, [oneUser.education, oneUser.experience, oneUser.aboutMe, oneUser.portfolioLink]);
   useEffect(() => {
     const completion = calculateProgress();
     setProfileCompletion(completion);
-  }, [educationSavedValue, experienceSavedValue, aboutSavedValue, portfolioSavedValue]);
+  }, [oneUser.education, oneUser.experience, oneUser.aboutMe, oneUser.portfolioLink]);
 
   const handleOpenEducationInput = (): void => {
     setEducationVisible(true);
@@ -86,7 +88,7 @@ function ProfilePage(): JSX.Element {
   /// /////////////////////////////////////////////////////////////
 
   const handleSaveEducationInput = (): void => {
-    setEducationSavedValue(educationValue);
+    changeProfileThunk(oneUser);
     setEducationVisible(false);
     setEducationValue('');
   };
@@ -96,7 +98,7 @@ function ProfilePage(): JSX.Element {
   };
 
   const handleSaveExperienceInput = (): void => {
-    setExperienceSavedValue(experienceValue);
+    changeProfileThunk(oneUser);
     setExperienceVisible(false);
     setExperienceValue('');
     calculateProgress();
@@ -107,7 +109,7 @@ function ProfilePage(): JSX.Element {
   };
 
   const handleSaveAboutInput = (): void => {
-    setAboutSavedValue(aboutValue);
+    changeProfileThunk(oneUser);
     setAboutVisible(false);
     setAboutValue('');
   };
@@ -117,7 +119,7 @@ function ProfilePage(): JSX.Element {
   };
 
   const handleSavePortfolioInput = (): void => {
-    setPortfolioSavedValue(portfolioValue);
+    changeProfileThunk(oneUser);
     setPortfolioVisible(false);
     setPortfolioValue('');
   };
@@ -189,22 +191,23 @@ function ProfilePage(): JSX.Element {
           <>
             <p> Город: {oneUser.city !== null ? oneUser.city : 'Город не указан'}</p>
             <p> Возраст: {oneUser.age !== null ? oneUser.age : 'Возраст не указан'}</p>
-            <p> Должность: {oneUser.categoryId}</p>
+            <p> Должность: {oneUser.Category?.title}</p>
           </>
           {/* Прогресс-бар */}
-          {calculateProgress() >= 0 && calculateProgress() < 100 ? (
-            <Row>
-              <p>Продолжите заполнять Ваш профиль, чтобы Вами заинтересовались.</p>
-              <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
-            </Row>
-          ) : (
-            'Ваш профиль заполнен!'
-          )}
+          {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+            (calculateProgress() >= 0 && calculateProgress() < 100 ? (
+              <Row>
+                <p>Продолжите заполнять Ваш профиль, чтобы Вами заинтересовались.</p>
+                <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
+              </Row>
+            ) : (
+              'Ваш профиль заполнен!'
+            ))}
         </Col>
         {/* конец блока основная информация */}
         {/* Кнопки  настроек и лайка */}
         <Col sm={1}>
-          {Number(id) === 1 && (
+          {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') && (
             <Dropdown>
               <Dropdown.Toggle
                 variant="outline-secondary"
@@ -227,7 +230,7 @@ function ProfilePage(): JSX.Element {
               </Dropdown.Menu>
             </Dropdown>
           )}
-          {Number(id) !== 1 && (
+          {Number(id) !== (user.status === 'logged' ? user.id : 'Ошибка') && (
             <Button
               variant="outline-secondary"
               style={{
@@ -247,22 +250,21 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Образование</Card.Title>
-              {!educationVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenEducationInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !educationVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenEducationInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
-              {educationSavedValue
-                ? `${educationSavedValue}`
-                : 'Добавьте информацию об образовании'}
+              {oneUser.education ? `${oneUser.education}` : 'Добавьте информацию об образовании'}
             </Card.Text>
             {educationVisible && (
               <Modal show={educationVisible} onHide={() => setEducationVisible(false)}>
@@ -275,9 +277,7 @@ function ProfilePage(): JSX.Element {
                     type="text"
                     value={educationValue}
                     onChange={(e) => setEducationValue(e.target.value)}
-                    placeholder={
-                      educationSavedValue ? `${educationSavedValue}` : `Добавьте информацию`
-                    }
+                    placeholder={oneUser.education ? `${oneUser.education}` : `Добавьте информацию`}
                   />
                 </Modal.Body>
                 <Modal.Footer>
@@ -297,22 +297,21 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Опыт работы</Card.Title>
-              {!experienceVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenExperienceInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !experienceVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenExperienceInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
-              {experienceSavedValue
-                ? `${experienceSavedValue}`
-                : 'Добавьте информацию об опыте работы'}
+              {oneUser.experience ? `${oneUser.experience}` : 'Добавьте информацию об опыте работы'}
             </Card.Text>
             {experienceVisible && (
               <Modal show={experienceVisible} onHide={() => setExperienceVisible(false)}>
@@ -326,7 +325,7 @@ function ProfilePage(): JSX.Element {
                     value={experienceValue}
                     onChange={(e) => setExperienceValue(e.target.value)}
                     placeholder={
-                      experienceSavedValue ? `${experienceSavedValue}` : `Добавьте информацию`
+                      oneUser.experience ? `${oneUser.experience}` : `Добавьте информацию`
                     }
                   />
                 </Modal.Body>
@@ -347,7 +346,7 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>О себе</Card.Title>
-              {!aboutVisible && (
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') && !aboutVisible && (
                 <Button
                   variant="outline-secondary"
                   onClick={handleOpenAboutInput}
@@ -360,7 +359,7 @@ function ProfilePage(): JSX.Element {
               )}
             </div>
             <Card.Text>
-              {aboutSavedValue ? `${aboutSavedValue}` : 'Расскажите немного о себе'}
+              {oneUser.aboutMe ? `${oneUser.aboutMe}` : 'Расскажите немного о себе'}
             </Card.Text>
             {aboutVisible && (
               <Modal show={aboutVisible} onHide={() => setAboutVisible(false)}>
@@ -375,7 +374,7 @@ function ProfilePage(): JSX.Element {
                     onChange={(e) => setAboutValue(e.target.value)}
                     rows={3}
                     placeholder={
-                      aboutSavedValue ? `${aboutSavedValue}` : `Расскажите немного о себе`
+                      oneUser.aboutMe ? `${oneUser.aboutMe}` : `Расскажите немного о себе`
                     }
                   />
                 </Modal.Body>
@@ -396,20 +395,21 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Портфолио</Card.Title>
-              {!portfolioVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenPortfolioInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !portfolioVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenPortfolioInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
-              {portfolioSavedValue ? `${portfolioSavedValue}` : 'Добавьте ссылку на портфолио'}
+              {oneUser.portfolioLink ? `${oneUser.portfolioLink}` : 'Добавьте ссылку на портфолио'}
             </Card.Text>
             {portfolioVisible && (
               <Modal show={portfolioVisible} onHide={() => setPortfolioVisible(false)}>
@@ -422,7 +422,9 @@ function ProfilePage(): JSX.Element {
                     type="text"
                     value={portfolioValue}
                     onChange={(e) => setPortfolioValue(e.target.value)}
-                    placeholder={portfolioSavedValue ? `${portfolioSavedValue}` : `Добавьте ссылку`}
+                    placeholder={
+                      oneUser.portfolioLink ? `${oneUser.portfolioLink}` : `Добавьте ссылку`
+                    }
                   />
                 </Modal.Body>
                 <Modal.Footer>
@@ -444,19 +446,26 @@ function ProfilePage(): JSX.Element {
           <h3>Контакты</h3>
           <ul className="list-unstyled">
             <li>
-              <BsFillEnvelopeAtFill /> email@example.com
+              <BsFillEnvelopeAtFill /> {oneUser.email ? `${oneUser.email}` : 'Почта не указана'}
             </li>
             <li>
-              <BsFillTelephoneForwardFill /> +1234567890
+              <BsFillTelephoneForwardFill />{' '}
+              {oneUser.phone ? `${oneUser.phone}` : 'Телефон не указан'}
             </li>
             <li>
-              <FaTelegram /> @telegram
+              <FaTelegram />{' '}
+              {oneUser.linkTg ? <Link to={oneUser.linkTg}>Telegramm</Link> : 'Telegramm не указан'}
             </li>
             <li>
-              <FaWhatsapp /> +1234567890
+              <FaWhatsapp /> {oneUser.linkWA ? `${oneUser.linkWA}` : 'WhatsApp не указан'}
             </li>
             <li>
-              <BsInstagram /> @instagram
+              <BsInstagram />{' '}
+              {oneUser.linkInst ? (
+                <Link to={oneUser.linkInst}>Instagramm</Link>
+              ) : (
+                'Instagramm не указан'
+              )}
             </li>
           </ul>
         </Col>

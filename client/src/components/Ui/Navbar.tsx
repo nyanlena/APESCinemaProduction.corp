@@ -47,23 +47,27 @@ export default function Navbar(): JSX.Element {
           />
         </Link>
 
-        {user.status === 'logged' && user.statusId === 2 && (
+        {user.status === 'logged' && (
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
             <Menu.Item>
               <Link to="/profile/:id" style={{ textDecoration: 'none' }}>
                 Портфолио
               </Link>
             </Menu.Item>
-            <Menu.Item>
-              <Link to="/search/profiles" style={{ textDecoration: 'none' }}>
-                Поиск
-              </Link>
-            </Menu.Item>
-            <Menu.Item>
-              <Link to="/favorites" style={{ textDecoration: 'none' }}>
-                Избранное
-              </Link>
-            </Menu.Item>
+            {user.statusId !== 1 && (
+              <>
+                <Menu.Item>
+                  <Link to="/search/profiles" style={{ textDecoration: 'none' }}>
+                    Поиск
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/favorites" style={{ textDecoration: 'none' }}>
+                    Избранное
+                  </Link>
+                </Menu.Item>
+              </>
+            )}
             <Menu.Item>
               <Link to="/seach/projects" style={{ textDecoration: 'none' }}>
                 Проекты

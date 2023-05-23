@@ -95,16 +95,4 @@ authRouter.post('/signup/role', async (req, res) => {
   }
 });
 
-// authRouter.get('/google', {
-//   score: ['email', 'password'],
-// });
-
-// authRouter.get(
-//   '/google/callback',
-//   passport.authenticate('google', {
-//     successRedirect: '/google/success',
-//     failureRedirect: '/google/failure',
-//   }),
-// );
-
 module.exports = authRouter;
