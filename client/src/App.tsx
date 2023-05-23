@@ -26,6 +26,7 @@ function App(): JSX.Element {
   useEffect(() => {
     dispatch(checkUserThunk());
   }, []);
+
   return (
     <Container>
       <Loader>

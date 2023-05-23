@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const mailer = require('../mailer/mailer');
 const { User } = require('../db/models');
 
 const authRouter = express.Router();
@@ -20,6 +21,17 @@ authRouter.post('/signup', async (req, res) => {
     if (!created) return res.status(401).json({ message: 'Email is in use' });
 
     req.session.user = foundUser;
+
+    const message = {
+      to: req.body.email,
+      subject: 'Congratulations! You are successfully registered on our site!',
+      html: `
+      <h2>Поздравляем, Вы успешно зарегистрировались на нашем сайте!</h2>
+
+      <p>Данное письмо не требует ответа.</p>
+      `,
+    };
+    mailer(message);
 
     return res.json(foundUser);
   } catch (error) {
