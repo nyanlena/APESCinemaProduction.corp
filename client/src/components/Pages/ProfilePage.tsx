@@ -252,18 +252,17 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Образование</Card.Title>
-              {Number(id) === (user ? user.id : 'Ошибка') &&
-                !educationVisible && (
-                  <Button
-                    variant="outline-secondary"
-                    onClick={handleOpenAndCloseEducationInput}
-                    style={{
-                      border: 'none',
-                    }}
-                  >
-                    <BsFillPencilFill />
-                  </Button>
-                )}
+              {Number(id) === (user ? user.id : 'Ошибка') && !educationVisible && (
+                <Button
+                  variant="outline-secondary"
+                  onClick={handleOpenAndCloseEducationInput}
+                  style={{
+                    border: 'none',
+                  }}
+                >
+                  <BsFillPencilFill />
+                </Button>
+              )}
             </div>
             <Card.Text>
               {oneUser.education ? `${oneUser.education}` : 'Добавьте информацию об образовании'}
@@ -302,18 +301,17 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Опыт работы</Card.Title>
-              {Number(id) === (user ? user.id : 'Ошибка') &&
-                !experienceVisible && (
-                  <Button
-                    variant="outline-secondary"
-                    onClick={handleOpenAndCloseExperienceInput}
-                    style={{
-                      border: 'none',
-                    }}
-                  >
-                    <BsFillPencilFill />
-                  </Button>
-                )}
+              {Number(id) === (user ? user.id : 'Ошибка') && !experienceVisible && (
+                <Button
+                  variant="outline-secondary"
+                  onClick={handleOpenAndCloseExperienceInput}
+                  style={{
+                    border: 'none',
+                  }}
+                >
+                  <BsFillPencilFill />
+                </Button>
+              )}
             </div>
             <Card.Text>
               {oneUser.experience ? `${oneUser.experience}` : 'Добавьте информацию об опыте работы'}
@@ -352,18 +350,17 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>О себе</Card.Title>
-              {Number(id) === (user ? user.id : 'Ошибка') &&
-                !aboutMeVisible && (
-                  <Button
-                    variant="outline-secondary"
-                    onClick={handleOpenAndCloseAboutMeInput}
-                    style={{
-                      border: 'none',
-                    }}
-                  >
-                    <BsFillPencilFill />
-                  </Button>
-                )}
+              {Number(id) === (user ? user.id : 'Ошибка') && !aboutMeVisible && (
+                <Button
+                  variant="outline-secondary"
+                  onClick={handleOpenAndCloseAboutMeInput}
+                  style={{
+                    border: 'none',
+                  }}
+                >
+                  <BsFillPencilFill />
+                </Button>
+              )}
             </div>
             <Card.Text>
               {oneUser.aboutMe ? `${oneUser.aboutMe}` : 'Расскажите немного о себе'}
@@ -403,18 +400,17 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Портфолио</Card.Title>
-              {Number(id) === (user ? user.id : 'Ошибка') &&
-                !portfolioVisible && (
-                  <Button
-                    variant="outline-secondary"
-                    onClick={handleOpenAndClosePortfolioInput}
-                    style={{
-                      border: 'none',
-                    }}
-                  >
-                    <BsFillPencilFill />
-                  </Button>
-                )}
+              {Number(id) === (user ? user.id : 'Ошибка') && !portfolioVisible && (
+                <Button
+                  variant="outline-secondary"
+                  onClick={handleOpenAndClosePortfolioInput}
+                  style={{
+                    border: 'none',
+                  }}
+                >
+                  <BsFillPencilFill />
+                </Button>
+              )}
             </div>
             <Card.Text>
               {oneUser.userPortfolio ? `${oneUser.userPortfolio}` : 'Добавьте ссылку на портфолио'}
