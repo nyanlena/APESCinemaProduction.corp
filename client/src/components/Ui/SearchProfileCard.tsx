@@ -31,7 +31,7 @@ export default function SearchProfileCard({ profile, delay = 0 }: ProfileCardPro
         transition: 'opacity 0.8s',
       }}
     >
-      <a href={`profile/${profile.id}`}>
+      <a href={`/profile/${profile.id}`}>
         <Card
           hoverable
           style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}

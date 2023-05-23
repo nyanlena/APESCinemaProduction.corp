@@ -1,4 +1,9 @@
-DB_NAME=apescorp
-DB_PASS=null
-DB_USER=nyanlena
-PORT=3001
+DB_NAME=
+DB_PASS=
+DB_USER=
+PORT=
+
+JWT_SECRET=secret
+COOKIE_KEY=secret
+GOOGLE_CLIENT_ID='698218688042-l4b4ia3kkn5g3pb6r529e03063gc11fo.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET='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'
