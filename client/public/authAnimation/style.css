@@ -1,0 +1,26 @@
+.animcon {
+  background-color: white;
+
+  overflow: hidden;
+  /*overflow hidden because to keep the hand image hidden below*/
+  margin-top: 20px;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  background-image: url(https://raw.githubusercontent.com/naaficodes/Monkey-Login/master/images/monkey.gif);
+  background-size: 90% 85%;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); */
+
+  /*flex center to keep the hand image in the center*/
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.animcon img {
+  margin-top: 110%;
+  height: 120px;
+  width: 120px;
+  transition: 1s;
+}

@@ -25,7 +25,7 @@ export default function Navbar(): JSX.Element {
     // { key: 'portfolio', label: 'Портфолио', path: '/portfolio' },
     { key: 'search', label: 'Поиск', path: '/search/profiles' },
     { key: 'favorites', label: 'Избранное', path: '/favorites' },
-    { key: 'projects', label: 'Проекты', path: '/projects' },
+    { key: 'projects', label: 'Проекты', path: '/seach/projects' },
     { key: 'requests', label: 'Заявки', path: '/orders' },
   ];
 
