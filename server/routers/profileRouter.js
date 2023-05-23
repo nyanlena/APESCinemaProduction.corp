@@ -1,7 +1,10 @@
 const express = require("express");
+const multer = require("multer");
 const { User, Category } = require("../db/models");
+const storage = require("../middlewares/multer");
 
 const profileRouter = express.Router();
+const upload = multer({ storage });
 
 profileRouter.get("/setting", async (req, res) => {
   try {
@@ -42,7 +45,7 @@ profileRouter.patch("/api/:id", async (req, res) => {
   }
 });
 
-profileRouter.patch("/setting", async (req, res) => {
+profileRouter.patch("/setting", upload.single("image"), async (req, res) => {
   try {
     // const { id } = req.session;
     const foundUser = await User.findByPk(req.session.user.id);
@@ -62,9 +65,10 @@ profileRouter.patch("/setting", async (req, res) => {
       linkInst,
       linkWA,
     } = req.body;
+    const image = req.file.path;
     if (!(email && phone && firstName && lastName && age && city))
       res.status(409);
-    await foundUser.update(req.body);
+    await foundUser.update({ ...req.body, img: image });
     return res.json(foundUser);
   } catch (error) {
     console.log(error);
