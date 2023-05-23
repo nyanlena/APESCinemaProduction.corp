@@ -25,6 +25,28 @@ export default function SignUpPage(): JSX.Element {
     navigate('/signup/role');
   };
 
+  const handleOpenEyeClick = () => {
+    const x = document.getElementById('hands');
+    const y = document.getElementById('animcon');
+
+    if (y && x) {
+      y.style.backgroundImage =
+        'url(https://raw.githubusercontent.com/naaficodes/Monkey-Login/master/images/monkey.gif)';
+      x.style.marginTop = '110%';
+    }
+  };
+
+  const handleCloseEyeClick = () => {
+    const x = document.getElementById('hands');
+    const y = document.getElementById('animcon');
+
+    if (y && x) {
+      y.style.backgroundImage =
+        'url(https://raw.githubusercontent.com/naaficodes/Monkey-Login/master/images/monkey_pwd.gif)';
+      x.style.marginTop = '0%';
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -34,11 +56,18 @@ export default function SignUpPage(): JSX.Element {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          height: '76vh',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
-        </Avatar>
+        </Avatar> */}
+        <Box className="animcon" id="animcon">
+          <img
+            id="hands"
+            src="https://raw.githubusercontent.com/naaficodes/Monkey-Login/master/images/hands.png"
+          />
+        </Box>
         <Typography component="h1" variant="h5">
           Регистрация
         </Typography>
@@ -53,6 +82,7 @@ export default function SignUpPage(): JSX.Element {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onClick={handleOpenEyeClick}
               />
             </Grid>
             <Grid item xs={12}>
@@ -64,6 +94,7 @@ export default function SignUpPage(): JSX.Element {
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                onClick={handleCloseEyeClick}
               />
             </Grid>
           </Grid>
