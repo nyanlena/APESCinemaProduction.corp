@@ -22,6 +22,29 @@ export default function Login(): JSX.Element {
 
     dispatch(loginThunk(data));
   };
+
+  const handleOpenEyeClick = () => {
+    const x = document.getElementById('hands');
+    const y = document.getElementById('animcon');
+
+    if (y && x) {
+      y.style.backgroundImage =
+        'url(https://raw.githubusercontent.com/naaficodes/Monkey-Login/master/images/monkey.gif)';
+      x.style.marginTop = '110%';
+    }
+  };
+
+  const handleCloseEyeClick = () => {
+    const x = document.getElementById('hands');
+    const y = document.getElementById('animcon');
+
+    if (y && x) {
+      y.style.backgroundImage =
+        'url(https://raw.githubusercontent.com/naaficodes/Monkey-Login/master/images/monkey_pwd.gif)';
+      x.style.marginTop = '0%';
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -31,35 +54,48 @@ export default function Login(): JSX.Element {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          height: '76vh',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
-        </Avatar>
+        </Avatar> */}
+        <Box className="animcon" id="animcon">
+          <img
+            id="hands"
+            src="https://raw.githubusercontent.com/naaficodes/Monkey-Login/master/images/hands.png"
+          />
+        </Box>
         <Typography component="h1" variant="h5">
           Вход на сайт
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onClick={handleOpenEyeClick}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                onClick={handleCloseEyeClick}
+              />
+            </Grid>
+          </Grid>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Войти
           </Button>

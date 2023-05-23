@@ -21,36 +21,17 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { ProgressBar } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { changeProfileThunk, profileThunk } from '../../features/redux/profile/profileThunk';
-// import Accordion from 'react-bootstrap/Accordion';
+import type { BackendChangeProfileType } from '../../types/profileActionType';
 
 function ProfilePage(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const oneUser = useAppSelector((store) => store.oneProfile.oneUser);
-  const user = useAppSelector((store) => store.user);
+  const user = useAppSelector((store) => store.user as BackendChangeProfileType);
 
   useEffect(() => {
     dispatch(profileThunk(Number(id)));
-    dispatch(changeProfileThunk({ oneUser, id }));
   }, []);
-
-  /// /// Что-то со стейтами/////////
-  const [educationVisible, setEducationVisible] = useState(false);
-  const [educationValue, setEducationValue] = useState('');
-  // const [educationSavedValue, setEducationSavedValue] = useState(oneUser.education);//
-
-  const [experienceVisible, setExperienceVisible] = useState(false);
-  const [experienceValue, setExperienceValue] = useState('');
-  // const [experienceSavedValue, setExperienceSavedValue] = useState(oneUser.experience);
-
-  const [aboutVisible, setAboutVisible] = useState(false);
-  const [aboutValue, setAboutValue] = useState('');
-  // const [aboutSavedValue, setAboutSavedValue] = useState(oneUser.aboutMe);
-
-  const [portfolioVisible, setPortfolioVisible] = useState(false);
-  const [portfolioValue, setPortfolioValue] = useState('');
-  // const [portfolioSavedValue, setPortfolioSavedValue] = useState(oneUser.portfolioLink);
-  /// ///////что-то с изменениями закончилось///////
 
   // модальное окно с фотографией
   const [showModal, setShowModal] = useState(false);
@@ -66,64 +47,83 @@ function ProfilePage(): JSX.Element {
 
   /// прогресс бар///
   const [profileCompletion, setProfileCompletion] = useState(20);
+
   function calculateProgress(): number {
-    let progress = 20;
-    if (oneUser.education) progress += 20;
-    if (oneUser.experience) progress += 20;
-    if (oneUser.aboutMe) progress += 20;
-    if (oneUser.portfolioLink) progress += 20;
-    return progress;
+    let completion = 20;
+    if (oneUser.education) completion += 20;
+    if (oneUser.experience) completion += 20;
+    if (oneUser.aboutMe) completion += 20;
+    if (oneUser.userPortfolio) completion += 20;
+    return completion;
   }
+
   useMemo(() => {
     const completion = calculateProgress();
-  }, [oneUser.education, oneUser.experience, oneUser.aboutMe, oneUser.portfolioLink]);
-  useEffect(() => {
-    const completion = calculateProgress();
     setProfileCompletion(completion);
-  }, [oneUser.education, oneUser.experience, oneUser.aboutMe, oneUser.portfolioLink]);
+  }, [oneUser.education, oneUser.experience, oneUser.aboutMe, oneUser.userPortfolio]);
+  /// // конец прогресс - бара//////////
+  useEffect(() => {
+    setProfileCompletion(calculateProgress());
+  }, [oneUser.education, oneUser.experience, oneUser.aboutMe, oneUser.userPortfolio]);
+  /// /////////////////////////////////////////////////////////////
+  /// /изменения профиля/////
 
-  const handleOpenEducationInput = (): void => {
-    setEducationVisible(true);
+  const [educationVisible, setEducationVisible] = useState(false);
+  const handleOpenAndCloseEducationInput = (): void => {
+    setEducationVisible(!educationVisible);
+  };
+  const [experienceVisible, setExperienceVisible] = useState(false);
+  const handleOpenAndCloseExperienceInput = (): void => {
+    setExperienceVisible(!experienceVisible);
+  };
+  const [aboutMeVisible, setAboutMeVisible] = useState(false);
+  const handleOpenAndCloseAboutMeInput = (): void => {
+    setAboutMeVisible(!aboutMeVisible);
+  };
+  const [portfolioVisible, setPortfolioVisible] = useState(false);
+  const handleOpenAndClosePortfolioInput = (): void => {
+    setPortfolioVisible(!portfolioVisible);
+  };
+  const [inputProfile, setInputProfile] = useState<BackendChangeProfileType>({
+    id: oneUser.id,
+    education: oneUser.education,
+    experience: oneUser.experience,
+    aboutMe: oneUser.aboutMe,
+    userPortfolio: oneUser.userPortfolio,
+  });
+
+  useEffect(() => {
+    setInputProfile(oneUser);
+  }, [oneUser]);
+
+  const handleChangeProfile = (e: React.ChangeEvent<HTMLInputElement>): void =>
+    setInputProfile((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+
+  const handleSaveProfileEducation = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    dispatch(changeProfileThunk(inputProfile));
+    handleOpenAndCloseEducationInput();
+  };
+  const handleSaveProfileExperience = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    dispatch(changeProfileThunk(inputProfile));
+    handleOpenAndCloseExperienceInput();
+  };
+  const handleSaveProfileAboutMe = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    dispatch(changeProfileThunk(inputProfile));
+    handleOpenAndCloseAboutMeInput();
+  };
+  const handleSaveProfilePortfolio = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    dispatch(changeProfileThunk(inputProfile));
+    handleOpenAndClosePortfolioInput();
   };
   /// /////////////////////////////////////////////////////////////
-
-  const handleSaveEducationInput = (): void => {
-    changeProfileThunk(oneUser);
-    setEducationVisible(false);
-    setEducationValue('');
-  };
-
-  const handleOpenExperienceInput = (): void => {
-    setExperienceVisible(true);
-  };
-
-  const handleSaveExperienceInput = (): void => {
-    changeProfileThunk(oneUser);
-    setExperienceVisible(false);
-    setExperienceValue('');
-    calculateProgress();
-  };
-
-  const handleOpenAboutInput = (): void => {
-    setAboutVisible(true);
-  };
-
-  const handleSaveAboutInput = (): void => {
-    changeProfileThunk(oneUser);
-    setAboutVisible(false);
-    setAboutValue('');
-  };
-
-  const handleOpenPortfolioInput = (): void => {
-    setPortfolioVisible(true);
-  };
-
-  const handleSavePortfolioInput = (): void => {
-    changeProfileThunk(oneUser);
-    setPortfolioVisible(false);
-    setPortfolioValue('');
-  };
-
+  console.log(inputProfile);
   return (
     <>
       <Row className="mt-3 p-2">
@@ -157,6 +157,7 @@ function ProfilePage(): JSX.Element {
             >
               <FiEye />
             </Button>
+            {user.status === 'logged'}
             <Modal show={showModal} onHide={handleToggleModal} centered>
               <Modal.Body>
                 <Image
@@ -254,7 +255,7 @@ function ProfilePage(): JSX.Element {
                 !educationVisible && (
                   <Button
                     variant="outline-secondary"
-                    onClick={handleOpenEducationInput}
+                    onClick={handleOpenAndCloseEducationInput}
                     style={{
                       border: 'none',
                     }}
@@ -267,7 +268,7 @@ function ProfilePage(): JSX.Element {
               {oneUser.education ? `${oneUser.education}` : 'Добавьте информацию об образовании'}
             </Card.Text>
             {educationVisible && (
-              <Modal show={educationVisible} onHide={() => setEducationVisible(false)}>
+              <Modal show={educationVisible} onHide={() => handleOpenAndCloseEducationInput()}>
                 <Modal.Header closeButton>
                   <Modal.Title>Образование</Modal.Title>
                 </Modal.Header>
@@ -275,16 +276,19 @@ function ProfilePage(): JSX.Element {
                   <Form.Control
                     autoFocus
                     type="text"
-                    value={educationValue}
-                    onChange={(e) => setEducationValue(e.target.value)}
-                    placeholder={oneUser.education ? `${oneUser.education}` : `Добавьте информацию`}
+                    name="education"
+                    value={inputProfile.education}
+                    onChange={handleChangeProfile}
+                    placeholder={
+                      inputProfile.education ? `${inputProfile.education}` : `Добавьте информацию`
+                    }
                   />
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={() => setEducationVisible(false)}>
+                  <Button variant="secondary" onClick={() => handleOpenAndCloseEducationInput()}>
                     Закрыть
                   </Button>
-                  <Button variant="success" onClick={handleSaveEducationInput}>
+                  <Button variant="success" onClick={handleSaveProfileEducation}>
                     Сохранить
                   </Button>
                 </Modal.Footer>
@@ -301,7 +305,7 @@ function ProfilePage(): JSX.Element {
                 !experienceVisible && (
                   <Button
                     variant="outline-secondary"
-                    onClick={handleOpenExperienceInput}
+                    onClick={handleOpenAndCloseExperienceInput}
                     style={{
                       border: 'none',
                     }}
@@ -314,7 +318,7 @@ function ProfilePage(): JSX.Element {
               {oneUser.experience ? `${oneUser.experience}` : 'Добавьте информацию об опыте работы'}
             </Card.Text>
             {experienceVisible && (
-              <Modal show={experienceVisible} onHide={() => setExperienceVisible(false)}>
+              <Modal show={experienceVisible} onHide={() => handleOpenAndCloseExperienceInput()}>
                 <Modal.Header closeButton>
                   <Modal.Title>Опыт работы</Modal.Title>
                 </Modal.Header>
@@ -322,18 +326,19 @@ function ProfilePage(): JSX.Element {
                   <Form.Control
                     autoFocus
                     type="text"
-                    value={experienceValue}
-                    onChange={(e) => setExperienceValue(e.target.value)}
+                    name="experience"
+                    value={inputProfile.experience}
+                    onChange={handleChangeProfile}
                     placeholder={
                       oneUser.experience ? `${oneUser.experience}` : `Добавьте информацию`
                     }
                   />
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={() => setExperienceVisible(false)}>
+                  <Button variant="secondary" onClick={() => handleOpenAndCloseExperienceInput()}>
                     Закрыть
                   </Button>
-                  <Button variant="success" onClick={handleSaveExperienceInput}>
+                  <Button variant="success" onClick={handleSaveProfileExperience}>
                     Сохранить
                   </Button>
                 </Modal.Footer>
@@ -346,23 +351,24 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>О себе</Card.Title>
-              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') && !aboutVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenAboutInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !aboutMeVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenAndCloseAboutMeInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
               {oneUser.aboutMe ? `${oneUser.aboutMe}` : 'Расскажите немного о себе'}
             </Card.Text>
-            {aboutVisible && (
-              <Modal show={aboutVisible} onHide={() => setAboutVisible(false)}>
+            {aboutMeVisible && (
+              <Modal show={aboutMeVisible} onHide={() => handleOpenAndCloseAboutMeInput()}>
                 <Modal.Header closeButton>
                   <Modal.Title>О себе</Modal.Title>
                 </Modal.Header>
@@ -370,8 +376,9 @@ function ProfilePage(): JSX.Element {
                   <Form.Control
                     as="textarea"
                     autoFocus
-                    value={aboutValue}
-                    onChange={(e) => setAboutValue(e.target.value)}
+                    name="aboutMe"
+                    value={inputProfile.aboutMe}
+                    onChange={handleChangeProfile}
                     rows={3}
                     placeholder={
                       oneUser.aboutMe ? `${oneUser.aboutMe}` : `Расскажите немного о себе`
@@ -379,10 +386,10 @@ function ProfilePage(): JSX.Element {
                   />
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={() => setAboutVisible(false)}>
+                  <Button variant="secondary" onClick={() => handleOpenAndCloseAboutMeInput()}>
                     Закрыть
                   </Button>
-                  <Button variant="success" onClick={handleSaveAboutInput}>
+                  <Button variant="success" onClick={handleSaveProfileAboutMe}>
                     Сохранить
                   </Button>
                 </Modal.Footer>
@@ -399,7 +406,7 @@ function ProfilePage(): JSX.Element {
                 !portfolioVisible && (
                   <Button
                     variant="outline-secondary"
-                    onClick={handleOpenPortfolioInput}
+                    onClick={handleOpenAndClosePortfolioInput}
                     style={{
                       border: 'none',
                     }}
@@ -409,7 +416,7 @@ function ProfilePage(): JSX.Element {
                 )}
             </div>
             <Card.Text>
-              {oneUser.portfolioLink ? `${oneUser.portfolioLink}` : 'Добавьте ссылку на портфолио'}
+              {oneUser.userPortfolio ? `${oneUser.userPortfolio}` : 'Добавьте ссылку на портфолио'}
             </Card.Text>
             {portfolioVisible && (
               <Modal show={portfolioVisible} onHide={() => setPortfolioVisible(false)}>
@@ -420,18 +427,20 @@ function ProfilePage(): JSX.Element {
                   <Form.Control
                     autoFocus
                     type="text"
-                    value={portfolioValue}
-                    onChange={(e) => setPortfolioValue(e.target.value)}
+                    name="userPortfolio"
+                    value={inputProfile.userPortfolio}
+                    onChange={handleChangeProfile}
                     placeholder={
-                      oneUser.portfolioLink ? `${oneUser.portfolioLink}` : `Добавьте ссылку`
+                      oneUser.userPortfolio ? `${oneUser.userPortfolio}` : `Добавьте ссылку`
                     }
                   />
+
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={() => setPortfolioVisible(false)}>
+                  <Button variant="secondary" onClick={() => handleOpenAndClosePortfolioInput()}>
                     Закрыть
                   </Button>
-                  <Button variant="success" onClick={handleSavePortfolioInput}>
+                  <Button variant="success" onClick={handleSaveProfilePortfolio}>
                     Сохранить
                   </Button>
                 </Modal.Footer>
