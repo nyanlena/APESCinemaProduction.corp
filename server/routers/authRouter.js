@@ -18,7 +18,11 @@ authRouter.post("/signup", async (req, res) => {
 
   if (!created) return res.status(401).json({ message: "Email is in use" });
 
-  req.session.user = foundUser;
+  req.session.user = {
+    id: foundUser.id,
+    email: foundUser.email,
+    username: foundUser.username,
+  };;
 
   return res.json(foundUser);
 });
@@ -31,7 +35,11 @@ authRouter.post("/login", async (req, res) => {
   if (!foundUser) return res.status(401).json({ message: "No such email" });
 
   if (await bcrypt.compare(password, foundUser.password)) {
-    req.session.user = foundUser;
+    req.session.user = {
+      id: foundUser.id,
+      email: foundUser.email,
+      username: foundUser.username,
+    };
     return res.json(foundUser);
   }
 
@@ -53,7 +61,7 @@ authRouter.get("/check", async (req, res) => {
 
 authRouter.post("/signup/role", async (req, res) => {
   const { statusId } = req.body;
-  console.log(statusId);
+  // console.log(statusId);
   const userId = req.session.user.id; // Получаем ID пользователя из сессии
   try {
     // Находим пользователя по его ID

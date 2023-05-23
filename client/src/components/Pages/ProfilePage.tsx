@@ -131,7 +131,7 @@ function ProfilePage(): JSX.Element {
           {/* Фото профиля */}
           <div style={{ position: 'relative' }}>
             <Image
-              src={oneUser.img !== null ? oneUser.img : 'https://via.placeholder.com/400'}
+              src={oneUser.img !== null ? oneUser.img : '../../public/img/400.png'}
               alt="Your Image"
               fluid
               onMouseEnter={handleMouseEnter}
@@ -157,11 +157,10 @@ function ProfilePage(): JSX.Element {
             >
               <FiEye />
             </Button>
-            {user.status === 'logged'}
             <Modal show={showModal} onHide={handleToggleModal} centered>
               <Modal.Body>
                 <Image
-                  src={oneUser.img !== null ? oneUser.img : 'https://via.placeholder.com/800'}
+                  src={oneUser.img !== null ? oneUser.img : '../../public/img/800.png'}
                   alt="Your Image"
                   fluid
                 />
@@ -188,14 +187,16 @@ function ProfilePage(): JSX.Element {
         {/* Основная информация */}
         <Col sm={8}>
           <h1>{`${oneUser.firstName} ${oneUser.lastName}`}</h1>
+          <h4>{oneUser.patronymicname !== null ? oneUser.patronymicname : ''}</h4>
           <h6>Основная информация:</h6>
+
           <>
             <p> Город: {oneUser.city !== null ? oneUser.city : 'Город не указан'}</p>
             <p> Возраст: {oneUser.age !== null ? oneUser.age : 'Возраст не указан'}</p>
             <p> Должность: {oneUser.Category?.title}</p>
           </>
           {/* Прогресс-бар */}
-          {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+          {Number(id) === (user ? user.id : 'Ошибка') &&
             (calculateProgress() >= 0 && calculateProgress() < 100 ? (
               <Row>
                 <p>Продолжите заполнять Ваш профиль, чтобы Вами заинтересовались.</p>
@@ -208,7 +209,7 @@ function ProfilePage(): JSX.Element {
         {/* конец блока основная информация */}
         {/* Кнопки  настроек и лайка */}
         <Col sm={1}>
-          {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') && (
+          {Number(id) === (user ? user.id : 'Ошибка') && (
             <Dropdown>
               <Dropdown.Toggle
                 variant="outline-secondary"
@@ -231,7 +232,7 @@ function ProfilePage(): JSX.Element {
               </Dropdown.Menu>
             </Dropdown>
           )}
-          {Number(id) !== (user.status === 'logged' ? user.id : 'Ошибка') && (
+          {Number(id) !== (user ? user.id : 'Ошибка') && (
             <Button
               variant="outline-secondary"
               style={{
@@ -251,7 +252,7 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Образование</Card.Title>
-              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+              {Number(id) === (user ? user.id : 'Ошибка') &&
                 !educationVisible && (
                   <Button
                     variant="outline-secondary"
@@ -301,7 +302,7 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Опыт работы</Card.Title>
-              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+              {Number(id) === (user ? user.id : 'Ошибка') &&
                 !experienceVisible && (
                   <Button
                     variant="outline-secondary"
@@ -351,7 +352,7 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>О себе</Card.Title>
-              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+              {Number(id) === (user ? user.id : 'Ошибка') &&
                 !aboutMeVisible && (
                   <Button
                     variant="outline-secondary"
@@ -402,7 +403,7 @@ function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Портфолио</Card.Title>
-              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+              {Number(id) === (user ? user.id : 'Ошибка') &&
                 !portfolioVisible && (
                   <Button
                     variant="outline-secondary"
@@ -434,7 +435,6 @@ function ProfilePage(): JSX.Element {
                       oneUser.userPortfolio ? `${oneUser.userPortfolio}` : `Добавьте ссылку`
                     }
                   />
-
                 </Modal.Body>
                 <Modal.Footer>
                   <Button variant="secondary" onClick={() => handleOpenAndClosePortfolioInput()}>
