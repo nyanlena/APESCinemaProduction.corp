@@ -4,7 +4,7 @@ import type { BackendUserType } from '../../../types';
 import type { ThunkActionCreater } from '../store';
 import type {
   BackendChangeProfileType,
-  BackendProfileSettingType,
+  BackendChangeProfileSettingType,
 } from '../../../types/profileActionType';
 
 export const profileSettingThunk: ThunkActionCreater = () => async (dispatch) => {
@@ -33,7 +33,7 @@ export const changeProfileThunk: ThunkActionCreater<BackendChangeProfileType> =
     }
   };
 
-export const changeSettingProfileThunk: ThunkActionCreater<BackendProfileSettingType> =
+export const changeSettingProfileThunk: ThunkActionCreater<BackendChangeProfileSettingType> =
   (inputSetting) => async (dispatch) => {
     const response = await axios.patch<BackendUserType>(`/profile/setting`, {
       id: inputSetting.id,
@@ -52,4 +52,14 @@ export const changeSettingProfileThunk: ThunkActionCreater<BackendProfileSetting
     if (response.status === 200) {
       dispatch(setUserProfile(response.data));
     }
+  };
+
+  export const imageProfileThunk: ThunkActionCreater<BackendChangeProfileSettingType> =
+  (apiUrl, options) => (dispatch) => {
+    fetch(apiUrl, options).then((response) => response.json())
+    .then((body) => dispatch(setUserProfile({ ...body} )))
+    .then((body) => console.log(body))
+      .catch((error) => {
+        console.log(‘error’, error);
+      });
   };

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import {
   changeSettingProfileThunk,
+  imageProfileThunk,
   profileSettingThunk,
 } from '../../features/redux/profile/profileThunk';
 import type { BackendChangeProfileSettingType } from '../../types/profileActionType';
@@ -51,8 +52,28 @@ export default function SettingPage(): JSX.Element {
     setInputProfileSetting(inputProfileSetting);
     alert('Изменения сохранены');
   };
-  console.log(inputProfileSetting, 'gfgfvgbefhjglmfmkfjnbhdgvsc ');
- 
+  const [image, setImage] = useState('');
+  async function ImageSettigProfile(url: any) {
+    const apiUrl = `http://localhost:3001/profile/setting`;
+    const uriParts = uri.split('.');
+    const fileType = uriParts[uriParts.length - 1];
+  }
+  const uriParts = uri.split('.');
+  const formData = new FormData();
+  formData.append('image', {
+    uri,
+    name: `image.${fileType}`,
+    type: `image/${fileType}`,
+  });
+  const options = {
+    method: 'POST',
+    body: formData,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+  dispatch(imageProfileThunk(apiUrl, options));}
   return (
     <div className="profile-settings">
       <h1 className="profile-settings__title">Настройки профиля</h1>
@@ -66,13 +87,34 @@ export default function SettingPage(): JSX.Element {
           margin: '10px 0',
         }}
       >
-        {/* <Col md={4}>
-          <div className="profile-settings__photo-upload" style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-            <div className="profile-settings__photo-preview" style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden' }}>
+        <Col md={4}>
+          <div
+            className="profile-settings__photo-upload"
+            style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}
+          >
+            <div
+              className="profile-settings__photo-preview"
+              style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden' }}
+            >
               {formData.profilePhoto ? (
-                <img src={URL.createObjectURL(formData.profilePhoto)} alt="Profile" style={{ transition: 'opacity 0.3s ease-in-out', opacity: '1' }} />
+                <img
+                  src={URL.createObjectURL(formData.profilePhoto)}
+                  alt="Profile"
+                  style={{ transition: 'opacity 0.3s ease-in-out', opacity: '1' }}
+                />
               ) : (
-                <div className="profile-settings__upload-icon" style={{ textAlign: 'center', fontSize: '24px', lineHeight: '80px', transition: 'opacity 0.3s ease-in-out', opacity: '1' }}>+</div>
+                <div
+                  className="profile-settings__upload-icon"
+                  style={{
+                    textAlign: 'center',
+                    fontSize: '24px',
+                    lineHeight: '80px',
+                    transition: 'opacity 0.3s ease-in-out',
+                    opacity: '1',
+                  }}
+                >
+                  +
+                </div>
               )}
             </div>
             <div className="profile-settings__upload-button" style={{ marginLeft: '10px' }}>
@@ -85,10 +127,10 @@ export default function SettingPage(): JSX.Element {
               <Button variant="primary">Загрузить фото</Button>
             </div>
           </div>
-        </Col> */}
+        </Col>
         <Col md={4} className="d-flex flex-column align-items-center">
           {/* ФОТОГРАФИЯ ПРОФИЛЯ */}
-          {/* <div className="profile-settings__photo-upload" style={{ marginBottom: '20px' }}>
+          <div className="profile-settings__photo-upload" style={{ marginBottom: '20px' }}>
             <div
               className="profile-settings__photo-preview"
               style={{
@@ -136,7 +178,7 @@ export default function SettingPage(): JSX.Element {
               />
               <Button variant="primary">Загрузить фото</Button>
             </div>
-          </div> */}
+          </div>
         </Col>
 
         <Col md={4}>
