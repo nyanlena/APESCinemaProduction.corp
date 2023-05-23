@@ -1,41 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import { useAppDispatch, useAppSelector } from '../../features/redux/store';
+import {
+  changeSettingProfileThunk,
+  profileSettingThunk,
+} from '../../features/redux/profile/profileThunk';
+import type { BackendChangeProfileSettingType } from '../../types/profileActionType';
 
-export default function SettingPage() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    age: '',
-    city: '',
-    email: '',
-    phone: '',
-    instagram: '',
-    telegram: '',
-    profilePhoto: null,
+export default function SettingPage(): JSX.Element {
+  const userSetting = useAppSelector((state) => state.oneProfile);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(profileSettingThunk());
+  }, []);
+
+  const [inputProfileSetting, setInputProfileSetting] = useState<BackendChangeProfileSettingType>({
+    id: userSetting.oneUser.id,
+    email: userSetting.oneUser.email,
+    firstName: userSetting.oneUser.firstName,
+    lastName: userSetting.oneUser.lastName,
+    patronymicname: userSetting.oneUser.patronymicname,
+    city: userSetting.oneUser.city,
+    age: userSetting.oneUser.age,
+    img: userSetting.oneUser.img,
+    education: userSetting.oneUser.education,
+    experience: userSetting.oneUser.experience,
+    aboutMe: userSetting.oneUser.aboutMe,
+    userPortfolio: userSetting.oneUser.userPortfolio,
+    phone: userSetting.oneUser.phone,
+    linkTg: userSetting.oneUser.linkTg,
+    linkInst: userSetting.oneUser.linkInst,
+    linkWA: userSetting.oneUser.linkWA,
+    categoryId: userSetting.oneUser.categoryId,
+    Category: userSetting.oneUser.Category,
   });
+  console.log(inputProfileSetting);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
+  useEffect(() => {
+    setInputProfileSetting(inputProfileSetting);
+  }, [
+    userSetting.oneUser.id,
+    userSetting.oneUser.email,
+    userSetting.oneUser.firstName,
+    userSetting.oneUser.lastName,
+    userSetting.oneUser.patronymicname,
+    userSetting.oneUser.city,
+    userSetting.oneUser.age,
+    userSetting.oneUser.img,
+    userSetting.oneUser.education,
+    userSetting.oneUser.experience,
+    userSetting.oneUser.aboutMe,
+    userSetting.oneUser.userPortfolio,
+    userSetting.oneUser.phone,
+    userSetting.oneUser.linkTg,
+    userSetting.oneUser.linkInst,
+    userSetting.oneUser.linkWA,
+    userSetting.oneUser.categoryId,
+    userSetting.oneUser.Category,
+  ]);
+
+  const handleChangeProfile = (e: React.ChangeEvent<HTMLInputElement>): void =>
+    setInputProfileSetting((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
     }));
+  const handleSaveProfileSetting = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    dispatch(changeSettingProfileThunk(inputProfileSetting));
+    setInputProfileSetting(inputProfileSetting);
   };
-
-  const handlePhotoUpload = (event) => {
-    const file = event.target.files[0];
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      profilePhoto: file,
-    }));
-  };
-
-  const handleSaveSettings = () => {
-    // Выполнять сохранение настроек
-    // ...
-    console.log('Данные сохранены:');
-  };
-
+  console.log(inputProfileSetting.age,'gfgfvgbefhjglmfmkfjnbhdgvsc ');
+  
   return (
     <div className="profile-settings">
       <h1 className="profile-settings__title">Настройки профиля</h1>
@@ -65,7 +101,8 @@ export default function SettingPage() {
           </div>
         </Col> */}
         <Col md={4} className="d-flex flex-column align-items-center">
-          <div className="profile-settings__photo-upload" style={{ marginBottom: '20px' }}>
+          {/* ФОТОГРАФИЯ ПРОФИЛЯ */}
+          {/* <div className="profile-settings__photo-upload" style={{ marginBottom: '20px' }}>
             <div
               className="profile-settings__photo-preview"
               style={{
@@ -113,7 +150,7 @@ export default function SettingPage() {
               />
               <Button variant="primary">Загрузить фото</Button>
             </div>
-          </div>
+          </div> */}
         </Col>
 
         <Col md={4}>
@@ -121,11 +158,16 @@ export default function SettingPage() {
             <Form.Group controlId="firstName">
               <Form.Label>Имя</Form.Label>
               <Form.Control
+                required
                 type="text"
                 name="firstName"
-                value={formData.firstName}
-                onChange={handleInputChange}
-                placeholder={formData.firstName ? formData.firstName : 'Введите имя'}
+                value={inputProfileSetting.firstName}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.firstName
+                    ? ` ${inputProfileSetting.firstName}`
+                    : 'Введите Ваше имя'
+                }
                 className="profile-settings__input"
               />
             </Form.Group>
@@ -133,11 +175,16 @@ export default function SettingPage() {
             <Form.Group controlId="lastName">
               <Form.Label>Фамилия</Form.Label>
               <Form.Control
+                required
                 type="text"
                 name="lastName"
-                value={formData.lastName}
-                onChange={handleInputChange}
-                placeholder="Введите фамилию"
+                value={inputProfileSetting.lastName}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.lastName
+                    ? ` ${inputProfileSetting.lastName}`
+                    : 'Введите Вашу фамилию'
+                }
                 className="profile-settings__input"
               />
             </Form.Group>
@@ -145,11 +192,14 @@ export default function SettingPage() {
             <Form.Group controlId="age">
               <Form.Label>Возраст</Form.Label>
               <Form.Control
+                required
                 type="number"
                 name="age"
-                value={formData.age}
-                onChange={handleInputChange}
-                placeholder="Введите возраст"
+                value={inputProfileSetting.age}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.age ? ` ${inputProfileSetting.age}` : 'Укажите Ваш возраст'
+                }
                 className="profile-settings__input"
               />
             </Form.Group>
@@ -157,11 +207,31 @@ export default function SettingPage() {
             <Form.Group controlId="city">
               <Form.Label>Город проживания</Form.Label>
               <Form.Control
+                required
                 type="text"
                 name="city"
-                value={formData.city}
-                onChange={handleInputChange}
-                placeholder="Введите город проживания"
+                value={inputProfileSetting.city}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.city
+                    ? ` ${inputProfileSetting.city}`
+                    : 'Укажите город проживания'
+                }
+                className="profile-settings__input"
+              />
+            </Form.Group>
+            <Form.Group controlId="telegram">
+              <Form.Label>WhatsApp</Form.Label>
+              <Form.Control
+                type="text"
+                name="linkWA"
+                value={inputProfileSetting.linkWA}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.linkWA
+                    ? ` ${inputProfileSetting.linkWA}`
+                    : 'Укажите данные WhatsApp'
+                }
                 className="profile-settings__input"
               />
             </Form.Group>
@@ -172,11 +242,14 @@ export default function SettingPage() {
             <Form.Group controlId="email">
               <Form.Label>Почта</Form.Label>
               <Form.Control
+                required
                 type="email"
                 name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Введите почту"
+                value={inputProfileSetting.email}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.email ? ` ${inputProfileSetting.email}` : 'Укажите Вашу почту'
+                }
                 className="profile-settings__input"
               />
             </Form.Group>
@@ -186,9 +259,14 @@ export default function SettingPage() {
               <Form.Control
                 type="tel"
                 name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                placeholder="Введите телефон"
+                required
+                value={inputProfileSetting.phone}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.phone
+                    ? ` ${inputProfileSetting.phone}`
+                    : 'Укажите Ваш номер телефона'
+                }
                 className="profile-settings__input"
               />
             </Form.Group>
@@ -198,9 +276,11 @@ export default function SettingPage() {
               <Form.Control
                 type="text"
                 name="instagram"
-                value={formData.instagram}
-                onChange={handleInputChange}
-                placeholder="Введите Instagram"
+                value={inputProfileSetting.linkInst}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.linkInst ? ` ${inputProfileSetting.linkInst}` : 'Введите имя'
+                }
                 className="profile-settings__input"
               />
             </Form.Group>
@@ -210,16 +290,18 @@ export default function SettingPage() {
               <Form.Control
                 type="text"
                 name="telegram"
-                value={formData.telegram}
-                onChange={handleInputChange}
-                placeholder="Введите Telegram"
+                value={inputProfileSetting.linkTg}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.linkTg ? ` ${inputProfileSetting.linkTg}` : 'Введите имя'
+                }
                 className="profile-settings__input"
               />
             </Form.Group>
 
             <Button
               variant="primary"
-              onClick={handleSaveSettings}
+              onClick={handleSaveProfileSetting}
               className="profile-settings__save-button"
               style={{ marginTop: '20px' }}
             >
