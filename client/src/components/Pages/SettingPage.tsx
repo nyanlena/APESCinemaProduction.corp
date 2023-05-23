@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Row, Col, ButtonGroup } from 'react-bootstrap';
+import { Form, Button, Row, Col, ButtonGroup, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import {
   changeSettingProfileThunk,
   profileSettingThunk,
 } from '../../features/redux/profile/profileThunk';
 import type { BackendChangeProfileSettingType } from '../../types/profileActionType';
-import { Link } from 'react-router-dom';
 
 export default function SettingPage(): JSX.Element {
   const userSetting = useAppSelector((state) => state.oneProfile.oneUser);
@@ -49,16 +49,22 @@ export default function SettingPage(): JSX.Element {
     e.preventDefault();
     dispatch(changeSettingProfileThunk(inputProfileSetting));
     setInputProfileSetting(inputProfileSetting);
+    alert('Изменения сохранены');
   };
   console.log(inputProfileSetting, 'gfgfvgbefhjglmfmkfjnbhdgvsc ');
-  
+ 
   return (
     <div className="profile-settings">
       <h1 className="profile-settings__title">Настройки профиля</h1>
 
       <Row
         className="profile-settings__border"
-        style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '10px', margin: '10px 0'  }}
+        style={{
+          border: '1px solid #ccc',
+          padding: '10px',
+          borderRadius: '10px',
+          margin: '10px 0',
+        }}
       >
         {/* <Col md={4}>
           <div className="profile-settings__photo-upload" style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
@@ -242,9 +248,7 @@ export default function SettingPage(): JSX.Element {
                 value={inputProfileSetting.phone}
                 onChange={handleChangeProfile}
                 placeholder={
-                  inputProfileSetting.phone
-                    ? ` ${inputProfileSetting.phone}`
-                    : '+79876543210'
+                  inputProfileSetting.phone ? ` ${inputProfileSetting.phone}` : '+79876543210'
                 }
                 className="profile-settings__input"
               />
@@ -292,19 +296,17 @@ export default function SettingPage(): JSX.Element {
                 className="profile-settings__input"
               />
             </Form.Group>
-            <ButtonGroup aria-label="Basic example" className='mt-3 ' style={{ display: 'flex', alignItems: 'center'}}>
-            <Button
-              variant="outline-primary"
-              onClick={handleSaveProfileSetting}
-
+            <ButtonGroup
+              aria-label="Basic example"
+              className="mt-3 "
+              style={{ display: 'flex', alignItems: 'center' }}
             >
-              Сохранить
-            </Button>
-            <Button
-              variant="outline-primary"
-            >
-              <Link to={`/profile/${userSetting.id}`}>Назад в профиль</Link>
-            </Button>
+              <Button variant="outline-primary" onClick={handleSaveProfileSetting}>
+                Сохранить
+              </Button>
+              <Button variant="outline-primary">
+                <Link to={`/profile/${userSetting.id}`}>Назад в профиль</Link>
+              </Button>
             </ButtonGroup>
           </Form>
         </Col>
