@@ -11,12 +11,13 @@ export type BackendUserType = {
   education: string;
   experience: string;
   aboutMe: string;
-  linkPortfolio: string;
+  userPortfolio: string;
   phone: string;
   linkTg: string;
   linkInst: string;
   linkWA: string;
-  categoryId: number;
+  categoryId?: number;
+  Category?: { id: number; title: string };
 };
 
 export type LoggedUserType = {

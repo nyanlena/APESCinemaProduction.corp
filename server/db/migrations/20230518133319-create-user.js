@@ -1,4 +1,3 @@
-"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -49,10 +48,6 @@ module.exports = {
         type: Sequelize.TEXT,
         defaultValue: null,
       },
-      linkPortfolio: {
-        type: Sequelize.TEXT,
-        defaultValue: null,
-      },
       phone: {
         type: Sequelize.STRING,
       },
@@ -61,6 +56,10 @@ module.exports = {
         defaultValue: null,
       },
       linkInst: {
+        type: Sequelize.STRING,
+        defaultValue: null,
+      },
+      userPortfolio: {
         type: Sequelize.STRING,
         defaultValue: null,
       },
