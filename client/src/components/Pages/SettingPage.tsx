@@ -4,52 +4,61 @@ import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import {
   changeSettingProfileThunk,
   profileSettingThunk,
-  profileThunk,
 } from '../../features/redux/profile/profileThunk';
-import type {
-  BackendChangeProfileSettingType,
-} from '../../types/profileActionType';
+import type { BackendChangeProfileSettingType } from '../../types/profileActionType';
 
 export default function SettingPage(): JSX.Element {
   const userSetting = useAppSelector((state) => state.oneProfile);
   const dispatch = useAppDispatch();
-  console.log(user, 'gffdf');
 
   useEffect(() => {
     dispatch(profileSettingThunk());
   }, []);
 
   const [inputProfileSetting, setInputProfileSetting] = useState<BackendChangeProfileSettingType>({
-    id: userSetting.id,
-    email: userSetting.email,
-    firstName: userSetting.firstName,
-    lastName: userSetting.lastName,
-    patronymicname: userSetting.patronymicname,
-    city: userSetting.city,
-    age: userSetting.age,
-    img: userSetting.city,
-    phone: userSetting.phone,
-    linkTg: userSetting.linkTg,
-    linkInst: userSetting.linkInst,
-    linkWA: userSetting.linkWA,
-    categoryId: userSetting.categoryId,
-    Category: userSetting.Category,
+    id: userSetting.oneUser.id,
+    email: userSetting.oneUser.email,
+    firstName: userSetting.oneUser.firstName,
+    lastName: userSetting.oneUser.lastName,
+    patronymicname: userSetting.oneUser.patronymicname,
+    city: userSetting.oneUser.city,
+    age: userSetting.oneUser.age,
+    img: userSetting.oneUser.img,
+    education: userSetting.oneUser.education,
+    experience: userSetting.oneUser.experience,
+    aboutMe: userSetting.oneUser.aboutMe,
+    userPortfolio: userSetting.oneUser.userPortfolio,
+    phone: userSetting.oneUser.phone,
+    linkTg: userSetting.oneUser.linkTg,
+    linkInst: userSetting.oneUser.linkInst,
+    linkWA: userSetting.oneUser.linkWA,
+    categoryId: userSetting.oneUser.categoryId,
+    Category: userSetting.oneUser.Category,
   });
-  // useEffect(() => {
-  //   setInputProfileSetting(inputProfileSetting);
-  // }, [
-  //   inputProfileSetting.email,
-  //   inputProfileSetting.firstName,
-  //   inputProfileSetting.lastName,
-  //   inputProfileSetting.patronymicname,
-  //   inputProfileSetting.city,
-  //   inputProfileSetting.age,
-  //   inputProfileSetting.img,
-  //   inputProfileSetting.phone,
-  //   inputProfileSetting.linkTg,
-  //   inputProfileSetting.linkInst,
-  //   inputProfileSetting.linkWA,
-  // ]);
+  console.log(inputProfileSetting);
+
+  useEffect(() => {
+    setInputProfileSetting(inputProfileSetting);
+  }, [
+    userSetting.oneUser.id,
+    userSetting.oneUser.email,
+    userSetting.oneUser.firstName,
+    userSetting.oneUser.lastName,
+    userSetting.oneUser.patronymicname,
+    userSetting.oneUser.city,
+    userSetting.oneUser.age,
+    userSetting.oneUser.img,
+    userSetting.oneUser.education,
+    userSetting.oneUser.experience,
+    userSetting.oneUser.aboutMe,
+    userSetting.oneUser.userPortfolio,
+    userSetting.oneUser.phone,
+    userSetting.oneUser.linkTg,
+    userSetting.oneUser.linkInst,
+    userSetting.oneUser.linkWA,
+    userSetting.oneUser.categoryId,
+    userSetting.oneUser.Category,
+  ]);
 
   const handleChangeProfile = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setInputProfileSetting((prev) => ({
@@ -59,7 +68,10 @@ export default function SettingPage(): JSX.Element {
   const handleSaveProfileSetting = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     dispatch(changeSettingProfileThunk(inputProfileSetting));
+    setInputProfileSetting(inputProfileSetting);
   };
+  console.log(inputProfileSetting.age,'gfgfvgbefhjglmfmkfjnbhdgvsc ');
+  
   return (
     <div className="profile-settings">
       <h1 className="profile-settings__title">Настройки профиля</h1>

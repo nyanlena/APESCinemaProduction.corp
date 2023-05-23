@@ -42,7 +42,7 @@ profileRouter.patch("/api/:id", async (req, res) => {
   }
 });
 
-profileRouter.patch(async (req, res) => {
+profileRouter.patch("/setting", async (req, res) => {
   try {
     // const { id } = req.session;
     console.log(req.session.user.id, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
