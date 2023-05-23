@@ -434,6 +434,7 @@ function ProfilePage(): JSX.Element {
                       oneUser.userPortfolio ? `${oneUser.userPortfolio}` : `Добавьте ссылку`
                     }
                   />
+                  
                 </Modal.Body>
                 <Modal.Footer>
                   <Button variant="secondary" onClick={() => handleOpenAndClosePortfolioInput()}>
