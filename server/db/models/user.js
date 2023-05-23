@@ -45,6 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       categoryId: DataTypes.INTEGER,
       userPortfolio: DataTypes.STRING,
       statusId: DataTypes.INTEGER,
+      googleId: DataTypes.STRING,
     },
     {
       sequelize,

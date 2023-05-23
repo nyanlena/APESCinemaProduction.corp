@@ -22,6 +22,7 @@ export type BackendUserType = {
 
 export type LoggedUserType = {
   status: 'logged';
+  statusId: number;
 } & BackendUserType;
 
 export type GuestUserType = {

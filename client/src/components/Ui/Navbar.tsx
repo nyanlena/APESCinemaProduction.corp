@@ -8,6 +8,8 @@ export default function Navbar(): JSX.Element {
   const user = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
 
+  const { profiles } = useAppSelector((store) => store.profiles);
+
   const { Header } = Layout;
 
   const {
@@ -20,19 +22,6 @@ export default function Navbar(): JSX.Element {
     path: '/',
     logoSrc: '/monkeyWithRice.jpg',
   };
-
-  const mainMenuItems = [
-    // { key: 'portfolio', label: 'Портфолио', path: '/portfolio' },
-    { key: 'search', label: 'Поиск', path: '/search/profiles' },
-    { key: 'favorites', label: 'Избранное', path: '/favorites' },
-    { key: 'projects', label: 'Проекты', path: '/projects' },
-    { key: 'requests', label: 'Заявки', path: '/orders' },
-  ];
-
-  const authMenuItems = [
-    { key: 'register', label: 'Регистрация', path: '/signup' },
-    { key: 'login', label: 'Войти', path: '/login' },
-  ];
 
   const logoutItem = { key: 'logout', label: 'Выйти', path: '/' };
 
@@ -60,25 +49,50 @@ export default function Navbar(): JSX.Element {
 
         {user.status === 'logged' && (
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-            {mainMenuItems.map((item) => (
-              <Menu.Item key={item.key}>
-                <Link to={item.path} style={{ textDecoration: 'none' }}>
-                  {item.label}
-                </Link>
-              </Menu.Item>
-            ))}
+            <Menu.Item>
+              <Link to={`/profile/${user.id}`} style={{ textDecoration: 'none' }}>
+                Портфолио
+              </Link>
+            </Menu.Item>
+            {user.statusId !== 1 && (
+              <>
+                <Menu.Item>
+                  <Link to="/search/profiles" style={{ textDecoration: 'none' }}>
+                    Поиск
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/favorites" style={{ textDecoration: 'none' }}>
+                    Избранное
+                  </Link>
+                </Menu.Item>
+              </>
+            )}
+            <Menu.Item>
+              <Link to="/seach/projects" style={{ textDecoration: 'none' }}>
+                Проекты
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link to="/orders" style={{ textDecoration: 'none' }}>
+                Заявки
+              </Link>
+            </Menu.Item>
           </Menu>
         )}
 
         {user.status === 'guest' && (
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-            {authMenuItems.map((item) => (
-              <Menu.Item key={item.key}>
-                <Link to={item.path} style={{ textDecoration: 'none' }}>
-                  {item.label}
-                </Link>
-              </Menu.Item>
-            ))}
+            <Menu.Item>
+              <Link to="/signup" style={{ textDecoration: 'none' }}>
+                Регистрация
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link to="/login" style={{ textDecoration: 'none' }}>
+                Авторизация
+              </Link>
+            </Menu.Item>
           </Menu>
         )}
 
