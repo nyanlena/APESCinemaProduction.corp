@@ -50,7 +50,7 @@ export default function Navbar(): JSX.Element {
         {user.status === 'logged' && (
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
             <Menu.Item>
-              <Link to="/profile/:id" style={{ textDecoration: 'none' }}>
+              <Link to={`/profile/${user.id}`} style={{ textDecoration: 'none' }}>
                 Портфолио
               </Link>
             </Menu.Item>
