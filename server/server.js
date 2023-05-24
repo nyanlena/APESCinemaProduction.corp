@@ -3,6 +3,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const session = require("express-session");
 const store = require("session-file-store");
+const passport = require("passport");
+const helmet = require("helmet");
 const authRouter = require("./routers/authRouter");
 const pathMiddlewares = require("./middlewares/pathMiddlewares");
 const mainRouter = require("./routers/mainRouter");
@@ -13,8 +15,12 @@ const favoriteRouter = require("./routers/favoriteRouter");
 const orderRouter = require("./routers/orderRouter");
 const projectRouter = require("./routers/projectRouter");
 const nodemailerRouter = require("./routers/nodemailerRouter");
-const api = require("./routers/api");
+// const api = require("./routers/api");
 require("dotenv").config();
+
+// require("./auth/google");
+// require("./auth/passport");
+// require("./db/models/user");
 
 const app = express();
 // require('./google/auth');
@@ -23,6 +29,8 @@ const PORT = process.env.PORT || 3001;
 const FileStore = store(session);
 
 const sessionConfig = {
+  name: "user_sid",
+  secret: process.env.SESSION_SECRET ?? "test",
   name: "user_sid",
   secret: process.env.SESSION_SECRET ?? "test",
   resave: true,
@@ -39,19 +47,20 @@ app.use(
     credentials: true,
     origin: true,
   })
+  })
 );
 
-// app.use(passport.initialize());
-// app.use(passport.session());
-
 app.use(session(sessionConfig));
+app.use(morgan("dev"));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(pathMiddlewares);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('/images'));
-
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(helmet());
 // app.use("/api/lk", transactionRouter);
 
 app.use("/", mainRouter);

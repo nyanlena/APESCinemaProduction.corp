@@ -22,6 +22,11 @@ import { ProgressBar } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { changeProfileThunk, profileThunk } from '../../features/redux/profile/profileThunk';
 import type { BackendChangeProfileType } from '../../types/profileActionType';
+import { Favorite } from '@mui/icons-material';
+import {
+  addFavoriteProfileThunk,
+  deleteFavoriteProfileThunk,
+} from '../../features/redux/favorite/favoriteThunk';
 
 
 export default function ProfilePage(): JSX.Element {
@@ -29,6 +34,11 @@ export default function ProfilePage(): JSX.Element {
   const dispatch = useAppDispatch();
   const oneUser = useAppSelector((store) => store.oneProfile.oneUser);
   const user = useAppSelector((store) => store.user as BackendChangeProfileType);
+
+  //favorites
+  const { favorites } = useAppSelector((store) => store.favorites);
+  const isLiked = favorites.some((favorite) => favorite.toId === Number(id));
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     dispatch(profileThunk(Number(id)));
@@ -125,6 +135,19 @@ export default function ProfilePage(): JSX.Element {
   };
   /// /////////////////////////////////////////////////////////////
   console.log(inputProfile);
+
+  // favorite
+
+  // Обработчик нажатия кнопки
+
+  const handleClick = () => {
+    if (isLiked) {
+      dispatch(deleteFavoriteProfileThunk(Number(id)));
+    } else {
+      dispatch(addFavoriteProfileThunk(oneUser.id));
+    }
+  };
+
   return (
     <>
       <Row className="mt-3 p-2">
@@ -158,6 +181,7 @@ export default function ProfilePage(): JSX.Element {
             >
               <FiEye />
             </Button>
+            {user.status === 'logged'}
             <Modal show={showModal} onHide={handleToggleModal} centered>
               <Modal.Body>
                 <Image
@@ -188,16 +212,14 @@ export default function ProfilePage(): JSX.Element {
         {/* Основная информация */}
         <Col sm={8}>
           <h1>{`${oneUser.firstName} ${oneUser.lastName}`}</h1>
-          <h4>{oneUser.patronymicname !== null ? oneUser.patronymicname : ''}</h4>
           <h6>Основная информация:</h6>
-
           <>
             <p> Город: {oneUser.city !== null ? oneUser.city : 'Город не указан'}</p>
             <p> Возраст: {oneUser.age !== null ? oneUser.age : 'Возраст не указан'}</p>
             <p> Должность: {oneUser.Category?.title}</p>
           </>
           {/* Прогресс-бар */}
-          {Number(id) === (user ? user.id : 'Ошибка') &&
+          {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
             (calculateProgress() >= 0 && calculateProgress() < 100 ? (
               <Row>
                 <p>Продолжите заполнять Ваш профиль, чтобы Вами заинтересовались.</p>
@@ -210,7 +232,7 @@ export default function ProfilePage(): JSX.Element {
         {/* конец блока основная информация */}
         {/* Кнопки  настроек и лайка */}
         <Col sm={1}>
-          {Number(id) === (user ? user.id : 'Ошибка') && (
+          {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') && (
             <Dropdown>
               <Dropdown.Toggle
                 variant="outline-secondary"
@@ -233,14 +255,17 @@ export default function ProfilePage(): JSX.Element {
               </Dropdown.Menu>
             </Dropdown>
           )}
-          {Number(id) !== (user ? user.id : 'Ошибка') && (
+
+          {/* favorite button */}
+          {Number(id) !== (user.status === 'logged' ? user.id : 'Ошибка') && (
             <Button
+              onClick={handleClick}
               variant="outline-secondary"
               style={{
                 border: 'none',
               }}
             >
-              <FcLike style={{ fontSize: '35px' }} />
+              <FcLike style={{ fontSize: '35px', color: liked ? 'red' : 'black' }} />
             </Button>
           )}
         </Col>
@@ -253,17 +278,18 @@ export default function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Образование</Card.Title>
-              {Number(id) === (user ? user.id : 'Ошибка') && !educationVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenAndCloseEducationInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !educationVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenAndCloseEducationInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
               {oneUser.education ? `${oneUser.education}` : 'Добавьте информацию об образовании'}
@@ -302,17 +328,18 @@ export default function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Опыт работы</Card.Title>
-              {Number(id) === (user ? user.id : 'Ошибка') && !experienceVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenAndCloseExperienceInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !experienceVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenAndCloseExperienceInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
               {oneUser.experience ? `${oneUser.experience}` : 'Добавьте информацию об опыте работы'}
@@ -351,17 +378,18 @@ export default function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>О себе</Card.Title>
-              {Number(id) === (user ? user.id : 'Ошибка') && !aboutMeVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenAndCloseAboutMeInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !aboutMeVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenAndCloseAboutMeInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
               {oneUser.aboutMe ? `${oneUser.aboutMe}` : 'Расскажите немного о себе'}
@@ -401,17 +429,18 @@ export default function ProfilePage(): JSX.Element {
           <Card.Body>
             <div className="d-flex justify-content-between align-items-center">
               <Card.Title>Портфолио</Card.Title>
-              {Number(id) === (user ? user.id : 'Ошибка') && !portfolioVisible && (
-                <Button
-                  variant="outline-secondary"
-                  onClick={handleOpenAndClosePortfolioInput}
-                  style={{
-                    border: 'none',
-                  }}
-                >
-                  <BsFillPencilFill />
-                </Button>
-              )}
+              {Number(id) === (user.status === 'logged' ? user.id : 'Ошибка') &&
+                !portfolioVisible && (
+                  <Button
+                    variant="outline-secondary"
+                    onClick={handleOpenAndClosePortfolioInput}
+                    style={{
+                      border: 'none',
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </Button>
+                )}
             </div>
             <Card.Text>
               {oneUser.userPortfolio ? `${oneUser.userPortfolio}` : 'Добавьте ссылку на портфолио'}

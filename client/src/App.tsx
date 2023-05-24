@@ -9,7 +9,7 @@ import Login from './components/Pages/Login';
 import ChooseRole from './components/Pages/ChooseRole';
 import ProfilePage from './components/Pages/ProfilePage';
 import SearchProfiles from './components/Pages/SearchProfiles';
-import SeachProjects from './components/Pages/SeachProjects';
+import SearchProjects from './components/Pages/SeachProjects';
 import Favorites from './components/Pages/Favorites';
 import Project from './components/Pages/Project';
 import Orders from './components/Pages/Orders';
@@ -18,6 +18,8 @@ import { useAppDispatch, useAppSelector } from './features/redux/store';
 import { checkUserThunk } from './features/redux/user/thunkActions';
 import PrivateRouter from './HOC/PrivateRouter';
 import Loader from './HOC/Loader';
+import SeachProjects from './components/Pages/SeachProjects';
+
 import { profileThunk } from './features/redux/profile/profileThunk';
 import ImagePage from './components/Pages/ImagePage';
 
@@ -52,7 +54,9 @@ function App(): JSX.Element {
               <Route path="/profile/setting" element={<SettingPage />} />
               <Route path="/profile/image" element={<ImagePage />} />
               <Route path="/search/profiles" element={<SearchProfiles />} />
+
               <Route path="/seach/projects" element={<SeachProjects />} />
+
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/projects/:id" element={<Project />} />
               <Route path="/orders" element={<Orders />} />

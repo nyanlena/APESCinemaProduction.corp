@@ -117,7 +117,7 @@ export default function SignUpPage(): JSX.Element {
                 Забыли пароль?
               </Button>
             </Grid>
-            <a href="http://localhost:3001/auth/google">
+            <a href="http://localhost:3001/api/v1/login/google">
               <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Войти через Google
               </Button>
