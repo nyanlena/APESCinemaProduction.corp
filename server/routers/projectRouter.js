@@ -1,7 +1,6 @@
 const express = require("express");
 const { Project, User, Category } = require("../db/models");
 const isAuth = require("../middlewares/isAuth");
-const isAdmin = require("../middlewares/isAdmin");
 
 const projectRouter = express.Router();
 
@@ -19,10 +18,11 @@ projectRouter.get("/:id", isAuth, async (req, res) => {
   }
 });
 
-projectRouter.patch("/:id", isAuth, isAdmin, async (req, res) => {
+projectRouter.patch("/:id", async (req, res) => {
   try {
     await Project.update(req.body, { where: { id: req.params.id } });
     const updateProj = await Project.findByPk(req.params.id);
+    console.log(updateProj);
     res.json(updateProj);
   } catch (err) {
     console.log("error!!!1", err);

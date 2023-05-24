@@ -6,7 +6,6 @@ export type ProjectTypes = {
   name: string;
   genre: string;
   userId: number;
-  x: string | null;
-  y: string | null;
+  x: number;
+  y: number;
 };
-  

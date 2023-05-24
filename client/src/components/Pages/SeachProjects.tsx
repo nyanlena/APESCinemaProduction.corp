@@ -9,6 +9,7 @@ import type FormAddProjectType from '../../types/formAddProject';
 
 export default function SeachProjects(): JSX.Element {
   const allProjects = useAppSelector((store) => store.postsProjects.postsProjects);
+  const user = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -92,11 +93,13 @@ export default function SeachProjects(): JSX.Element {
           </ModalFooter>
         </Form>
       </Modal>
-      {allProjects?.map((project) => (
-        <Col key={project.id}>
-          <OneProjInSeach project={project} />
-        </Col>
-      ))}
+      {allProjects
+        ?.filter((el) => el.userId === user?.id)
+        .map((project) => (
+          <Col key={project.id}>
+            <OneProjInSeach project={project} />
+          </Col>
+        ))}
     </Container>
   );
 }

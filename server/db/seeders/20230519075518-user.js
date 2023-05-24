@@ -20,7 +20,7 @@ module.exports = {
           education: "Бауманка, Арка",
           experience: "большой",
           aboutMe: "кек",
-          linkPortfolio: "ооооооо",
+          userPortfolio: "ооооооо",
           phone: "89260900674",
           linkTg: "https://t.me/bloody_maggie",
           linkInst:
@@ -41,7 +41,7 @@ module.exports = {
           education: "МИРЭА, Эльбрус",
           experience: "большой!!!",
           aboutMe: "классная актриска",
-          linkPortfolio: "смотрите инстик",
+          userPortfolio: "смотрите инстик",
           phone: "89264779489",
           linkTg: "https://t.me/liemelzz",
           linkInst: "https://instagram.com/nyanlena?igshid=NTc4MTIwNjQ2YQ==",

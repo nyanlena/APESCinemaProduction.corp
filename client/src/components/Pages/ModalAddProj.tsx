@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'react-bootstrap';
 
-export default function ModalAddProj(): JSX.Element {
+type PropsTypeModal = {
+  cancelHand: () => void;
+  showModalAdd: () => void;
+};
+
+export default function ModalAddProj({ cancelHand, showModalAdd }: PropsTypeModal): JSX.Element {
   return (
-    <>
-      <Button type="primary" onClick={showModal}>
-        Open Modal
-      </Button>
-      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </Modal>
-    </>
+    <Modal isOpen={showModalAdd} toggle={cancelHand}>
+      <ModalHeader>Редактирование проекта</ModalHeader>
+
+      <ModalBody>aaaaaaa</ModalBody>
+      <ModalFooter>
+        <Button color="info" onClick={cancelHand}>
+          Отмена
+        </Button>
+        <Button color="info" type="submit">
+          ОK
+        </Button>
+      </ModalFooter>
+    </Modal>
   );
 }

@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from './features/redux/store';
 import { checkUserThunk } from './features/redux/user/thunkActions';
 import PrivateRouter from './HOC/PrivateRouter';
 import Loader from './HOC/Loader';
+import SeachProjects from './components/Pages/SeachProjects';
 
 import { profileThunk } from './features/redux/profile/profileThunk';
 

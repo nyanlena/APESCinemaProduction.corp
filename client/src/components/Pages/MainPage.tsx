@@ -39,7 +39,13 @@ export default function MainPage(): JSX.Element {
         </motion.button>
       </article>
       <div>
-        <motion.img src={Img} alt="hero" custom={4} variants={textAnimation} />
+        <motion.img
+          src={Img}
+          alt="hero"
+          style={{ height: '500px' }}
+          custom={4}
+          variants={textAnimation}
+        />
       </div>
     </motion.section>
   );
