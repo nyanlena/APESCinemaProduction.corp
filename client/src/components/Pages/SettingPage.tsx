@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import {
   changeSettingProfileThunk,
-  imageProfileThunk,
   profileSettingThunk,
 } from '../../features/redux/profile/profileThunk';
 import type { BackendChangeProfileSettingType } from '../../types/profileActionType';
@@ -37,43 +36,23 @@ export default function SettingPage(): JSX.Element {
     categoryId: userSetting.categoryId,
     Category: userSetting.Category,
   });
-  console.log(inputProfileSetting.id, 'profile');
+
   useEffect(() => {
     setInputProfileSetting(userSetting);
   }, [userSetting]);
+
   const handleChangeProfile = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setInputProfileSetting((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+
   const handleSaveProfileSetting = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     dispatch(changeSettingProfileThunk(inputProfileSetting));
     setInputProfileSetting(inputProfileSetting);
-    alert('Изменения сохранены');
   };
-  // const [image, setImage] = useState('');
-  // async function ImageSettigProfile(url: any) {
-  //   const apiUrl = `http://localhost:3001/profile/setting`;
-  //   const uriParts = uri.split('.');
-  //   const fileType = uriParts[uriParts.length - 1];
-  // }
-  // const uriParts = uri.split('.');
-  // const formData = new FormData();
-  // formData.append('image', {
-  //   uri,
-  //   name: `image.${fileType}`,
-  //   type: `image/${fileType}`,
-  // });
-  // const options = {
-  //   method: 'POST',
-  //   body: formData,
-  //   headers: {
-  //     Accept: 'application/json',
-  //     'Content-Type': 'multipart/form-data',
-  //   },
-  // };
-  // dispatch(imageProfileThunk(apiUrl, options));}
+
   return (
     <div className="profile-settings">
       <h1 className="profile-settings__title">Настройки профиля</h1>
@@ -87,102 +66,13 @@ export default function SettingPage(): JSX.Element {
           margin: '10px 0',
         }}
       >
-        <Col md={2}>
-          {/* <div
-            className="profile-settings__photo-upload"
-            style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}
-          >
-            <div
-              className="profile-settings__photo-preview"
-              style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden' }}
-            >
-              {formData.profilePhoto ? (
-                <img
-                  src={URL.createObjectURL(formData.profilePhoto)}
-                  alt="Profile"
-                  style={{ transition: 'opacity 0.3s ease-in-out', opacity: '1' }}
-                />
-              ) : (
-                <div
-                  className="profile-settings__upload-icon"
-                  style={{
-                    textAlign: 'center',
-                    fontSize: '24px',
-                    lineHeight: '80px',
-                    transition: 'opacity 0.3s ease-in-out',
-                    opacity: '1',
-                  }}
-                >
-                  +
-                </div>
-              )}
-            </div>
-            <div className="profile-settings__upload-button" style={{ marginLeft: '10px' }}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoUpload}
-                className="profile-settings__input"
-              />
-              <Button variant="primary">Загрузить фото</Button>
-            </div>
-          </div> */}
-        </Col>
+        <Col md={2}></Col>
         <Col md={2} className="d-flex flex-column align-items-center">
           {/* ФОТОГРАФИЯ ПРОФИЛЯ */}
-          {/* <div className="profile-settings__photo-upload" style={{ marginBottom: '20px' }}>
-            <div
-              className="profile-settings__photo-preview"
-              style={{
-                width: '80px',
-                height: '80px',
-                borderRadius: '50%',
-                overflow: 'hidden',
-                marginBottom: '10px',
-                position: 'relative',
-              }}
-            >
-              {formData.profilePhoto ? (
-                <img
-                  src={URL.createObjectURL(formData.profilePhoto)}
-                  alt="Profile"
-                  style={{
-                    transition: 'opacity 0.3s ease-in-out',
-                    opacity: '1',
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                  }}
-                />
-              ) : (
-                <div
-                  className="profile-settings__upload-icon"
-                  style={{
-                    textAlign: 'center',
-                    fontSize: '24px',
-                    lineHeight: '80px',
-                    transition: 'opacity 0.3s ease-in-out',
-                    opacity: '1',
-                  }}
-                >
-                  +
-                </div>
-              )}
-            </div>
-            <div className="profile-settings__upload-button">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoUpload}
-                className="profile-settings__input"
-              />
-              <Button variant="primary">Загрузить фото</Button>
-            </div>
-          </div> */}
         </Col>
 
         <Col md={4}>
-          <Form className="profile-settings__form">
+          <Form className="profile-settings__form" encType="multipart/form-data">
             <Form.Group controlId="firstName">
               <Form.Label>Имя</Form.Label>
               <Form.Control
@@ -343,10 +233,10 @@ export default function SettingPage(): JSX.Element {
               className="mt-3 "
               style={{ display: 'flex', alignItems: 'center' }}
             >
-              <Button variant="outline-primary" onClick={handleSaveProfileSetting}>
+              <Button type="submit" variant="outline-primary" onClick={handleSaveProfileSetting}>
                 Сохранить
               </Button>
-              <Button variant="outline-primary">
+              <Button variant="outline-primary" onClick={(e) => e.preventDefault()}>
                 <Link to={`/profile/${userSetting.id}`}>Назад в профиль</Link>
               </Button>
             </ButtonGroup>

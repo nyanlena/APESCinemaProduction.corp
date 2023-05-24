@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import MainPage from './components/Pages/MainPage';
 import Navbar from './components/Ui/Navbar';
@@ -19,8 +19,10 @@ import { checkUserThunk } from './features/redux/user/thunkActions';
 import PrivateRouter from './HOC/PrivateRouter';
 import Loader from './HOC/Loader';
 import { profileThunk } from './features/redux/profile/profileThunk';
+import ImagePage from './components/Pages/ImagePage';
 
 function App(): JSX.Element {
+  const location = useLocation();
   const user = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
 
@@ -32,18 +34,23 @@ function App(): JSX.Element {
     <Container>
       <Loader>
         <>
-          <Navbar />
+          {!(
+            // location.pathname === '/' ||
+            (location.pathname === '/signup' || location.pathname === '/signup/role')
+          ) && <Navbar />}
+          {/* <Navbar /> */}
           <Routes>
             <Route path="/" element={<MainPage />} />
-            {/* <Route element={<PrivateRouter isAllowed={user.status === 'guest'} />}> */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            {/* </Route> */}
+            <Route element={<PrivateRouter isAllowed={user.status === 'guest'} />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+            </Route>
             <Route path="/signup/role" element={<ChooseRole />} />
 
             <Route element={<PrivateRouter isAllowed={user.status === 'logged'} />}>
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/profile/setting" element={<SettingPage />} />
+              <Route path="/profile/image" element={<ImagePage />} />
               <Route path="/search/profiles" element={<SearchProfiles />} />
               <Route path="/seach/projects" element={<SeachProjects />} />
               <Route path="/favorites" element={<Favorites />} />

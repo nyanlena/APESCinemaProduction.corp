@@ -23,7 +23,8 @@ import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { changeProfileThunk, profileThunk } from '../../features/redux/profile/profileThunk';
 import type { BackendChangeProfileType } from '../../types/profileActionType';
 
-function ProfilePage(): JSX.Element {
+
+export default function ProfilePage(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const oneUser = useAppSelector((store) => store.oneProfile.oneUser);
@@ -131,7 +132,7 @@ function ProfilePage(): JSX.Element {
           {/* Фото профиля */}
           <div style={{ position: 'relative' }}>
             <Image
-              src={oneUser.img !== null ? oneUser.img : '../../public/img/400.png'}
+              src={oneUser.img !== null ? oneUser.img :  '/img/400.png' }
               alt="Your Image"
               fluid
               onMouseEnter={handleMouseEnter}
@@ -160,7 +161,7 @@ function ProfilePage(): JSX.Element {
             <Modal show={showModal} onHide={handleToggleModal} centered>
               <Modal.Body>
                 <Image
-                  src={oneUser.img !== null ? oneUser.img : '../../public/img/800.png'}
+                  src={oneUser.img !== null ? oneUser.img : '/img/800.png'}
                   alt="Your Image"
                   fluid
                 />
@@ -228,7 +229,7 @@ function ProfilePage(): JSX.Element {
                   Избранные
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item href="#/action-3">Что-то по приколу</Dropdown.Item>
+                <Dropdown.Item href="http://localhost:5173/profile/image">Изменить фотографию профиля</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           )}
@@ -487,4 +488,4 @@ function ProfilePage(): JSX.Element {
   );
 }
 
-export default React.memo(ProfilePage);
+// export default React.memo(ProfilePage);

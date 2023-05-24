@@ -81,6 +81,7 @@ export default function SignUpPage(): JSX.Element {
               <TextField
                 required
                 fullWidth
+                type='email'
                 id="email"
                 label="Email Address"
                 name="email"
