@@ -87,7 +87,7 @@ export default function SettingPage(): JSX.Element {
           margin: '10px 0',
         }}
       >
-        <Col md={4}>
+        <Col md={2}>
           {/* <div
             className="profile-settings__photo-upload"
             style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}
@@ -128,7 +128,7 @@ export default function SettingPage(): JSX.Element {
             </div>
           </div> */}
         </Col>
-        <Col md={4} className="d-flex flex-column align-items-center">
+        <Col md={2} className="d-flex flex-column align-items-center">
           {/* ФОТОГРАФИЯ ПРОФИЛЯ */}
           {/* <div className="profile-settings__photo-upload" style={{ marginBottom: '20px' }}>
             <div
@@ -264,7 +264,7 @@ export default function SettingPage(): JSX.Element {
             </Form.Group>
           </Form>
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <Form className="profile-settings__form">
             <Form.Group controlId="email">
               <Form.Label>Почта</Form.Label>
