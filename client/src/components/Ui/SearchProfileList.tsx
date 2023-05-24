@@ -9,7 +9,7 @@ type FilteredProfileProps = {
   filteredProfiles: BackendUserType[];
 };
 
-export default function SearchProfileList({ filteredProfiles }: FilteredProfileProps): JSX.Element {
+function SearchProfileList({ filteredProfiles }: FilteredProfileProps): JSX.Element {
   const { profiles } = useAppSelector((store) => store.profiles);
 
   const dispatch = useAppDispatch();
@@ -26,3 +26,5 @@ export default function SearchProfileList({ filteredProfiles }: FilteredProfileP
     </Row>
   );
 }
+
+export default React.memo(SearchProfileList);

@@ -16,7 +16,7 @@ function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
 }
 
-const successLoginUrl = 'http://localhost:5173/api/auth/signup/role';
+const successLoginUrl = 'http://localhost:5173/signup/role';
 const errorLoginUrl = 'http://localhost:3001/api/v1/login/error';
 
 api.get('/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));

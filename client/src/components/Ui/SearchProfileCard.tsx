@@ -11,7 +11,7 @@ type ProfileCardProps = {
   delay?: number; // Delay before the card appears
 };
 
-export default function SearchProfileCard({ profile, delay = 0 }: ProfileCardProps): JSX.Element {
+function SearchProfileCard({ profile, delay = 0 }: ProfileCardProps): JSX.Element {
   const { categories } = useAppSelector((store) => store.categories);
   const categoryTitle = categories?.find((category) => category.id === profile.categoryId)?.title;
 
@@ -56,3 +56,5 @@ export default function SearchProfileCard({ profile, delay = 0 }: ProfileCardPro
     </Container>
   );
 }
+
+export default React.memo(SearchProfileCard);
