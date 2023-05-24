@@ -31,6 +31,8 @@ const FileStore = store(session);
 const sessionConfig = {
   name: "user_sid",
   secret: process.env.SESSION_SECRET ?? "test",
+  name: "user_sid",
+  secret: process.env.SESSION_SECRET ?? "test",
   resave: true,
   store: new FileStore(),
   saveUninitialized: false,
@@ -45,12 +47,17 @@ app.use(
     credentials: true,
     origin: true,
   })
+  })
 );
 
 app.use(session(sessionConfig));
 app.use(morgan("dev"));
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(pathMiddlewares);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('/images'));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(helmet());
@@ -64,7 +71,7 @@ app.use("/search", searchRouter);
 app.use("/projects", projectRouter);
 app.use("/favorites", favoriteRouter);
 app.use("/orders", orderRouter);
-// app.use("/api/v1", api);
+app.use("/api/v1", api);
 app.use("/api/auth/login/forget", nodemailerRouter);
 
 app.use((err, req, res, next) => {

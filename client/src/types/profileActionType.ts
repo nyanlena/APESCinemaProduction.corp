@@ -34,3 +34,8 @@ export type BackendChangeProfileSettingType = {
   categoryId?: number;
   Category?: { id: number; title: string };
 };
+ export type BackendChangeImageType = {
+  id: number;
+  img: string;
+};
+ 
