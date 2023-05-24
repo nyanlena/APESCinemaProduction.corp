@@ -1,10 +1,10 @@
 const express = require("express");
 const { Project, User, Category } = require("../db/models");
-const isAuth = require("../middlewares/isAuth");
+// const isAuth = require("../middlewares/isAuth");
 
 const projectRouter = express.Router();
 
-projectRouter.get("/:id", isAuth, async (req, res) => {
+projectRouter.get("/:id", async (req, res) => {
   try {
     const onepic = await Project.findAll({
       where: { id: req.params.id },

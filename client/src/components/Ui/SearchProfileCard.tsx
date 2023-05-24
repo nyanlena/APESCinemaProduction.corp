@@ -44,7 +44,7 @@ function SearchProfileCard({ profile, delay = 0 }: ProfileCardProps): JSX.Elemen
             />
             <div style={{ marginLeft: '100px' }}>
               <Meta
-                title={profile.lastName + ' ' + profile.firstName + ' ' + profile.patronymicname}
+                title={profile.lastName + ' ' + profile.firstName}
                 style={{ marginTop: '20px' }}
               />
               <Meta title={categoryTitle || 'No Category'} style={{ marginTop: '20px' }} />

@@ -15,12 +15,12 @@ const favoriteRouter = require("./routers/favoriteRouter");
 const orderRouter = require("./routers/orderRouter");
 const projectRouter = require("./routers/projectRouter");
 const nodemailerRouter = require("./routers/nodemailerRouter");
-const api = require("./routers/api");
+// const api = require("./routers/api");
 require("dotenv").config();
 
-require("./auth/google");
-require("./auth/passport");
-require("./db/models/user");
+// require("./auth/google");
+// require("./auth/passport");
+// require("./db/models/user");
 
 const app = express();
 // require('./google/auth');
@@ -64,7 +64,7 @@ app.use("/search", searchRouter);
 app.use("/projects", projectRouter);
 app.use("/favorites", favoriteRouter);
 app.use("/orders", orderRouter);
-app.use("/api/v1", api);
+// app.use("/api/v1", api);
 app.use("/api/auth/login/forget", nodemailerRouter);
 
 app.use((err, req, res, next) => {
