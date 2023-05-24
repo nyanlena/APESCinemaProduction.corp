@@ -52,7 +52,9 @@ function FavoriteCards({ profile }: favoriteProps): JSX.Element {
         <Card
           // hoverable
           style={{ width: 240, height: 400 }}
-          cover={
+        >
+          <Card.Body>
+            {' '}
             <a href={`profile/${profile.id}`}>
               <img
                 alt="example"
@@ -60,9 +62,6 @@ function FavoriteCards({ profile }: favoriteProps): JSX.Element {
                 style={{ width: 210, objectFit: 'contain', borderRadius: '5px' }}
               />
             </a>
-          }
-        >
-          <Card.Body>
             <Card.Title>{`${profile.lastName} ${profile.firstName} ${profile.patronymicname}`}</Card.Title>
             <Card.Text>{categoryTitle || 'No category'}</Card.Text>
             <Button variant="primary" onClick={openModal}>
