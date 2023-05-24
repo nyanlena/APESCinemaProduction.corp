@@ -10,17 +10,21 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../features/redux/store';
 import { loginThunk } from '../../features/redux/user/thunkActions';
 import type { LoginType } from '../../types';
 
 export default function Login(): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.currentTarget)) as LoginType;
 
     dispatch(loginThunk(data));
+    navigate('/');
   };
 
   const handleOpenEyeClick = () => {

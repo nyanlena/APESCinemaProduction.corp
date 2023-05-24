@@ -30,7 +30,7 @@ export const getFilteredProfilesThunk: ThunkActionCreater<string> =
 
 export const getCategoriesThunk: ThunkActionCreater = () => async (dispatch) => {
   try {
-    const response = await axios.get<CategoryTypes[]>('search/categories');
+    const response = await axios.get<CategoryTypes[]>('/search/categories');
     dispatch(setCategories(response.data));
   } catch (error) {
     console.log('Error:', error);

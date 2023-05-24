@@ -23,6 +23,51 @@ authRouter.post("/signup", async (req, res) => {
   return res.json(foundUser);
 });
 
+// authRouter.post("/signup/modal", async (req, res) => {
+//   const { firstName, lastName } = req.body;
+//   const userId = req.session?.user?.id;
+
+//   try {
+//     const existingUser = await User.findOne({ where: { id: userId } });
+//     console.log(req.body);
+//     if (existingUser) {
+//       return res.status(401).json({ message: "Email is already in use" });
+//     }
+//     const foundUser = await User.create({
+//       firstName,
+//       lastName,
+//     });
+
+//     return res.json(foundUser);
+//   } catch (error) {
+//     console.error("Error creating user:", error);
+//     return res.status(500).json({ message: "Error creating user" });
+//   }
+// });
+
+authRouter.post("/signup/modal", async (req, res) => {
+  const { firstName, lastName, categoryId } = req.body;
+
+  try {
+    const userId = req.session?.user?.id;
+    const foundUser = await User.findByPk(userId);
+
+    if (!foundUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    foundUser.firstName = firstName;
+    foundUser.lastName = lastName;
+    foundUser.categoryId = categoryId;
+    await foundUser.save();
+
+    return res.json(foundUser);
+  } catch (error) {
+    console.error("Error creating user:", error);
+    return res.status(500).json({ message: "Error creating user" });
+  }
+});
+
 authRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
@@ -53,7 +98,7 @@ authRouter.get("/check", async (req, res) => {
 
 authRouter.post("/signup/role", async (req, res) => {
   const { statusId } = req.body;
-  console.log(statusId);
+  console.log(statusId, "oooooooo");
   const userId = req.session.user.id; // Получаем ID пользователя из сессии
   try {
     // Находим пользователя по его ID
@@ -62,7 +107,10 @@ authRouter.post("/signup/role", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    // if (user) {
+    //   const user = await User.findOne(where: { userId, statusId },);
+    //   const
+    // }
     // Устанавливаем выбранную роль пользователю
     user.statusId = statusId;
     await user.save();
