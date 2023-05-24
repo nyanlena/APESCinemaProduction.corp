@@ -47,6 +47,10 @@ export default function SignUpPage(): JSX.Element {
     }
   };
 
+  const forgetHandler = () => {
+    navigate('/login/forget');
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -107,6 +111,16 @@ export default function SignUpPage(): JSX.Element {
                 У вас уже есть учетная запись? Войти на сайт
               </Link>
             </Grid>
+            <Grid item>
+              <Button type="button" onClick={forgetHandler}>
+                Забыли пароль?
+              </Button>
+            </Grid>
+            <a href="http://localhost:3001/api/v1/login/google">
+              <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                Войти через Google
+              </Button>
+            </a>
           </Grid>
         </Box>
       </Box>

@@ -18,6 +18,9 @@ import { useAppDispatch, useAppSelector } from './features/redux/store';
 import { checkUserThunk } from './features/redux/user/thunkActions';
 import PrivateRouter from './HOC/PrivateRouter';
 import Loader from './HOC/Loader';
+import SeachProjects from './components/Pages/SeachProjects';
+
+import { profileThunk } from './features/redux/profile/profileThunk';
 
 function App(): JSX.Element {
   const user = useAppSelector((store) => store.user);
@@ -26,6 +29,7 @@ function App(): JSX.Element {
   useEffect(() => {
     dispatch(checkUserThunk());
   }, []);
+
   return (
     <Container>
       <Loader>
@@ -42,8 +46,10 @@ function App(): JSX.Element {
             <Route element={<PrivateRouter isAllowed={user.status === 'logged'} />}>
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/profile/setting" element={<SettingPage />} />
-              <Route path="/seach/profiles" element={<SearchProfiles />} />
-              <Route path="/search/projects" element={<SearchProjects />} />
+              <Route path="/search/profiles" element={<SearchProfiles />} />
+
+              <Route path="/seach/projects" element={<SeachProjects />} />
+
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/projects/:id" element={<Project />} />
               <Route path="/orders" element={<Orders />} />

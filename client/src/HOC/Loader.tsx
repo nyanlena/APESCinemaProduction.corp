@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Spinner } from 'reactstrap';
+
 import { useAppSelector } from '../features/redux/store';
 
 type LoaderType = {

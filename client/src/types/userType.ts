@@ -22,7 +22,9 @@ export type BackendUserType = {
 };
 
 export type LoggedUserType = {
+  id: number;
   status: 'logged';
+  statusId: number;
 } & BackendUserType;
 
 export type GuestUserType = {

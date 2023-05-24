@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { BackendUserType, CategoryTypes } from '../../../types';
-import { setProfiles, setCategories } from './searchProfileSlice';
-import { RootState, ThunkActionCreater } from '../store';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import type { BackendUserType, CategoryTypes } from '../../../types';
+import { setProfiles, setCategories } from './searchProfileSlice';
+import type { ThunkActionCreater } from '../store';
+import { RootState } from '../store';
 
 export const getProfilesThunk: ThunkActionCreater = () => (dispatch) => {
   axios.get<BackendUserType[]>('search/profiles').then(({ data }) => dispatch(setProfiles(data)));

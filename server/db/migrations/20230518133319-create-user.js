@@ -83,6 +83,19 @@ module.exports = {
         },
         onDelete: "SET NULL",
       },
+      statusId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Statuses",
+          key: "id",
+        },
+        onDelete: "SET NULL",
+      },
+      googleId: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        onDelete: "SET NULL",
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

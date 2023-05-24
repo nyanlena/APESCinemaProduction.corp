@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col, ButtonGroup, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import {
   changeSettingProfileThunk,
+  imageProfileThunk,
   profileSettingThunk,
 } from '../../features/redux/profile/profileThunk';
 import type { BackendChangeProfileSettingType } from '../../types/profileActionType';
 
 export default function SettingPage(): JSX.Element {
-  const userSetting = useAppSelector((state) => state.oneProfile);
+  const userSetting = useAppSelector((state) => state.oneProfile.oneUser);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -16,50 +18,29 @@ export default function SettingPage(): JSX.Element {
   }, []);
 
   const [inputProfileSetting, setInputProfileSetting] = useState<BackendChangeProfileSettingType>({
-    id: userSetting.oneUser.id,
-    email: userSetting.oneUser.email,
-    firstName: userSetting.oneUser.firstName,
-    lastName: userSetting.oneUser.lastName,
-    patronymicname: userSetting.oneUser.patronymicname,
-    city: userSetting.oneUser.city,
-    age: userSetting.oneUser.age,
-    img: userSetting.oneUser.img,
-    education: userSetting.oneUser.education,
-    experience: userSetting.oneUser.experience,
-    aboutMe: userSetting.oneUser.aboutMe,
-    userPortfolio: userSetting.oneUser.userPortfolio,
-    phone: userSetting.oneUser.phone,
-    linkTg: userSetting.oneUser.linkTg,
-    linkInst: userSetting.oneUser.linkInst,
-    linkWA: userSetting.oneUser.linkWA,
-    categoryId: userSetting.oneUser.categoryId,
-    Category: userSetting.oneUser.Category,
+    id: userSetting.id,
+    email: userSetting.email,
+    firstName: userSetting.firstName,
+    lastName: userSetting.lastName,
+    patronymicname: userSetting.patronymicname,
+    city: userSetting.city,
+    age: userSetting.age,
+    img: userSetting.img,
+    education: userSetting.education,
+    experience: userSetting.experience,
+    aboutMe: userSetting.aboutMe,
+    userPortfolio: userSetting.userPortfolio,
+    phone: userSetting.phone,
+    linkTg: userSetting.linkTg,
+    linkInst: userSetting.linkInst,
+    linkWA: userSetting.linkWA,
+    categoryId: userSetting.categoryId,
+    Category: userSetting.Category,
   });
-  console.log(inputProfileSetting);
-
+  console.log(inputProfileSetting.id, 'profile');
   useEffect(() => {
-    setInputProfileSetting(inputProfileSetting);
-  }, [
-    userSetting.oneUser.id,
-    userSetting.oneUser.email,
-    userSetting.oneUser.firstName,
-    userSetting.oneUser.lastName,
-    userSetting.oneUser.patronymicname,
-    userSetting.oneUser.city,
-    userSetting.oneUser.age,
-    userSetting.oneUser.img,
-    userSetting.oneUser.education,
-    userSetting.oneUser.experience,
-    userSetting.oneUser.aboutMe,
-    userSetting.oneUser.userPortfolio,
-    userSetting.oneUser.phone,
-    userSetting.oneUser.linkTg,
-    userSetting.oneUser.linkInst,
-    userSetting.oneUser.linkWA,
-    userSetting.oneUser.categoryId,
-    userSetting.oneUser.Category,
-  ]);
-
+    setInputProfileSetting(userSetting);
+  }, [userSetting]);
   const handleChangeProfile = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setInputProfileSetting((prev) => ({
       ...prev,
@@ -69,24 +50,71 @@ export default function SettingPage(): JSX.Element {
     e.preventDefault();
     dispatch(changeSettingProfileThunk(inputProfileSetting));
     setInputProfileSetting(inputProfileSetting);
+    alert('Изменения сохранены');
   };
-  console.log(inputProfileSetting.age,'gfgfvgbefhjglmfmkfjnbhdgvsc ');
-  
+  // const [image, setImage] = useState('');
+  // async function ImageSettigProfile(url: any) {
+  //   const apiUrl = `http://localhost:3001/profile/setting`;
+  //   const uriParts = uri.split('.');
+  //   const fileType = uriParts[uriParts.length - 1];
+  // }
+  // const uriParts = uri.split('.');
+  // const formData = new FormData();
+  // formData.append('image', {
+  //   uri,
+  //   name: `image.${fileType}`,
+  //   type: `image/${fileType}`,
+  // });
+  // const options = {
+  //   method: 'POST',
+  //   body: formData,
+  //   headers: {
+  //     Accept: 'application/json',
+  //     'Content-Type': 'multipart/form-data',
+  //   },
+  // };
+  // dispatch(imageProfileThunk(apiUrl, options));}
   return (
     <div className="profile-settings">
       <h1 className="profile-settings__title">Настройки профиля</h1>
 
       <Row
         className="profile-settings__border"
-        style={{ border: '1px solid #ccc', padding: '20px' }}
+        style={{
+          border: '1px solid #ccc',
+          padding: '10px',
+          borderRadius: '10px',
+          margin: '10px 0',
+        }}
       >
-        {/* <Col md={4}>
-          <div className="profile-settings__photo-upload" style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-            <div className="profile-settings__photo-preview" style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden' }}>
+        <Col md={4}>
+          {/* <div
+            className="profile-settings__photo-upload"
+            style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}
+          >
+            <div
+              className="profile-settings__photo-preview"
+              style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden' }}
+            >
               {formData.profilePhoto ? (
-                <img src={URL.createObjectURL(formData.profilePhoto)} alt="Profile" style={{ transition: 'opacity 0.3s ease-in-out', opacity: '1' }} />
+                <img
+                  src={URL.createObjectURL(formData.profilePhoto)}
+                  alt="Profile"
+                  style={{ transition: 'opacity 0.3s ease-in-out', opacity: '1' }}
+                />
               ) : (
-                <div className="profile-settings__upload-icon" style={{ textAlign: 'center', fontSize: '24px', lineHeight: '80px', transition: 'opacity 0.3s ease-in-out', opacity: '1' }}>+</div>
+                <div
+                  className="profile-settings__upload-icon"
+                  style={{
+                    textAlign: 'center',
+                    fontSize: '24px',
+                    lineHeight: '80px',
+                    transition: 'opacity 0.3s ease-in-out',
+                    opacity: '1',
+                  }}
+                >
+                  +
+                </div>
               )}
             </div>
             <div className="profile-settings__upload-button" style={{ marginLeft: '10px' }}>
@@ -98,8 +126,8 @@ export default function SettingPage(): JSX.Element {
               />
               <Button variant="primary">Загрузить фото</Button>
             </div>
-          </div>
-        </Col> */}
+          </div> */}
+        </Col>
         <Col md={4} className="d-flex flex-column align-items-center">
           {/* ФОТОГРАФИЯ ПРОФИЛЯ */}
           {/* <div className="profile-settings__photo-upload" style={{ marginBottom: '20px' }}>
@@ -166,7 +194,7 @@ export default function SettingPage(): JSX.Element {
                 placeholder={
                   inputProfileSetting.firstName
                     ? ` ${inputProfileSetting.firstName}`
-                    : 'Введите Ваше имя'
+                    : 'Укажите Ваше имя'
                 }
                 className="profile-settings__input"
               />
@@ -183,12 +211,26 @@ export default function SettingPage(): JSX.Element {
                 placeholder={
                   inputProfileSetting.lastName
                     ? ` ${inputProfileSetting.lastName}`
-                    : 'Введите Вашу фамилию'
+                    : 'Укажите Вашу фамилию'
                 }
                 className="profile-settings__input"
               />
             </Form.Group>
-
+            <Form.Group controlId="telegram">
+              <Form.Label>Отчество</Form.Label>
+              <Form.Control
+                type="text"
+                name="patronymicname"
+                value={inputProfileSetting.patronymicname}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.patronymicname
+                    ? ` ${inputProfileSetting.patronymicname}`
+                    : 'Укажите Ваше отчество'
+                }
+                className="profile-settings__input"
+              />
+            </Form.Group>
             <Form.Group controlId="age">
               <Form.Label>Возраст</Form.Label>
               <Form.Control
@@ -220,6 +262,67 @@ export default function SettingPage(): JSX.Element {
                 className="profile-settings__input"
               />
             </Form.Group>
+          </Form>
+        </Col>
+        <Col md={4}>
+          <Form className="profile-settings__form">
+            <Form.Group controlId="email">
+              <Form.Label>Почта</Form.Label>
+              <Form.Control
+                disabled
+                type="email"
+                name="email"
+                value={inputProfileSetting.email}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.email ? ` ${inputProfileSetting.email}` : 'your@email.com'
+                }
+                className="profile-settings__input"
+              />
+            </Form.Group>
+
+            <Form.Group controlId="phone">
+              <Form.Label>Телефон</Form.Label>
+              <Form.Control
+                type="tel"
+                name="phone"
+                required
+                value={inputProfileSetting.phone}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.phone ? ` ${inputProfileSetting.phone}` : '+79876543210'
+                }
+                className="profile-settings__input"
+              />
+            </Form.Group>
+
+            <Form.Group controlId="instagram">
+              <Form.Label>Instagram</Form.Label>
+              <Form.Control
+                type="text"
+                name="linkInst"
+                value={inputProfileSetting.linkInst}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.linkInst ? ` ${inputProfileSetting.linkInst}` : '@instagram'
+                }
+                className="profile-settings__input"
+              />
+            </Form.Group>
+
+            <Form.Group controlId="telegram">
+              <Form.Label>Telegram</Form.Label>
+              <Form.Control
+                type="text"
+                name="linkTg"
+                value={inputProfileSetting.linkTg}
+                onChange={handleChangeProfile}
+                placeholder={
+                  inputProfileSetting.linkTg ? ` ${inputProfileSetting.linkTg}` : '@telegram'
+                }
+                className="profile-settings__input"
+              />
+            </Form.Group>
             <Form.Group controlId="telegram">
               <Form.Label>WhatsApp</Form.Label>
               <Form.Control
@@ -235,78 +338,18 @@ export default function SettingPage(): JSX.Element {
                 className="profile-settings__input"
               />
             </Form.Group>
-          </Form>
-        </Col>
-        <Col md={4}>
-          <Form className="profile-settings__form">
-            <Form.Group controlId="email">
-              <Form.Label>Почта</Form.Label>
-              <Form.Control
-                required
-                type="email"
-                name="email"
-                value={inputProfileSetting.email}
-                onChange={handleChangeProfile}
-                placeholder={
-                  inputProfileSetting.email ? ` ${inputProfileSetting.email}` : 'Укажите Вашу почту'
-                }
-                className="profile-settings__input"
-              />
-            </Form.Group>
-
-            <Form.Group controlId="phone">
-              <Form.Label>Телефон</Form.Label>
-              <Form.Control
-                type="tel"
-                name="phone"
-                required
-                value={inputProfileSetting.phone}
-                onChange={handleChangeProfile}
-                placeholder={
-                  inputProfileSetting.phone
-                    ? ` ${inputProfileSetting.phone}`
-                    : 'Укажите Ваш номер телефона'
-                }
-                className="profile-settings__input"
-              />
-            </Form.Group>
-
-            <Form.Group controlId="instagram">
-              <Form.Label>Instagram</Form.Label>
-              <Form.Control
-                type="text"
-                name="instagram"
-                value={inputProfileSetting.linkInst}
-                onChange={handleChangeProfile}
-                placeholder={
-                  inputProfileSetting.linkInst ? ` ${inputProfileSetting.linkInst}` : 'Введите имя'
-                }
-                className="profile-settings__input"
-              />
-            </Form.Group>
-
-            <Form.Group controlId="telegram">
-              <Form.Label>Telegram</Form.Label>
-              <Form.Control
-                type="text"
-                name="telegram"
-                value={inputProfileSetting.linkTg}
-                onChange={handleChangeProfile}
-                placeholder={
-                  inputProfileSetting.linkTg ? ` ${inputProfileSetting.linkTg}` : 'Введите имя'
-                }
-                className="profile-settings__input"
-              />
-            </Form.Group>
-
-            <Button
-              variant="primary"
-              onClick={handleSaveProfileSetting}
-              className="profile-settings__save-button"
-              style={{ marginTop: '20px' }}
+            <ButtonGroup
+              aria-label="Basic example"
+              className="mt-3 "
+              style={{ display: 'flex', alignItems: 'center' }}
             >
-              Сохранить
-            </Button>
+              <Button variant="outline-primary" onClick={handleSaveProfileSetting}>
+                Сохранить
+              </Button>
+              <Button variant="outline-primary">
+                <Link to={`/profile/${userSetting.id}`}>Назад в профиль</Link>
+              </Button>
+            </ButtonGroup>
           </Form>
         </Col>
       </Row>
