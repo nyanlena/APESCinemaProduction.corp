@@ -9,7 +9,7 @@ type favoriteProps = {
   profile: BackendUserType;
 };
 
-export default function FavoriteCards({ profile }: favoriteProps): JSX.Element {
+function FavoriteCards({ profile }: favoriteProps): JSX.Element {
   const { categories } = useAppSelector((store) => store.categories);
 
   const categoryTitle = categories?.find((category) => category.id === profile.categoryId)?.title;
@@ -37,3 +37,5 @@ export default function FavoriteCards({ profile }: favoriteProps): JSX.Element {
     </Col>
   );
 }
+
+export default React.memo(FavoriteCards);

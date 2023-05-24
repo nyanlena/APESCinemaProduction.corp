@@ -3,65 +3,44 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const { User } = require('../db/models');
 
-require('dotenv').config();
+const GOOGLE_CALLBACK_URL = 'http://localhost:3001/api/v1/auth/google/callback';
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3001/auth/google/callback',
+      callbackURL: GOOGLE_CALLBACK_URL,
       passReqToCallback: true,
+      scope: ['profile', 'email'],
     },
-    function (request, accessToken, refreshToken, profile, done) {
-      // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      //   return done(err, user);
-      // });
-      done(null, profile);
+    async (request, accessToken, refreshToken, profile, cb) => {
+      const defaultUser = {
+        email: profile.emails[0].value,
+        googleId: profile.id,
+      };
+      const user = await User.findOrCreate({
+        where: { googleId: profile.id },
+        defaults: defaultUser,
+      }).catch((err) => {
+        console.log('Signup error with Google!!!: ', err);
+        cb(err, null);
+      });
+      if (user && user[0]) return cb(null, user && user[0]);
     },
   ),
 );
 
-passport.serializeUser((user, done) => {
-  done(null, user);
+passport.serializeUser((user, cb) => {
+  console.log('Serializing user: ', user);
+  cb(null, user.id);
 });
 
-passport.deserializeUser((user, done) => {
-  done(null, user);
-});
-
-app.use(
-  session({
-    secret: 'key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  }),
-);
-
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
-
-app.get(
-  '/auth/google',
-  passport.authenticate('google', {
-    score: ['email', 'profile'],
-  }),
-);
-
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', {
-    successRedirect: '/auth/protected',
-    failureRedirect: '/auth/google/failure',
-  }),
-);
-
-app.get('/auth/protected', isLoggedIn, (req, res) => {
-  let name = req.user.displayName;
-  res.send(`Hello ${name}`);
-});
-
-app.get('/auth/google/failure', (req, res) => {
-  res.send('Something went wrong!');
+passport.deserializeUser(async (id, cb) => {
+  const user = await User.findOne({ where: { id } }).catch((err) => {
+    console.log('Error deserializing: ', err);
+    cb(err, null);
+  });
+  console.log('DeSerialized user: ', user);
+  if (user) cb(null, user);
 });

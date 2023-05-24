@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { FavoriteTypes } from '../../../types';
 import { RootState, ThunkActionCreater } from '../store';
-import { setFavorites } from './favoriteSlice';
+import { addFavorite, removeFavorite, setFavorites } from './favoriteSlice';
 
 export const getFavoriteProfileThunk: ThunkActionCreater = () => async (dispatch) => {
   try {
@@ -12,20 +12,23 @@ export const getFavoriteProfileThunk: ThunkActionCreater = () => async (dispatch
   }
 };
 
-export const addFavoriteProfileThunk: ThunkActionCreater = (receiverId) => async (dispatch) => {
+export const addFavoriteProfileThunk: ThunkActionCreater = (toId: number) => async (dispatch) => {
   try {
-    const { data } = await axios.post<FavoriteTypes[]>('favorites');
-    dispatch(setFavorites(data));
+    const { data } = await axios.post<FavoriteTypes>('favorites', { toId });
+    dispatch(addFavorite(data));
   } catch (error) {
     console.error('Error: ', error);
   }
 };
 
-export const deleteFavoriteProfileThunk: ThunkActionCreater = (receiverId) => async (dispatch) => {
-  try {
-    await axios.delete('favorites/remove', { data: { receiverId } });
-    dispatch(getFavoriteProfileThunk());
-  } catch (error) {
-    console.error('Failed to delete favorite:', error);
-  }
-};
+export const deleteFavoriteProfileThunk: ThunkActionCreater<number> =
+  (toId) => async (dispatch) => {
+    try {
+      const response = await axios.delete(`favorites/remove/${toId}`);
+      if (response.status === 200) {
+        dispatch(removeFavorite(toId));
+      }
+    } catch (error) {
+      console.error('Failed to delete favorite:', error);
+    }
+  };
