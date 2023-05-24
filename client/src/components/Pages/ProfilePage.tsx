@@ -22,12 +22,22 @@ import { ProgressBar } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { changeProfileThunk, profileThunk } from '../../features/redux/profile/profileThunk';
 import type { BackendChangeProfileType } from '../../types/profileActionType';
+import { Favorite } from '@mui/icons-material';
+import {
+  addFavoriteProfileThunk,
+  deleteFavoriteProfileThunk,
+} from '../../features/redux/favorite/favoriteThunk';
 
 function ProfilePage(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const oneUser = useAppSelector((store) => store.oneProfile.oneUser);
   const user = useAppSelector((store) => store.user as BackendChangeProfileType);
+
+  //favorites
+  const { favorites } = useAppSelector((store) => store.favorites);
+  const isLiked = favorites.some((favorite) => favorite.toId === Number(id));
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     dispatch(profileThunk(Number(id)));
@@ -124,6 +134,19 @@ function ProfilePage(): JSX.Element {
   };
   /// /////////////////////////////////////////////////////////////
   console.log(inputProfile);
+
+  // favorite
+
+  // Обработчик нажатия кнопки
+
+  const handleClick = () => {
+    if (isLiked) {
+      dispatch(deleteFavoriteProfileThunk(Number(id)));
+    } else {
+      dispatch(addFavoriteProfileThunk(oneUser.id));
+    }
+  };
+
   return (
     <>
       <Row className="mt-3 p-2">
@@ -231,14 +254,17 @@ function ProfilePage(): JSX.Element {
               </Dropdown.Menu>
             </Dropdown>
           )}
+
+          {/* favorite button */}
           {Number(id) !== (user.status === 'logged' ? user.id : 'Ошибка') && (
             <Button
+              onClick={handleClick}
               variant="outline-secondary"
               style={{
                 border: 'none',
               }}
             >
-              <FcLike style={{ fontSize: '35px' }} />
+              <FcLike style={{ fontSize: '35px', color: liked ? 'red' : 'black' }} />
             </Button>
           )}
         </Col>

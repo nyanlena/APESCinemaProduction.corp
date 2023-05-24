@@ -4,7 +4,7 @@ import React from 'react';
 export default function Footer(): JSX.Element {
   const { Footer } = Layout;
   return (
-    <Layout>
+    <Layout className="mt-3">
       <Footer style={{ textAlign: 'center' }}>
         APES ©2023 Created by APES Cinema Production Corp
       </Footer>

@@ -14,7 +14,7 @@ type CategoryProps = {
   setFilteredProfiles: () => void;
 };
 
-export default function SearchProfileForm({
+function SearchProfileForm({
   selectedCategory,
   setSelectedCategory,
   setFilteredProfiles,
@@ -83,3 +83,5 @@ export default function SearchProfileForm({
     </Container>
   );
 }
+
+export default React.memo(SearchProfileForm);

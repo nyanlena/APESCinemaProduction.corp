@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import Img from '/work.jpg';
+// import Img from '/work.png';
 
 const textAnimation = {
   hidden: {
@@ -38,15 +38,7 @@ export default function MainPage(): JSX.Element {
           Начать
         </motion.button>
       </article>
-      <div>
-        <motion.img
-          src={Img}
-          alt="hero"
-          style={{ height: '500px' }}
-          custom={4}
-          variants={textAnimation}
-        />
-      </div>
+      <div>{/* <motion.img src={Img} alt="hero" custom={4} variants={textAnimation} /> */}</div>
     </motion.section>
   );
 }
