@@ -47,7 +47,6 @@ app.use(
     credentials: true,
     origin: true,
   })
-  })
 );
 
 app.use(session(sessionConfig));
@@ -71,7 +70,7 @@ app.use("/search", searchRouter);
 app.use("/projects", projectRouter);
 app.use("/favorites", favoriteRouter);
 app.use("/orders", orderRouter);
-app.use("/api/v1", api);
+// app.use("/api/v1", api);
 app.use("/api/auth/login/forget", nodemailerRouter);
 
 app.use((err, req, res, next) => {
