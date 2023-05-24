@@ -1,5 +1,5 @@
-const express = require('express');
-const passport = require('passport');
+const express = require("express");
+const passport = require("passport");
 
 const api = express.Router();
 
@@ -12,26 +12,29 @@ const api = express.Router();
 //   }),
 // );
 
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
+// function isLoggedIn(req, res, next) {
+//   req.user ? next() : res.sendStatus(401);
+// }
 
-const successLoginUrl = 'http://localhost:5173/signup/role';
-const errorLoginUrl = 'http://localhost:3001/api/v1/login/error';
-
-api.get('/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+const successLoginUrl = "http://localhost:5173/signup/role";
+const errorLoginUrl = "http://localhost:3001/api/v1/login/error";
 
 api.get(
-  '/auth/google/callback',
-  passport.authenticate('google', {
-    failureMessage: 'Cannot login to Google, please try again later!',
+  "/login/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+api.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureMessage: "Cannot login to Google, please try again later!",
     failureRedirect: errorLoginUrl,
     successRedirect: successLoginUrl,
   }),
   (req, res) => {
-    console.log('User: ', req.user);
-    res.send('Thank you for signing in!');
-  },
+    console.log("User: ", req.user);
+    res.send("Thank you for signing in!");
+  }
 );
 
 // api.get('/auth/protected', isLoggedIn, (req, res) => {
@@ -39,8 +42,8 @@ api.get(
 //   res.send(`Hello ${name}`);
 // });
 
-api.get('/login/error', (req, res) => {
-  res.send('Something went wrong!');
+api.get("/login/error", (req, res) => {
+  res.send("Something went wrong!");
 });
 
 module.exports = api;
