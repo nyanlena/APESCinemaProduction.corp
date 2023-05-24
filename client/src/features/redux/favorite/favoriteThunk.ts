@@ -12,6 +12,14 @@ export const getFavoriteProfileThunk: ThunkActionCreater = () => async (dispatch
   }
 };
 
+export const sendMessageThunk: ThunkActionCreater<FavoriteTypes> = () => (dispatch) => {
+  try {
+    axios.post<FavoriteTypes>('favorites/send');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const addFavoriteProfileThunk: ThunkActionCreater = (toId: number) => async (dispatch) => {
   try {
     const { data } = await axios.post<FavoriteTypes>('favorites', { toId });

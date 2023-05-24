@@ -60,4 +60,22 @@ favoriteRouter.delete('/remove/:id', async (req, res) => {
   }
 });
 
+favoriteRouter.post('/send', async (req, res) => {
+  try {
+    const message = {
+      to: req.body.email,
+      subject: 'Заявка на участие в проекте',
+      html: `
+      <h2>Здравствуйте! Хотели бы вы поучаствовать в нашем проекте?</h2>
+
+      <p>Пожалуйста, свяжитесь с нами по эти контактам.</p>
+      `,
+    };
+    mailer(message);
+  } catch (e) {
+    console.log('Send message error: ', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = favoriteRouter;
