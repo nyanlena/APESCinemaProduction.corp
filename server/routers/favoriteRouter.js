@@ -1,5 +1,6 @@
 const express = require('express');
 const { User, Favorite } = require('../db/models');
+const mailer = require('../mailer/mailer');
 
 const favoriteRouter = express.Router();
 
@@ -62,19 +63,39 @@ favoriteRouter.delete('/remove/:id', async (req, res) => {
 
 favoriteRouter.post('/send', async (req, res) => {
   try {
+    const { email, contactInfo } = req.body;
     const message = {
-      to: req.body.email,
+      to: email,
       subject: 'Заявка на участие в проекте',
       html: `
-      <h2>Здравствуйте! Хотели бы вы поучаствовать в нашем проекте?</h2>
-
-      <p>Пожалуйста, свяжитесь с нами по эти контактам.</p>
+        <h2>Здравствуйте! Хотели бы вы поучаствовать в нашем проекте?</h2>
+        <p>Контактные данные: ${contactInfo}</p>
       `,
     };
+
     mailer(message);
-  } catch (e) {
-    console.log('Send message error: ', error);
-    res.status(500).json({ error: 'Internal server error' });
+
+    res.json({ message: 'Сообщение успешно отправлено' });
+  } catch (error) {
+    console.error('Ошибка при отправке сообщения', error);
+    res.status(500).json({ error: 'Ошибка при отправке сообщения' });
+  }
+});
+
+favoriteRouter.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const favorite = await Favorite.findByPk(id);
+    if (!favorite) {
+      return res.status(404).json({ error: 'Избранный профиль не найден' });
+    }
+    favorite.status = status;
+    await favorite.save();
+    res.json({ message: 'Статус успешно обновлен' });
+  } catch (error) {
+    console.error('Ошибка при обновлении статуса', error);
+    res.status(500).json({ error: 'Ошибка при обновлении статуса' });
   }
 });
 

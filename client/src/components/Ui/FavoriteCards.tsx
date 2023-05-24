@@ -1,38 +1,56 @@
-import React from 'react';
-import { Card } from 'antd';
-import Meta from 'antd/es/card/Meta';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Card, Button, Col, Container, Modal } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../features/redux/store';
-import { Button, Col, Container } from 'react-bootstrap';
 import { BackendUserType } from '../../types';
 import { Box } from '@mui/material';
-import { sendMessageThunk } from '../../features/redux/favorite/favoriteThunk';
 
 type favoriteProps = {
   profile: BackendUserType;
 };
 
 function FavoriteCards({ profile }: favoriteProps): JSX.Element {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [contactInfo, setContactInfo] = useState('');
   const dispatch = useAppDispatch();
   const { categories } = useAppSelector((store) => store.categories);
 
   const categoryTitle = categories?.find((category) => category.id === profile.categoryId)?.title;
 
-  const sendMessageHandler = () => {
+  const openModal = () => {
+    setContactInfo('');
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleContactInfoChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContactInfo(event.target.value);
+  };
+
+  const handleSendMessage = () => {
     try {
-      dispatch(sendMessageThunk()).then(() => {
-        alert('Вы отправили заявку, дождитесь ответа');
+      axios.post('favorites/send', { email: profile.email, contactInfo }).then((response) => {
+        console.log('Сообщение успешно отправлено', response);
+        axios.put(`favorites/${profile.id}`, { status: true }).then((updateResponse) => {
+          console.log('Статус успешно обновлен', updateResponse);
+        });
+        closeModal();
+        alert('Сообщение успешно отправлено');
       });
-    } catch (e) {
-      console.log(e);
-      alert('Ошибка при отправке заявки');
+    } catch (error) {
+      console.error('Ошибка при отправке сообщения', error);
+      alert('Ошибка при отправке сообщения');
     }
   };
 
   return (
     <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
-      <Box component="form" onSubmit={sendMessageHandler}>
+      <Box component="form">
         <Card
-          hoverable
+          // hoverable
           style={{ width: 240, height: 400 }}
           cover={
             <a href={`profile/${profile.id}`}>
@@ -44,13 +62,36 @@ function FavoriteCards({ profile }: favoriteProps): JSX.Element {
             </a>
           }
         >
-          <Meta
-            title={`${profile.lastName} ${profile.firstName} ${profile.patronymicname}`}
-            description={categoryTitle || 'No category'}
-          />
-          <Button type="submit">Отправить заявку</Button>
+          <Card.Body>
+            <Card.Title>{`${profile.lastName} ${profile.firstName} ${profile.patronymicname}`}</Card.Title>
+            <Card.Text>{categoryTitle || 'No category'}</Card.Text>
+            <Button variant="primary" onClick={openModal}>
+              Отправить заявку
+            </Button>
+          </Card.Body>
         </Card>
       </Box>
+      <Modal show={modalVisible} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Отправить сообщение</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <textarea
+            value={contactInfo}
+            onChange={handleContactInfoChange}
+            placeholder="Введите контактные данные"
+            style={{ width: '100%', height: '150px' }}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>
+            Отмена
+          </Button>
+          <Button variant="primary" onClick={handleSendMessage}>
+            Отправить
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Col>
   );
 }
