@@ -35,17 +35,18 @@ export const addPostThunk: ThunkActionCreater<FormAddProjectType> = (input) => a
   }
 };
 
-export const updateProjThunk: ThunkActionCreater<FormAddProjectType> =
-  (input) => async (dispatch) => {
-    const response = await axios.patch<FormAddProjectType>(`/projects/${input.id}`, {
-      name: input.name,
-      genre: input.genre,
-      address: input.address,
-    });
-    if (response.status === 200) {
-      dispatch(updatePostProject(response.data));
-    }
-  };
+export const updateProjThunk: ThunkActionCreater<ProjectTypes> = (input) => async (dispatch) => {
+  const response = await axios.patch<ProjectTypes>(`/projects/${input.id}`, {
+    name: input.name,
+    genre: input.genre,
+    address: input.address,
+    startDate: input.startDate,
+    endDate: input.endDate,
+  });
+  if (response.status === 200) {
+    dispatch(updatePostProject(response.data));
+  }
+};
 
 export const deletePhotoThunk: ThunkActionCreater<number> = (postid) => async (dispatch) => {
   const response = await axios.delete(`/seach/projects/${postid}`);

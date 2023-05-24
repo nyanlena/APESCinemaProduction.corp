@@ -11,11 +11,11 @@ module.exports = {
       },
       startDate: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn("null"),
       },
       endDate: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn("null"),
       },
       address: {
         type: Sequelize.STRING,
@@ -36,11 +36,11 @@ module.exports = {
       },
       x: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn("null"),
       },
       y: {
         type: Sequelize.STRING,
-        defaultValue: Sequelize.fn("now"),
+        defaultValue: Sequelize.fn("null"),
       },
       createdAt: {
         allowNull: false,
