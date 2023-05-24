@@ -21,6 +21,7 @@ searchRouter.get("/profiles", async (req, res) => {
 searchRouter.get("/categories", async (req, res) => {
   try {
     const categories = await Category.findAll();
+    console.log(categories);
     res.json(categories);
   } catch (error) {
     console.log("categories error!!!", error);
