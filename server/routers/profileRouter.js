@@ -1,7 +1,10 @@
 const express = require("express");
+const multer = require("multer");
 const { User, Category } = require("../db/models");
+const storage = require("../middlewares/multer");
 
 const profileRouter = express.Router();
+const upload = multer({ storage });
 
 profileRouter.get("/setting", async (req, res) => {
   try {
@@ -33,7 +36,7 @@ profileRouter.patch("/api/:id", async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    console.log(req.body, "jjjjj99999999999999uoigjhelrfnjkgbjvsbefdjhb");
+    // console.log(req.body,'kfkfjnfrkvnjknvzd');
     const updatedUser = await user.update(req.body);
     return res.json(updatedUser);
   } catch (error) {
@@ -42,16 +45,30 @@ profileRouter.patch("/api/:id", async (req, res) => {
   }
 });
 
-profileRouter.patch("/setting", async (req, res) => {
+profileRouter.patch("/setting", upload.single("image"), async (req, res) => {
   try {
     // const { id } = req.session;
-    console.log(req.session.user.id, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
     const foundUser = await User.findByPk(req.session.user.id);
 
     if (!foundUser) {
       res.status(404).json({ message: "User not found" });
     }
-    await foundUser.update(req.body);
+    const {
+      email,
+      firstName,
+      lastName,
+      patronymicname,
+      age,
+      city,
+      phone,
+      linkTg,
+      linkInst,
+      linkWA,
+    } = req.body;
+    const image = req.file.path;
+    if (!(email && phone && firstName && lastName && age && city))
+      res.status(409);
+    await foundUser.update({ ...req.body, img: image });
     return res.json(foundUser);
   } catch (error) {
     console.log(error);
