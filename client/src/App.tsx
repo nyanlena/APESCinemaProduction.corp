@@ -9,7 +9,6 @@ import Login from './components/Pages/Login';
 import ChooseRole from './components/Pages/ChooseRole';
 import ProfilePage from './components/Pages/ProfilePage';
 import SearchProfiles from './components/Pages/SearchProfiles';
-import SearchProjects from './components/Pages/SeachProjects';
 import Favorites from './components/Pages/Favorites';
 import Project from './components/Pages/Project';
 import Orders from './components/Pages/Orders';
@@ -19,8 +18,7 @@ import { checkUserThunk } from './features/redux/user/thunkActions';
 import PrivateRouter from './HOC/PrivateRouter';
 import Loader from './HOC/Loader';
 import SeachProjects from './components/Pages/SeachProjects';
-
-import { profileThunk } from './features/redux/profile/profileThunk';
+import { wsInitAction } from './features/redux/wsActions';
 
 function App(): JSX.Element {
   const user = useAppSelector((store) => store.user);
@@ -29,6 +27,12 @@ function App(): JSX.Element {
   useEffect(() => {
     dispatch(checkUserThunk());
   }, []);
+
+  useEffect(() => {
+    if (user.status === 'logged') {
+      dispatch(wsInitAction());
+    }
+  }, [user]);
 
   return (
     <Container>

@@ -175,9 +175,7 @@ authRouter.get("/check", async (req, res) => {
 authRouter.post("/signup/role", async (req, res) => {
   try {
     const { statusId } = req.body;
-    console.log(statusId);
     const userId = req.session?.user.id; // Получаем ID пользователя из сессии
-    console.log(userId);
     // Находим пользователя по его ID
     const user = await User.findByPk(userId);
 

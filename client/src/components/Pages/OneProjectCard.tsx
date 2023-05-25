@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { updateProjThunk } from '../../features/redux/seachProjects/seachProjThunk';
 import Map from '../Ui/Map';
 import ModalAddProj from './ModalAddProj';
+import ChatPage from './ChatPage';
 
 type ProjectTypeProps = {
   project: ProjectTypes;
@@ -244,6 +245,7 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
           </ModalFooter>
         </Form>
       </Modal>
+      <ChatPage />
     </>
   );
 }

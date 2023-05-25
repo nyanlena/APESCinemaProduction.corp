@@ -36,7 +36,6 @@ profileRouter.patch("/api/:id", async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    // console.log(req.body,'kfkfjnfrkvnjknvzd');
     const updatedUser = await user.update(req.body);
     return res.json(updatedUser);
   } catch (error) {
