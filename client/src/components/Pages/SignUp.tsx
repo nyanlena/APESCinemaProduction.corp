@@ -23,6 +23,7 @@ export default function SignUpPage(): JSX.Element {
     const formData = Object.fromEntries(new FormData(e.currentTarget)) as SignUpType;
     dispatch(signUpThunk(formData));
     navigate('/signup/role');
+    console.log(formData);
   };
 
   const handleOpenEyeClick = () => {
