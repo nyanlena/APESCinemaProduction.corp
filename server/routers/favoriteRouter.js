@@ -82,13 +82,30 @@ favoriteRouter.post('/send', async (req, res) => {
   }
 });
 
+// favoriteRouter.put('/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { status } = req.body;
+//     const favorite = await Favorite.findByPk(id);
+//     if (!favorite) {
+//       return res.status(404).json({ error: 'Избранный профиль не найден' });
+//     }
+//     favorite.status = status;
+//     await favorite.save();
+//     res.json({ message: 'Статус успешно обновлен' });
+//   } catch (error) {
+//     console.error('Ошибка при обновлении статуса', error);
+//     res.status(500).json({ error: 'Ошибка при обновлении статуса' });
+//   }
+// });
+
 favoriteRouter.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
-    const favorite = await Favorite.findByPk(id);
+    const { userId, status } = req.body;
+    let favorite = await Favorite.findOne({ where: { fromId: userId, toId: id } });
     if (!favorite) {
-      return res.status(404).json({ error: 'Избранный профиль не найден' });
+      favorite = await Favorite.create({ fromId: userId, toId: id, status: false });
     }
     favorite.status = status;
     await favorite.save();

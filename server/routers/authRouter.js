@@ -1,11 +1,11 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
-const mailer = require("../mailer/mailer");
-const { User } = require("../db/models");
+const express = require('express');
+const bcrypt = require('bcrypt');
+const mailer = require('../mailer/mailer');
+const { User } = require('../db/models');
 
 const authRouter = express.Router();
 
-authRouter.post("/signup", async (req, res) => {
+authRouter.post('/signup', async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -18,7 +18,7 @@ authRouter.post("/signup", async (req, res) => {
       },
     });
 
-    if (!created) return res.status(401).json({ message: "Email is in use" });
+    if (!created) return res.status(401).json({ message: 'Email is in use' });
 
     req.session.user = {
       id: foundUser.id,
@@ -28,7 +28,7 @@ authRouter.post("/signup", async (req, res) => {
 
     const message = {
       to: req.body.email,
-      subject: "Congratulations! You are successfully registered on our site!",
+      subject: 'Congratulations! You are successfully registered on our site!',
       html: `
       <h2>Поздравляем, Вы успешно зарегистрировались на нашем сайте!</h2>
 
@@ -39,18 +39,18 @@ authRouter.post("/signup", async (req, res) => {
 
     return res.json(foundUser);
   } catch (error) {
-    console.log("Signup error!!!", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log('Signup error!!!', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-authRouter.post("/login", async (req, res) => {
+authRouter.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
     const foundUser = await User.findOne({ where: { email } });
 
-    if (!foundUser) return res.status(401).json({ message: "No such email" });
+    if (!foundUser) return res.status(401).json({ message: 'No such email' });
 
     if (await bcrypt.compare(password, foundUser.password)) {
       req.session.user = {
@@ -61,37 +61,37 @@ authRouter.post("/login", async (req, res) => {
       return res.json(foundUser);
     }
 
-    return res.status(401).json({ message: "Wrong password" });
+    return res.status(401).json({ message: 'Wrong password' });
   } catch (error) {
-    console.log("Login error!!!", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log('Login error!!!', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-authRouter.get("/logout", (req, res) => {
+authRouter.get('/logout', (req, res) => {
   try {
     req.session.destroy();
-    res.clearCookie("user_sid");
+    res.clearCookie('user_sid');
     res.sendStatus(200);
   } catch (error) {
-    console.log("Signup error!!!", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log('Signup error!!!', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-authRouter.get("/check", async (req, res) => {
+authRouter.get('/check', async (req, res) => {
   try {
     if (req.session?.user?.id) {
       return res.json(req.session.user);
     }
     return res.sendStatus(401);
   } catch (error) {
-    console.log("Signup error!!!", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log('Signup error!!!', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-authRouter.post("/signup/role", async (req, res) => {
+authRouter.post('/signup/role', async (req, res) => {
   try {
     const { email, password } = req.body;
     const { statusId } = req.body;
@@ -107,13 +107,13 @@ authRouter.post("/signup/role", async (req, res) => {
       },
     });
 
-    if (!created) return res.status(401).json({ message: "Email is in use" });
+    if (!created) return res.status(401).json({ message: 'Email is in use' });
 
     req.session.user = foundUser;
 
     const message = {
       to: req.body.email,
-      subject: "Congratulations! You are successfully registered on our site!",
+      subject: 'Congratulations! You are successfully registered on our site!',
       html: `
       <h2>Поздравляем, Вы успешно зарегистрировались на нашем сайте!</h2>
 
@@ -124,76 +124,76 @@ authRouter.post("/signup/role", async (req, res) => {
 
     return res.json(foundUser);
   } catch (error) {
-    console.log("Signup error!!!", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log('Signup error!!!', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-authRouter.post("/login", async (req, res) => {
+authRouter.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
     const foundUser = await User.findOne({ where: { email } });
 
-    if (!foundUser) return res.status(401).json({ message: "No such email" });
+    if (!foundUser) return res.status(401).json({ message: 'No such email' });
 
     if (await bcrypt.compare(password, foundUser.password)) {
       req.session.user = foundUser;
       return res.json(foundUser);
     }
 
-    return res.status(401).json({ message: "Wrong password" });
+    return res.status(401).json({ message: 'Wrong password' });
   } catch (error) {
-    console.log("Login error!!!", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log('Login error!!!', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-authRouter.get("/logout", (req, res) => {
+authRouter.get('/logout', (req, res) => {
   try {
     req.session.destroy();
-    res.clearCookie("user_sid");
+    res.clearCookie('user_sid');
     res.sendStatus(200);
   } catch (error) {
-    console.log("Signup error!!!", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log('Signup error!!!', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-authRouter.get("/check", async (req, res) => {
+authRouter.get('/check', async (req, res) => {
   try {
     if (req.session?.user?.id) {
       return res.json(req.session.user);
     }
     return res.sendStatus(401);
   } catch (error) {
-    console.log("Signup error!!!", error);
-    res.status(500).json({ error: "Internal server error" });
+    console.log('Signup error!!!', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-authRouter.post("/signup/role", async (req, res) => {
-  try {
-    const { statusId } = req.body;
-    console.log(statusId);
-    const userId = req.session?.user.id; // Получаем ID пользователя из сессии
-    console.log(userId);
-    // Находим пользователя по его ID
-    const user = await User.findByPk(userId);
+// authRouter.post("/signup/role", async (req, res) => {
+//   try {
+//     const { statusId } = req.body;
+//     console.log(statusId);
+//     const userId = req.session?.user.id; // Получаем ID пользователя из сессии
+//     console.log(userId);
+//     // Находим пользователя по его ID
+//     const user = await User.findByPk(userId);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
 
-    // Устанавливаем выбранную роль пользователю
-    user.statusId = statusId;
-    await user.save();
+//     // Устанавливаем выбранную роль пользователю
+//     user.statusId = statusId;
+//     await user.save();
 
-    return res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-});
+//     return res.sendStatus(200);
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// });
 
 module.exports = authRouter;
