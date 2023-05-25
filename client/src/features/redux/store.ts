@@ -8,7 +8,6 @@ import oneProfileReduser from './profile/profileSlice';
 import userReducer from './user/userSlice';
 import FavoritesReducer from './favorite/favoriteSlice';
 
-
 const store = configureStore({
   reducer: {
     postsProjects: postsProjectsReducer,

@@ -1,12 +1,13 @@
 import axios from 'axios';
+import { useState } from 'react';
 import { modifyUserProfile, setUserProfile } from './profileSlice';
 import type { BackendUserType } from '../../../types';
 import type { ThunkActionCreater } from '../store';
 import type {
   BackendChangeProfileType,
   BackendChangeProfileSettingType,
-  BackendChangeImageType,
 } from '../../../types/profileActionType';
+import { setMessage } from './message';
 
 export const profileSettingThunk: ThunkActionCreater = () => async (dispatch) => {
   axios<BackendUserType>(`profile/setting`)
@@ -52,15 +53,8 @@ export const changeSettingProfileThunk: ThunkActionCreater<BackendChangeProfileS
     });
     if (response.status === 200) {
       dispatch(setUserProfile(response.data));
+      alert('Изменения сохранены');
+    } else {
+      alert('Ошибка изменения');
     }
   };
-
-  // export const changeImageProfileThunk: ThunkActionCreater<BackendChangeImageType> =
-  // (inputSetting) => async (dispatch) => {
-  //   const response = await axios.post<BackendChangeImageType>(`/profile/image`, {
-    
-  //   });
-  //   if (response.status === 200) {
-  //     dispatch(setUserProfile(response.data));
-  //   }
-  // };

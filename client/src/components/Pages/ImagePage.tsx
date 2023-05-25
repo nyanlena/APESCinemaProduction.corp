@@ -1,45 +1,83 @@
+import React, { useEffect, useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import { Alert, Button, ButtonGroup, Card, Col, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../features/redux/store';
+import { profileSettingThunk } from '../../features/redux/profile/profileThunk';
 
-export default function ImagePage() {
-  const [img, setImg] = useState<any>(null);
-  const [avatar, setAvatar] = useState<any>(null);
-  const sendFile = async () => {
+export default function ImagePage(): JSX.Element {
+  const userSetting = useAppSelector((state) => state.oneProfile.oneUser);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(profileSettingThunk());
+  }, []);
+  const [message, setMessage] = useState<string>('');
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget); // Создаем объект FormData для получения данных из формы
+    console.log(e.currentTarget);
     try {
-      const data = new FormData();
-      data.append('avatar', img);
-      await axios
-        .post('/profile/image', data, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then((res) => setAvatar(res.data.path));
+      const response = await axios.post('http://localhost:3001/profile/image', formData);
+
+      if (response.status === 200) {
+        setMessage('Изображение успенно загружено');
+      } else {
+        setMessage('Ошибка при отправке изображения');
+      }
     } catch (error) {
-      console.error(error);
+      console.error('Произошла ошибка', error);
     }
   };
-
+  useEffect(() => {
+    setMessage(message);
+  }, [message]);
   return (
-    <form encType="multipart/form-data">
-      {/* {avatar ? <img src={avatar} /> : <a>fff</a>} */}
-      <br />
-      <div className="form-group">
-        <label htmlFor="exampleFormControlFile1">
-          <input
-            type="file"
-            name="img"
-            onChange={(e) => setImg(e.target.files[0])}
-            className="form-control-file"
-            id="exampleFormControlFile1"
-          />
-        </label>
-      </div> 
-      <br />
-
-      <button type="submit" className="btn btn-success btn-lg" onClick={sendFile}>
-        Добавить фото
-      </button>
-    </form>
+    <Row
+    >
+      
+      <Col
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '70vh',
+        }}
+      >
+        <Form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
+          {message && <Alert variant="primary" className="mt-5 " style={{ width: '500px',  textAlign: 'center', margin: 'auto', }}>{message}</Alert>}
+          <Form.Group className="m-3 align-items-center">
+            <Form.Label
+              style={{ fontSize: '20px', fontWeight: 'bold', color: '#000' }}
+              className="mt -1 d-flex flex-column align-items-center"
+            >
+              Добавление фотографии
+            </Form.Label>
+            <Form.Control type="file" name="img" />
+          </Form.Group>
+          <ButtonGroup
+            aria-label="Basic example"
+            className="align-items-center"
+            style={{ display: 'flex', justifyContent: 'center', maxWidth: '700px' }}
+          >
+            <Button type="submit" variant="outline-primary" style={{ color: 'black' }}>
+              Сохранить
+            </Button>
+            <Button type="button" variant="outline-primary">
+              <Link
+                to={`/profile/${userSetting.id}`}
+                style={{ textDecoration: 'none', color: 'black' }}
+              >
+                Назад в профиль
+              </Link>
+            </Button>
+          </ButtonGroup>
+        </Form>
+      </Col>
+      
+    </Row>
   );
 }

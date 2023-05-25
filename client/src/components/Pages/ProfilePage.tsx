@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import {
   BsWrenchAdjustable,
@@ -18,8 +18,8 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { ProgressBar } from 'react-bootstrap';
-import { useAppDispatch, useAppSelector } from '../../features/redux/store';
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import store, { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { changeProfileThunk, profileThunk } from '../../features/redux/profile/profileThunk';
 import type { BackendChangeProfileType } from '../../types/profileActionType';
 
@@ -123,7 +123,7 @@ function ProfilePage(): JSX.Element {
     handleOpenAndClosePortfolioInput();
   };
   /// /////////////////////////////////////////////////////////////
-  console.log(inputProfile);
+  // console.log(oneUser.img, `http://localhost:3001/${oneUser.img}`);
   return (
     <>
       <Row className="mt-3 p-2">
@@ -131,12 +131,12 @@ function ProfilePage(): JSX.Element {
           {/* Фото профиля */}
           <div style={{ position: 'relative' }}>
             <Image
-              src={oneUser.img !== null ? oneUser.img :  '/img/400.png' }
+              src={oneUser.img !== null ? `http://localhost:3001/${oneUser.img}` : '/img/400.png'}
               alt="Your Image"
               fluid
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseEnter}
-              style={{ width: '400px', height: '400px' }}
+              style={{ width: '400px', height: '400px', borderRadius: '15px' }}
             />
 
             <Button
@@ -160,7 +160,9 @@ function ProfilePage(): JSX.Element {
             <Modal show={showModal} onHide={handleToggleModal} centered>
               <Modal.Body>
                 <Image
-                  src={oneUser.img !== null ? oneUser.img : '/img/800.png'}
+                  src={
+                    oneUser.img !== null ? `http://localhost:3001/${oneUser.img}` : '/img/800.png'
+                  }
                   alt="Your Image"
                   fluid
                 />
@@ -200,7 +202,8 @@ function ProfilePage(): JSX.Element {
             (calculateProgress() >= 0 && calculateProgress() < 100 ? (
               <Row>
                 <p>Продолжите заполнять Ваш профиль, чтобы Вами заинтересовались.</p>
-                <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} />
+                {/* <ProgressBar now={calculateProgress()} label={`${calculateProgress()}%`} /> */}
+                <ProgressBar animated now={calculateProgress()} label={`${calculateProgress()}%`} />
               </Row>
             ) : (
               'Ваш профиль заполнен!'
@@ -224,11 +227,13 @@ function ProfilePage(): JSX.Element {
                 <Dropdown.Item href="http://localhost:5173/profile/setting">
                   Настройка
                 </Dropdown.Item>
-                <Dropdown.Item href="http://localhost:5173/profile/setting">
-                  Избранные
+                <Dropdown.Item href="http://localhost:5173/profile/image">
+                  Изменить фото профиля
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item href="http://localhost:5173/profile/image">Изменить фотографию профиля</Dropdown.Item>
+                <Dropdown.Item href="http://localhost:5173/favorites">
+                  Избранные
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           )}
@@ -245,7 +250,7 @@ function ProfilePage(): JSX.Element {
         </Col>
       </Row>
 
-      <Row className="mb-3">
+      <Row className="m-1 d-flex align-items-center">
         <h5>Дополнительная информация:</h5>
 
         <Card className="mt-1">
@@ -413,8 +418,15 @@ function ProfilePage(): JSX.Element {
               )}
             </div>
             <Card.Text>
-              {oneUser.userPortfolio ? `${oneUser.userPortfolio}` : 'Добавьте ссылку на портфолио'}
+              {oneUser.userPortfolio ? (
+                <a href={oneUser.userPortfolio} style={{ textDecoration: 'none', color: 'purple' }}>
+                  Портфолио
+                </a>
+              ) : (
+                'Добавьте ссылку на портфолио'
+              )}
             </Card.Text>
+
             {portfolioVisible && (
               <Modal show={portfolioVisible} onHide={() => setPortfolioVisible(false)}>
                 <Modal.Header closeButton>
@@ -459,7 +471,7 @@ function ProfilePage(): JSX.Element {
             </li>
             <li>
               <FaTelegram />{' '}
-              {oneUser.linkTg ? <Link to={oneUser.linkTg}>Telegramm</Link> : 'Telegramm не указан'}
+              {oneUser.linkTg ? <Link to={oneUser.linkTg}>Telegramm</Link> : 'Telegram не указан'}
             </li>
             <li>
               <FaWhatsapp /> {oneUser.linkWA ? `${oneUser.linkWA}` : 'WhatsApp не указан'}
@@ -469,23 +481,21 @@ function ProfilePage(): JSX.Element {
               {oneUser.linkInst ? (
                 <Link to={oneUser.linkInst}>Instagramm</Link>
               ) : (
-                'Instagramm не указан'
+                'Instagram не указан'
               )}
             </li>
           </ul>
         </Col>
-        <Col sm={9}>
+        {/* <Col sm={9}>
           <h3>Проекты</h3>
           <Row className="mt-3">
             <p>Название проекта 1</p>
             <p>Название проекта 2</p>
             <p>Название проекта 3</p>
           </Row>
-        </Col>
+        </Col> */}
       </Row>
     </>
   );
 }
-
 export default React.memo(ProfilePage);
-// 
