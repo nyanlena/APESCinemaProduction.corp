@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -7,22 +7,15 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({
-      Project,
-      ProjectUser,
-      Category,
-      Chat,
-      Favorite,
-      Status,
-    }) {
+    static associate({ Project, ProjectUser, Category, Chat, Favorite, Status }) {
       // define association here
-      this.belongsTo(Category, { foreignKey: "categoryId" });
-      this.belongsTo(Status, { foreignKey: "statusId" });
-      this.hasMany(Project, { foreignKey: "userId" });
-      this.hasMany(ProjectUser, { foreignKey: "userId" });
-      this.hasMany(Chat, { foreignKey: "userId" });
-      this.hasMany(Favorite, { foreignKey: "fromId", as: "Sent" });
-      this.hasMany(Favorite, { foreignKey: "toId", as: "Received" });
+      this.belongsTo(Category, { foreignKey: 'categoryId' });
+      this.belongsTo(Status, { foreignKey: 'statusId' });
+      this.hasMany(Project, { foreignKey: 'userId' });
+      this.hasMany(ProjectUser, { foreignKey: 'userId' });
+      this.hasMany(Chat, { foreignKey: 'userId' });
+      this.hasMany(Favorite, { foreignKey: 'fromId', as: 'Sent' });
+      this.hasMany(Favorite, { foreignKey: 'toId', as: 'Received' });
     }
   }
   User.init(
@@ -43,12 +36,13 @@ module.exports = (sequelize, DataTypes) => {
       linkInst: DataTypes.STRING,
       linkWA: DataTypes.STRING,
       categoryId: DataTypes.INTEGER,
+      googleId: DataTypes.STRING,
       userPortfolio: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: "User",
-    }
+      modelName: 'User',
+    },
   );
   return User;
 };

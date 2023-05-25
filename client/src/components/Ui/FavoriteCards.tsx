@@ -10,6 +10,7 @@ type favoriteProps = {
 };
 
 function FavoriteCards({ profile }: favoriteProps): JSX.Element {
+  const user = useAppSelector((store) => store.user);
   const [modalVisible, setModalVisible] = useState(false);
   const [contactInfo, setContactInfo] = useState('');
   const dispatch = useAppDispatch();
@@ -34,9 +35,11 @@ function FavoriteCards({ profile }: favoriteProps): JSX.Element {
     try {
       axios.post('favorites/send', { email: profile.email, contactInfo }).then((response) => {
         console.log('Сообщение успешно отправлено', response);
-        axios.put(`favorites/${profile.id}`, { status: true }).then((updateResponse) => {
-          console.log('Статус успешно обновлен', updateResponse);
-        });
+        axios
+          .put(`favorites/${profile.id}`, { userId: user.id, status: true })
+          .then((updateResponse) => {
+            console.log('Статус успешно обновлен', updateResponse);
+          });
         closeModal();
         alert('Сообщение успешно отправлено');
       });

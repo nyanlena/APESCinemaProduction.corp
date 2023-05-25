@@ -22,6 +22,11 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import store, { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { changeProfileThunk, profileThunk } from '../../features/redux/profile/profileThunk';
 import type { BackendChangeProfileType } from '../../types/profileActionType';
+import { log } from 'console';
+import {
+  addFavoriteProfileThunk,
+  deleteFavoriteProfileThunk,
+} from '../../features/redux/favorite/favoriteThunk';
 
 function ProfilePage(): JSX.Element {
   const { id } = useParams();
@@ -29,9 +34,19 @@ function ProfilePage(): JSX.Element {
   const oneUser = useAppSelector((store) => store.oneProfile.oneUser);
   const user = useAppSelector((store) => store.user as BackendChangeProfileType);
 
+  //favorites
+  const { favorites } = useAppSelector((store) => store.favorites);
+  const isLiked = favorites.some((favorite) => favorite.toId === Number(id));
+  const [liked, setLiked] = useState(isLiked);
+
   useEffect(() => {
     dispatch(profileThunk(Number(id)));
   }, []);
+
+  useEffect(() => {
+    const isLiked = favorites.some((favorite) => favorite.toId === Number(id));
+    setLiked(isLiked);
+  }, [favorites]);
 
   // модальное окно с фотографией
   const [showModal, setShowModal] = useState(false);
@@ -123,7 +138,22 @@ function ProfilePage(): JSX.Element {
     handleOpenAndClosePortfolioInput();
   };
   /// /////////////////////////////////////////////////////////////
-  // console.log(oneUser.img, `http://localhost:3001/${oneUser.img}`);
+  console.log(inputProfile);
+
+  // favorite
+
+  // Обработчик нажатия кнопки
+
+  const handleClick = async () => {
+    if (isLiked) {
+      const result = await dispatch(deleteFavoriteProfileThunk(Number(id)));
+      setLiked(!result); // обновляем состояние на основе результата удаления
+    } else {
+      const result = await dispatch(addFavoriteProfileThunk(oneUser.id));
+      setLiked(result); // обновляем состояние на основе результата добавления
+    }
+  };
+
   return (
     <>
       <Row className="mt-3 p-2">
@@ -231,20 +261,19 @@ function ProfilePage(): JSX.Element {
                   Изменить фото профиля
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item href="http://localhost:5173/favorites">
-                  Избранные
-                </Dropdown.Item>
+                <Dropdown.Item href="http://localhost:5173/favorites">Мои избранные</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           )}
           {Number(id) !== (user ? user.id : 'Ошибка') && (
             <Button
+              onClick={handleClick}
               variant="outline-secondary"
               style={{
                 border: 'none',
               }}
             >
-              <FcLike style={{ fontSize: '35px' }} />
+              {liked ? '❤️' : '🤍'}
             </Button>
           )}
         </Col>
