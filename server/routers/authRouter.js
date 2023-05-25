@@ -44,28 +44,6 @@ authRouter.post("/signup", async (req, res) => {
   }
 });
 
-// authRouter.post("/signup/modal", async (req, res) => {
-//   const { firstName, lastName } = req.body;
-//   const userId = req.session?.user?.id;
-
-//   try {
-//     const existingUser = await User.findOne({ where: { id: userId } });
-//     console.log(req.body);
-//     if (existingUser) {
-//       return res.status(401).json({ message: "Email is already in use" });
-//     }
-//     const foundUser = await User.create({
-//       firstName,
-//       lastName,
-//     });
-
-//     return res.json(foundUser);
-//   } catch (error) {
-//     console.error("Error creating user:", error);
-//     return res.status(500).json({ message: "Error creating user" });
-//   }
-// });
-
 authRouter.post("/signup/modal", async (req, res) => {
   const { firstName, lastName, categoryId } = req.body;
 
@@ -131,44 +109,6 @@ authRouter.get("/check", async (req, res) => {
       return res.json(req.session.user);
     }
     return res.sendStatus(401);
-  } catch (error) {
-    console.log("Signup error!!!", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-authRouter.post("/signup/role", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const { statusId } = req.body;
-    console.log(statusId);
-    const userId = req.session?.user.id; // Получаем ID пользователя из сессии
-    console.log(userId);
-    const hashpass = await bcrypt.hash(password, 10);
-
-    const [foundUser, created] = await User.findOrCreate({
-      where: { email },
-      defaults: {
-        password: hashpass,
-      },
-    });
-
-    if (!created) return res.status(401).json({ message: "Email is in use" });
-
-    req.session.user = foundUser;
-
-    const message = {
-      to: req.body.email,
-      subject: "Congratulations! You are successfully registered on our site!",
-      html: `
-      <h2>Поздравляем, Вы успешно зарегистрировались на нашем сайте!</h2>
-
-      <p>Данное письмо не требует ответа.</p>
-      `,
-    };
-    mailer(message);
-
-    return res.json(foundUser);
   } catch (error) {
     console.log("Signup error!!!", error);
     res.status(500).json({ error: "Internal server error" });
