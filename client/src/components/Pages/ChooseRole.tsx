@@ -99,7 +99,7 @@ export default function ChooseRole(): JSX.Element {
             handleOpenModal();
           }}
         >
-          Работник
+          Продакшн
         </Button>
         <Button
           variant="contained"
@@ -118,7 +118,7 @@ export default function ChooseRole(): JSX.Element {
             handleOpenModal();
           }}
         >
-          Работодатель
+          Кинодел
         </Button>
       </DialogActions>
       <Dialog open={openModal} onClose={handleCloseModal} maxWidth="xs" fullWidth>

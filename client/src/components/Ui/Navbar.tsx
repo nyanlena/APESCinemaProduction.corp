@@ -54,7 +54,7 @@ export default function Navbar(): JSX.Element {
                 Портфолио
               </Link>
             </Menu.Item>
-            {user.statusId !== 1 && (
+            {user.status === 'logged' && user.statusId !== 1 ? (
               <>
                 <Menu.Item>
                   <Link to="/search/profiles" style={{ textDecoration: 'none' }}>
@@ -67,6 +67,8 @@ export default function Navbar(): JSX.Element {
                   </Link>
                 </Menu.Item>
               </>
+            ) : (
+              ''
             )}
             <Menu.Item>
               <Link to="/seach/projects" style={{ textDecoration: 'none' }}>
