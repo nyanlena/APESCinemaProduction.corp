@@ -5,6 +5,7 @@ import type { ThunkActionCreater } from '../store';
 import type {
   BackendChangeProfileType,
   BackendChangeProfileSettingType,
+  BackendChangeImageType,
 } from '../../../types/profileActionType';
 
 export const profileSettingThunk: ThunkActionCreater = () => async (dispatch) => {
@@ -43,7 +44,7 @@ export const changeSettingProfileThunk: ThunkActionCreater<BackendChangeProfileS
       patronymicname: inputSetting.patronymicname,
       city: inputSetting.city,
       age: inputSetting.age,
-      img: inputSetting.city,
+      img: inputSetting.img,
       phone: inputSetting.phone,
       linkTg: inputSetting.linkTg,
       linkInst: inputSetting.linkInst,
@@ -54,12 +55,12 @@ export const changeSettingProfileThunk: ThunkActionCreater<BackendChangeProfileS
     }
   };
 
-  // export const imageProfileThunk: ThunkActionCreater<BackendChangeProfileSettingType> =
-  // (apiUrl, options) => (dispatch) => {
-  //   fetch(apiUrl, options).then((response) => response.json())
-  //   .then((body) => dispatch(setUserProfile({ ...body} )))
-  //   .then((body) => console.log(body))
-  //     .catch((error) => {
-  //       console.log('error', error);
-  //     });
+  // export const changeImageProfileThunk: ThunkActionCreater<BackendChangeImageType> =
+  // (inputSetting) => async (dispatch) => {
+  //   const response = await axios.post<BackendChangeImageType>(`/profile/image`, {
+    
+  //   });
+  //   if (response.status === 200) {
+  //     dispatch(setUserProfile(response.data));
+  //   }
   // };

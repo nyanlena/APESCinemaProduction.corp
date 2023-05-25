@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Card, Button, Col, Container, Modal } from 'react-bootstrap';
-import { useAppDispatch, useAppSelector } from '../../features/redux/store';
-import { BackendUserType } from '../../types';
 import { Box } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../features/redux/store';
+import type { BackendUserType } from '../../types';
 
 type favoriteProps = {
   profile: BackendUserType;

@@ -52,6 +52,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(pathMiddlewares);
 app.use(helmet());
 // app.use("/api/lk", transactionRouter);
@@ -68,7 +69,6 @@ app.use('/api/v1', api);
 app.use('/api/auth/login/forget', nodemailerRouter);
 
 app.use((err, req, res, next) => {
-  // logic
   console.log(err);
 });
 

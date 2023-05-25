@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+// import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -7,7 +7,7 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useAppDispatch } from '../../features/redux/store';
@@ -23,6 +23,7 @@ export default function SignUpPage(): JSX.Element {
     const formData = Object.fromEntries(new FormData(e.currentTarget)) as SignUpType;
     dispatch(signUpThunk(formData));
     navigate('/signup/role');
+    console.log(formData);
   };
 
   const handleOpenEyeClick = () => {
@@ -81,6 +82,7 @@ export default function SignUpPage(): JSX.Element {
               <TextField
                 required
                 fullWidth
+                type='email'
                 id="email"
                 label="Email Address"
                 name="email"
