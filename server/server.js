@@ -48,11 +48,11 @@ app.use(
 );
 
 app.use(session(sessionConfig));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(pathMiddlewares);
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(helmet());
 // app.use("/api/lk", transactionRouter);
 
