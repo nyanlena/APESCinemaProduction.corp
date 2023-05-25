@@ -11,8 +11,16 @@ export default function Loader({ children }: LoaderType): JSX.Element {
   const user = useAppSelector((store) => store.user);
   if (user.status !== 'fetching') return children;
   return (
-    <Spinner color="primary" type="grow">
-      Loading...
-    </Spinner>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh', // Высота на весь экран (можете использовать другую высоту по вашему выбору)
+      }}
+    >
+      <Spinner animation="border" variant="danger" />
+      <span>Loading...</span>
+    </div>
   );
 }

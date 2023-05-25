@@ -22,6 +22,13 @@ export const signUpThunk: ThunkActionCreater<SignUpType> = (userData) => (dispat
     .catch((err) => console.log(err));
 };
 
+export const signUpModalThunk: ThunkActionCreater<SignUpType> = (userData) => (dispatch) => {
+  axios
+    .post<BackendUserType>('api/auth/signup/modal', userData)
+    .then(({ data }) => dispatch(setUser({ ...data, status: 'logged' })))
+    .catch((err) => console.log(err));
+};
+
 export const statusThunk: ThunkActionCreater<StatusType> = (userData) => (dispatch) => {
   axios
     .post<BackendUserType>('api/auth/signup/role', userData)

@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 // import Img from '/work.png';
+import { Button, ButtonGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const textAnimation = {
   hidden: {
@@ -29,14 +31,22 @@ export default function MainPage(): JSX.Element {
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet explicabo eligendi
           maiores, numquam enim quidem non ex ipsum. Asperiores, autem!
         </motion.p>
-        <motion.button
+        {/* <motion.button
           custom={3}
           variants={textAnimation}
           size="large"
           style={{ borderRadius: '10px', backgroundColor: 'blue', color: 'white' }}
         >
-          Начать
-        </motion.button>
+          <a href="/signup">Регистрация</a>
+        </motion.button> */}
+        <ButtonGroup aria-label="Basic example">
+          <Button variant="outline-primary">
+            <Link to="/signup" style={{ textDecoration: 'none', color: 'black'}}>Регистрация</Link>
+          </Button>
+          <Button variant="outline-primary">
+            <Link to="/login" style={{ textDecoration: 'none', color: 'black'}}>Авторизация</Link>
+          </Button>
+        </ButtonGroup>
       </article>
       <div>{/* <motion.img src={Img} alt="hero" custom={4} variants={textAnimation} /> */}</div>
     </motion.section>

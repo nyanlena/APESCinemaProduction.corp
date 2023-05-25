@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useState } from 'react';
 import { modifyUserProfile, setUserProfile } from './profileSlice';
 import type { BackendUserType } from '../../../types';
 import type { ThunkActionCreater } from '../store';
@@ -6,6 +7,7 @@ import type {
   BackendChangeProfileType,
   BackendChangeProfileSettingType,
 } from '../../../types/profileActionType';
+import { setMessage } from './message';
 
 export const profileSettingThunk: ThunkActionCreater = () => async (dispatch) => {
   axios<BackendUserType>(`profile/setting`)
@@ -43,7 +45,7 @@ export const changeSettingProfileThunk: ThunkActionCreater<BackendChangeProfileS
       patronymicname: inputSetting.patronymicname,
       city: inputSetting.city,
       age: inputSetting.age,
-      img: inputSetting.city,
+      img: inputSetting.img,
       phone: inputSetting.phone,
       linkTg: inputSetting.linkTg,
       linkInst: inputSetting.linkInst,
@@ -51,15 +53,8 @@ export const changeSettingProfileThunk: ThunkActionCreater<BackendChangeProfileS
     });
     if (response.status === 200) {
       dispatch(setUserProfile(response.data));
+      alert('Изменения сохранены');
+    } else {
+      alert('Ошибка изменения');
     }
   };
-
-  // export const imageProfileThunk: ThunkActionCreater<BackendChangeProfileSettingType> =
-  // (apiUrl, options) => (dispatch) => {
-  //   fetch(apiUrl, options).then((response) => response.json())
-  //   .then((body) => dispatch(setUserProfile({ ...body} )))
-  //   .then((body) => console.log(body))
-  //     .catch((error) => {
-  //       console.log('error', error);
-  //     });
-  // };

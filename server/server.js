@@ -8,6 +8,7 @@ const { WebSocketServer } = require("ws");
 const { Server } = require("socket.io");
 const passport = require("passport");
 const helmet = require("helmet");
+const path = require("path");
 const authRouter = require("./routers/authRouter");
 const pathMiddlewares = require("./middlewares/pathMiddlewares");
 const mainRouter = require("./routers/mainRouter");
@@ -19,12 +20,12 @@ const orderRouter = require("./routers/orderRouter");
 const projectRouter = require("./routers/projectRouter");
 const nodemailerRouter = require("./routers/nodemailerRouter");
 const chatRouter = require("./routers/chatRouter");
-// const api = require("./routers/api");
+const api = require("./routers/api");
 require("dotenv").config();
 
-// require("./auth/google");
-// require("./auth/passport");
-// require("./db/models/user");
+require("./auth/google");
+require("./auth/passport");
+require("./db/models/user");
 
 const FileStore = store(session);
 // require('./google/auth');
@@ -55,11 +56,15 @@ app.use(
     origin: true,
   })
 );
+
 app.use(sessionConfig);
 app.use(express.static("public"));
 app.use(pathMiddlewares);
+
+// app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use(helmet());
 // app.use("/api/lk", transactionRouter);
 
@@ -72,7 +77,7 @@ app.use("/projects", projectRouter);
 app.use("/favorites", favoriteRouter);
 app.use("/orders", orderRouter);
 app.use("/chat", chatRouter);
-// app.use("/api/v1", api);
+app.use("/api/v1", api);
 app.use("/api/auth/login/forget", nodemailerRouter);
 
 const server = http.createServer(app);
@@ -98,6 +103,19 @@ server.on("upgrade", (request, socket, head) => {
     });
   });
 });
+
+// app.get("/public/:img", (req, res) => {
+//   try {
+//     console.log(req.params.img);
+//     const filePath = path.join(__dirname, "../public", req.params.img);
+//     res.sendFile(filePath);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+// app.use((err, req, res, next) => {
+//   console.log(err);
+// });
 
 wss.on("connection", (ws, request) => {
   const { user } = request.session;

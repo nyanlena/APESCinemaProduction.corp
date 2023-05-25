@@ -84,7 +84,7 @@ export default function Navbar(): JSX.Element {
                 Портфолио
               </Link>
             </Menu.Item>
-            {user.statusId !== 1 && (
+            {user.status === 'logged' && (
               <>
                 <Menu.Item>
                   <Link to="/search/profiles" style={{ textDecoration: 'none' }}>
