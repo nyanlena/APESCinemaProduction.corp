@@ -91,26 +91,26 @@ authRouter.post('/login', async (req, res) => {
   }
 });
 
-authRouter.get('/logout', (req, res) => {
+authRouter.get("/logout", (req, res) => {
   try {
     req.session.destroy();
-    res.clearCookie('user_sid');
+    res.clearCookie("user_sid");
     res.sendStatus(200);
   } catch (error) {
-    console.log('Signup error!!!', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.log("Signup error!!!", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-authRouter.get('/check', async (req, res) => {
+authRouter.get("/check", async (req, res) => {
   try {
     if (req.session?.user?.id) {
       return res.json(req.session.user);
     }
     return res.sendStatus(401);
   } catch (error) {
-    console.log('Signup error!!!', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.log("Signup error!!!", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

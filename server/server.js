@@ -5,6 +5,7 @@ const session = require('express-session');
 const store = require('session-file-store');
 const passport = require('passport');
 const helmet = require('helmet');
+const path = require('path');
 const authRouter = require('./routers/authRouter');
 const pathMiddlewares = require('./middlewares/pathMiddlewares');
 const mainRouter = require('./routers/mainRouter');
@@ -53,7 +54,9 @@ app.use(passport.session());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(pathMiddlewares);
+app.use(express.static('public'));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(helmet());
 // app.use("/api/lk", transactionRouter);
 
@@ -68,8 +71,17 @@ app.use('/orders', orderRouter);
 app.use('/api/v1', api);
 app.use('/api/auth/login/forget', nodemailerRouter);
 
-app.use((err, req, res, next) => {
-  console.log(err);
-});
+// app.get("/public/:img", (req, res) => {
+//   try {
+//     console.log(req.params.img);
+//     const filePath = path.join(__dirname, "../public", req.params.img);
+//     res.sendFile(filePath);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+// app.use((err, req, res, next) => {
+//   console.log(err);
+// });
 
 app.listen(PORT, () => console.log(`Server has started on PORT ${PORT}`));

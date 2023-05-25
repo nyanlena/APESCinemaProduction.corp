@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       linkWA: DataTypes.STRING,
       categoryId: DataTypes.INTEGER,
       googleId: DataTypes.STRING,
+      userPortfolio: DataTypes.STRING,
     },
     {
       sequelize,

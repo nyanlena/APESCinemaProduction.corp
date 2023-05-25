@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 // import Img from '/work.png';
 import { Button, ButtonGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const textAnimation = {
   hidden: {
@@ -40,10 +41,10 @@ export default function MainPage(): JSX.Element {
         </motion.button> */}
         <ButtonGroup aria-label="Basic example">
           <Button variant="outline-primary">
-            <a href="/signup">Регистрация</a>
+            <Link to="/signup" style={{ textDecoration: 'none', color: 'black'}}>Регистрация</Link>
           </Button>
           <Button variant="outline-primary">
-            <a href="/login">Авторизация</a>
+            <Link to="/login" style={{ textDecoration: 'none', color: 'black'}}>Авторизация</Link>
           </Button>
         </ButtonGroup>
       </article>
