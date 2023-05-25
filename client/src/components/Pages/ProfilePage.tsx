@@ -28,7 +28,6 @@ import {
   deleteFavoriteProfileThunk,
 } from '../../features/redux/favorite/favoriteThunk';
 
-
 export default function ProfilePage(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
@@ -38,7 +37,7 @@ export default function ProfilePage(): JSX.Element {
   //favorites
   const { favorites } = useAppSelector((store) => store.favorites);
   const isLiked = favorites.some((favorite) => favorite.toId === Number(id));
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(isLiked);
 
   useEffect(() => {
     dispatch(profileThunk(Number(id)));
@@ -140,11 +139,13 @@ export default function ProfilePage(): JSX.Element {
 
   // Обработчик нажатия кнопки
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (isLiked) {
-      dispatch(deleteFavoriteProfileThunk(Number(id)));
+      const result = await dispatch(deleteFavoriteProfileThunk(Number(id)));
+      setLiked(!result); // обновляем состояние на основе результата удаления
     } else {
-      dispatch(addFavoriteProfileThunk(oneUser.id));
+      const result = await dispatch(addFavoriteProfileThunk(oneUser.id));
+      setLiked(result); // обновляем состояние на основе результата добавления
     }
   };
 
@@ -155,7 +156,7 @@ export default function ProfilePage(): JSX.Element {
           {/* Фото профиля */}
           <div style={{ position: 'relative' }}>
             <Image
-              src={oneUser.img !== null ? oneUser.img :  '/img/400.png' }
+              src={oneUser.img !== null ? oneUser.img : '/img/400.png'}
               alt="Your Image"
               fluid
               onMouseEnter={handleMouseEnter}
@@ -251,13 +252,24 @@ export default function ProfilePage(): JSX.Element {
                   Избранные
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item href="http://localhost:5173/profile/image">Изменить фотографию профиля</Dropdown.Item>
+                <Dropdown.Item href="http://localhost:5173/profile/image">
+                  Изменить фотографию профиля
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           )}
 
           {/* favorite button */}
           {Number(id) !== (user.status === 'logged' ? user.id : 'Ошибка') && (
+            // <Button
+            //   onClick={handleClick}
+            //   variant="outline-secondary"
+            //   style={{
+            //     border: 'none',
+            //   }}
+            // >
+            //   <FcLike style={{ fontSize: '35px', color: liked ? 'red' : 'black' }} />
+            // </Button>
             <Button
               onClick={handleClick}
               variant="outline-secondary"
@@ -265,7 +277,7 @@ export default function ProfilePage(): JSX.Element {
                 border: 'none',
               }}
             >
-              <FcLike style={{ fontSize: '35px', color: liked ? 'red' : 'black' }} />
+              {liked ? '❤️' : '🤍'}
             </Button>
           )}
         </Col>
