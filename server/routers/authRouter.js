@@ -81,9 +81,10 @@ authRouter.post("/login", async (req, res) => {
         email: foundUser.email,
         username: foundUser.username,
       };
+      
       return res.json(foundUser);
     }
-
+    console.log(req.session.user, "req.session.user ");
     return res.status(401).json({ message: "Wrong password" });
   } catch (error) {
     console.log("Login error!!!", error);

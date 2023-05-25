@@ -9,6 +9,7 @@ import type {
 // Define the initial state using that type
 type ProfilesSliceType = {
   oneUser: BackendChangeProfileSettingType;
+  message: string;
 };
 const initialState: ProfilesSliceType = {
   oneUser: {
@@ -30,6 +31,7 @@ const initialState: ProfilesSliceType = {
     categoryId: 0,
     userPortfolio: '',
   },
+  message: '',
 };
 
 export const profileSlice = createSlice({
