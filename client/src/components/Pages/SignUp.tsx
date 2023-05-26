@@ -113,11 +113,11 @@ export default function SignUpPage(): JSX.Element {
                 У вас уже есть учетная запись? Войти на сайт
               </Link>
             </Grid>
-            <Grid item>
+            {/* <Grid item>
               <Button type="button" onClick={forgetHandler}>
                 Забыли пароль?
               </Button>
-            </Grid>
+            </Grid> */}
             <a href="http://localhost:3001/api/v1/login/google">
               <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Войти через Google

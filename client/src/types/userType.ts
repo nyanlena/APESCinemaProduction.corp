@@ -49,4 +49,9 @@ export type LoginType = {
   password: string;
 };
 
+export type User = {
+  id: number;
+  firstName: string;
+};
+
 export type UserType = LoggedUserType | GuestUserType | FetchingUserType;

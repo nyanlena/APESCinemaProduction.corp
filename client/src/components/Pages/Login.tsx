@@ -104,11 +104,11 @@ export default function Login(): JSX.Element {
             Войти
           </Button>
           <Grid container>
-            <Grid item xs>
+            {/* <Grid item xs>
               <Link component={RouterLink} to="/" variant="body2">
                 Забыли пароль?
               </Link>
-            </Grid>
+            </Grid> */}
             <Grid item>
               <Link component={RouterLink} to="/signup" variant="body2">
                 У вас нет учетной записи? Зарегистрируйтесь

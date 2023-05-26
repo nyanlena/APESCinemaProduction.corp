@@ -1,11 +1,11 @@
 export type ProjectTypes = {
-  id: number;
-  startDate: Date | null;
-  endDate: Date | null;
+  id?: number;
+  startDate?: Date | null;
+  endDate?: Date | null;
   address: string;
   name: string;
   genre: string;
-  userId: number;
-  x: number;
-  y: number;
+  userId?: number;
+  x?: number;
+  y?: number;
 };

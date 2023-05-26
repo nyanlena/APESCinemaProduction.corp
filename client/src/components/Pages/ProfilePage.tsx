@@ -19,10 +19,10 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import { log } from 'console';
 import store, { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { changeProfileThunk, profileThunk } from '../../features/redux/profile/profileThunk';
 import type { BackendChangeProfileType } from '../../types/profileActionType';
-import { log } from 'console';
 import {
   addFavoriteProfileThunk,
   deleteFavoriteProfileThunk,
@@ -34,7 +34,7 @@ function ProfilePage(): JSX.Element {
   const oneUser = useAppSelector((store) => store.oneProfile.oneUser);
   const user = useAppSelector((store) => store.user as BackendChangeProfileType);
 
-  //favorites
+  // favorites
   const { favorites } = useAppSelector((store) => store.favorites);
   const isLiked = favorites.some((favorite) => favorite.toId === Number(id));
   const [liked, setLiked] = useState(isLiked);

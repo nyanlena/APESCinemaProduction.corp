@@ -18,6 +18,7 @@ import { checkUserThunk } from './features/redux/user/thunkActions';
 import PrivateRouter from './HOC/PrivateRouter';
 import Loader from './HOC/Loader';
 import SeachProjects from './components/Pages/SeachProjects';
+import { wsInitAction } from './features/redux/wsActions';
 import ImagePage from './components/Pages/ImagePage';
 
 function App(): JSX.Element {
@@ -29,14 +30,23 @@ function App(): JSX.Element {
     dispatch(checkUserThunk());
   }, []);
 
+  useEffect(() => {
+    if (user.status === 'logged') {
+      dispatch(wsInitAction());
+    }
+  }, [user]);
+
   return (
     <Container>
       <Loader>
         <>
           {!(
             // location.pathname === '/' ||
-            location.pathname === '/signup' ||
-            location.pathname === '/signup/role'
+            (
+              user.status === 'guest' ||
+              location.pathname === '/signup' ||
+              location.pathname === '/signup/role'
+            )
           ) && <Navbar />}
           {/* <Navbar /> */}
           <Routes>

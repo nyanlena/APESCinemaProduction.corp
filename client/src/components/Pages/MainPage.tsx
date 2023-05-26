@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-// import Img from '/work.png';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Img from '/mainPage.png';
+import { useAppSelector } from '../../features/redux/store';
 
 const textAnimation = {
   hidden: {
@@ -17,6 +18,8 @@ const textAnimation = {
 };
 
 export default function MainPage(): JSX.Element {
+  const user = useAppSelector((store) => store.user);
+
   return (
     <motion.section
       initial="hidden"
@@ -28,8 +31,8 @@ export default function MainPage(): JSX.Element {
           Добро пожаловать на наш сайт!
         </motion.h1>
         <motion.p custom={2} variants={textAnimation}>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet explicabo eligendi
-          maiores, numquam enim quidem non ex ipsum. Asperiores, autem!
+          APES - сервис для работников киноиндустрии, здесь вы можете найти свой идеальный каст,
+          общаться с коллегами, вести съемки!
         </motion.p>
         {/* <motion.button
           custom={3}
@@ -39,16 +42,24 @@ export default function MainPage(): JSX.Element {
         >
           <a href="/signup">Регистрация</a>
         </motion.button> */}
-        <ButtonGroup aria-label="Basic example">
-          <Button variant="outline-primary">
-            <Link to="/signup" style={{ textDecoration: 'none', color: 'black'}}>Регистрация</Link>
-          </Button>
-          <Button variant="outline-primary">
-            <Link to="/login" style={{ textDecoration: 'none', color: 'black'}}>Авторизация</Link>
-          </Button>
-        </ButtonGroup>
+        {user.status === 'guest' && (
+          <ButtonGroup aria-label="Basic example">
+            <Button variant="outline-primary">
+              <Link to="/signup" style={{ textDecoration: 'none', color: 'black' }}>
+                Регистрация
+              </Link>
+            </Button>
+            <Button variant="outline-primary">
+              <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
+                Авторизация
+              </Link>
+            </Button>
+          </ButtonGroup>
+        )}
       </article>
-      <div>{/* <motion.img src={Img} alt="hero" custom={4} variants={textAnimation} /> */}</div>
+      <div>
+        <motion.img src={Img} alt="hero" custom={4} variants={textAnimation} />
+      </div>
     </motion.section>
   );
 }

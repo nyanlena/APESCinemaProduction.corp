@@ -11,7 +11,6 @@ seachRouter.get("/projects", isAuth, async (req, res) => {
       order: [["createdAt", "DESC"]],
       include: [{ model: User }],
     });
-    console.log(allPosts);
     res.json(allPosts);
   } catch (err) {
     console.log("error!!!1", err);
@@ -29,7 +28,6 @@ seachRouter.post("/projects", async (req, res) => {
       userId: req.session.user.id,
       projectId: newPost.id,
     });
-    console.log(newPost);
     res.json(newPost);
   } catch (err) {
     console.log("error!!!1", err);

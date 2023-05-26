@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { updateProjThunk } from '../../features/redux/seachProjects/seachProjThunk';
 import Map from '../Ui/Map';
 import ModalAddProj from './ModalAddProj';
+import ChatPage from './ChatPage';
 
 type ProjectTypeProps = {
   project: ProjectTypes;
@@ -178,7 +179,9 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
       {project.User.img ? (
         <img
           alt="pic"
-          src={project.User.img}
+          src={
+            project.User.img !== null ? `http://localhost:3001/${project.User.img}` : '/img/400.png'
+          }
           style={{ width: '60px', borderRadius: '50px', border: '2px solid red' }}
         />
       ) : (
@@ -244,6 +247,7 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
           </ModalFooter>
         </Form>
       </Modal>
+      <ChatPage />
     </>
   );
 }

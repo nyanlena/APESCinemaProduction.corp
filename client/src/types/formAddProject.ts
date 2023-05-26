@@ -1,5 +1,5 @@
 type FormAddProjectType = {
-  id: number;
+  id?: number;
   name: string;
   genre: string;
   address: string;

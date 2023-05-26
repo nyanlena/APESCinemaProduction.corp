@@ -1,7 +1,5 @@
 export type ChatTypes = {
-  id: number;
-  type: string;
+  name?: string;
   body: string;
-  userId: number;
   projectId: number;
 };
