@@ -21,7 +21,6 @@ import SeachProjects from './components/Pages/SeachProjects';
 import { wsInitAction } from './features/redux/wsActions';
 import ImagePage from './components/Pages/ImagePage';
 
-
 function App(): JSX.Element {
   const location = useLocation();
   const user = useAppSelector((store) => store.user);
@@ -43,8 +42,11 @@ function App(): JSX.Element {
         <>
           {!(
             // location.pathname === '/' ||
-            location.pathname === '/signup' ||
-            location.pathname === '/signup/role'
+            (
+              user.status === 'guest' ||
+              location.pathname === '/signup' ||
+              location.pathname === '/signup/role'
+            )
           ) && <Navbar />}
           {/* <Navbar /> */}
           <Routes>

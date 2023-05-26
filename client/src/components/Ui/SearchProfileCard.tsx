@@ -39,7 +39,7 @@ function SearchProfileCard({ profile, delay = 0 }: ProfileCardProps): JSX.Elemen
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img
               alt="example"
-              src={profile.img}
+              src={profile.img !== null ? `http://localhost:3001/${profile.img}` : '/img/400.png'}
               style={{ width: 150, objectFit: 'contain', borderRadius: '5px' }}
             />
             <div style={{ marginLeft: '100px' }}>

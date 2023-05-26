@@ -61,7 +61,7 @@ function FavoriteCards({ profile }: favoriteProps): JSX.Element {
             <a href={`profile/${profile.id}`}>
               <img
                 alt="example"
-                src={profile.img}
+                src={profile.img !== null ? `http://localhost:3001/${profile.img}` : '/img/400.png'}
                 style={{ width: 210, objectFit: 'contain', borderRadius: '5px' }}
               />
             </a>

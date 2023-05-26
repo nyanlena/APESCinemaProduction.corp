@@ -179,7 +179,9 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
       {project.User.img ? (
         <img
           alt="pic"
-          src={project.User.img}
+          src={
+            project.User.img !== null ? `http://localhost:3001/${project.User.img}` : '/img/400.png'
+          }
           style={{ width: '60px', borderRadius: '50px', border: '2px solid red' }}
         />
       ) : (

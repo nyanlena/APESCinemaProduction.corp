@@ -54,4 +54,4 @@ export type User = {
   firstName: string;
 };
 
-export type UserType = LoggedUserType | GuestUserType | FetchingUserType 
+export type UserType = LoggedUserType | GuestUserType | FetchingUserType;
