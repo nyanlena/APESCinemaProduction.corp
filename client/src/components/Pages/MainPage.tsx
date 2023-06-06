@@ -43,7 +43,7 @@ export default function MainPage(): JSX.Element {
           <a href="/signup">Регистрация</a>
         </motion.button> */}
         {user.status === 'guest' && (
-          <ButtonGroup aria-label="Basic example">
+          <ButtonGroup aria-label="Basic example" className="m-5">
             <Button variant="outline-primary">
               <Link to="/signup" style={{ textDecoration: 'none', color: 'black' }}>
                 Регистрация

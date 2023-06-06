@@ -139,7 +139,7 @@ module.exports = {
         {
           email: "5@5",
           password: userpass5,
-          firstName: "Светочка",
+          firstName: "Светлана",
           lastName: "Николаева",
           patronymicname: null,
           city: "Москва",
@@ -165,7 +165,7 @@ module.exports = {
           patronymicname: null,
           city: "Москва",
           age: "24",
-          img: "B-hITHIHTQ0.jpg",
+          img: "YCfIZdisQGk.jpg",
           education: "МГУ",
           experience: "очень большой",
           aboutMe: "самая красивая",

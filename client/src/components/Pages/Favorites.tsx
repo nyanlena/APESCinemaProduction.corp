@@ -20,7 +20,7 @@ export default function Favorites(): JSX.Element {
   }, []);
 
   return (
-    <Container>
+    <Container style={{ height: '80vh' }}>
       <Row>
         {profiles.map((profile) => (
           <FavoriteCards key={profile.id} profile={profile} />

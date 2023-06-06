@@ -42,7 +42,7 @@ export default function SeachProjects(): JSX.Element {
   };
 
   return (
-    <Container style={{ marginTop: '20px' }}>
+    <Container style={{ marginTop: '20px', height: '78vh' }}>
       <Button
         type="button"
         style={{
