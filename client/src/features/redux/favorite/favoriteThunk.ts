@@ -1,17 +1,26 @@
 import axios from 'axios';
-import { FavoriteTypes } from '../../../types';
-import { RootState, ThunkActionCreater } from '../store';
+import type { ChatTypes, FavoriteTypes } from '../../../types';
+import type { AppThunk, ThunkActionCreater } from '../store';
+import { RootState } from '../store';
 import { addFavorite, removeFavorite, setFavorites } from './favoriteSlice';
 
-export const getFavoriteProfileThunk: ThunkActionCreater = () => async (dispatch) => {
-  try {
-    const { data } = await axios.get<FavoriteTypes[]>('favorites');
-    dispatch(setFavorites(data));
-  } catch (error) {
-    console.error('Error: ', error);
-  }
-};
-
+// export const getFavoriteProfileThunk: ThunkActionCreater =
+//   (projectId: number) => async (dispatch) => {
+//     try {
+//       const { data } = await axios.get<FavoriteTypes[]>(`/addpeople/${projectId}`);
+//       dispatch(setFavorites(data));
+//     } catch (error) {
+//       console.error('Error: ', error);
+//     }
+//   };
+export const getAllFavThunk =
+  (fromId: FavoriteTypes['fromId']): AppThunk =>
+  (dispatch) => {
+    axios
+      .get<FavoriteTypes[]>(`/addpeople/${fromId}`)
+      .then(({ data }) => dispatch(setFavorites(data)))
+      .catch(console.log);
+  };
 // export const sendMessageThunk: ThunkActionCreater<FavoriteTypes> = () => (dispatch) => {
 //   try {
 //     // axios.post<FavoriteTypes>('favorites/send');

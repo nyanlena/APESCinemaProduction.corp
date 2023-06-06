@@ -82,7 +82,7 @@ export default function SignUpPage(): JSX.Element {
               <TextField
                 required
                 fullWidth
-                type='email'
+                type="email"
                 id="email"
                 label="Email Address"
                 name="email"
@@ -118,10 +118,17 @@ export default function SignUpPage(): JSX.Element {
                 Забыли пароль?
               </Button>
             </Grid> */}
-            <a href="http://localhost:3001/api/v1/login/google">
-              <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Войти через Google
-              </Button>
+            <a
+              href="http://localhost:3001/api/v1/login/google"
+              style={{ textAlign: 'center', marginTop: '10px' }}
+            >
+              {/* <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}> */}
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+                alt="google"
+                style={{ width: '8%' }}
+              />
+              {/* </Button> */}
             </a>
           </Grid>
         </Box>

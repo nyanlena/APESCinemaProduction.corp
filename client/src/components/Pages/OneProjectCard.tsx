@@ -16,12 +16,15 @@ import { Input } from 'antd';
 import { YMaps, Placemark, withYMaps } from '@pbe/react-yandex-maps';
 import moment from 'moment';
 import 'moment/locale/ru';
+import { MenuItem, Select } from '@mui/material';
 import type { ProjectTypes } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { updateProjThunk } from '../../features/redux/seachProjects/seachProjThunk';
 import Map from '../Ui/Map';
 import ModalAddProj from './ModalAddProj';
 import ChatPage from './ChatPage';
+import MenuFavorite from './MenuFavorite';
+import { getAllFavThunk } from '../../features/redux/favorite/favoriteThunk';
 
 type ProjectTypeProps = {
   project: ProjectTypes;
@@ -31,6 +34,8 @@ const MapWithYMaps = withYMaps(Map, true);
 
 export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Element {
   const user = useAppSelector((store) => store.user);
+  const favorites = useAppSelector((store) => store.favorites.favorites);
+  console.log(favorites);
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [inputs, setInputs] = useState({
@@ -86,26 +91,30 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
   const [showInput, setShowInput] = useState(false);
   const submitHandler = (): void => {
     setShowInput((prev) => !prev);
+    dispatch(getAllFavThunk(user.id));
   };
   return (
     <>
       <Card
-        className="my-2"
+        className="my-2 project__container"
         color="info"
         outline
         style={{
           width: '46rem',
           display: 'flex',
           justifyContent: 'center',
+          boxShadow: '0 0 10px rgb(0, 0, 0, 0.5)',
+          marginTop: '40px',
+          border: '1px solid black',
         }}
       >
         <CardHeader>
           <CardTitle tag="h5">Название проекта: {project.name}</CardTitle>
         </CardHeader>
         <CardBody>
-          {project.User.Category?.title ? (
+          {project?.User?.Category?.title ? (
             <CardText>
-              {project.User.Category.title}:{' '}
+              {project?.User?.Category.title}:{' '}
               <a href={`/profile/${project.userId}`}>
                 {project.User.firstName} {project.User.lastName}
               </a>
@@ -161,7 +170,21 @@ export default function OneProjectCard({ project }: ProjectTypeProps): JSX.Eleme
           {!showInput && <span style={{ color: 'blue' }}>Добавить персонал в проект</span>}
           {showInput ? (
             <Form>
-              <Input />
+              <Select
+                required
+                fullWidth
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Выбрать категорию"
+                name="categoryId"
+                // value={selectedCategory}
+                // onChange={handleCategoryChange}
+                sx={{ mb: 2 }}
+              >
+                {favorites?.map((el) => (
+                  <MenuFavorite key={el.id} favorite={el} />
+                ))}
+              </Select>
               <Button type="submit" style={{ border: '20px', backgroundColor: 'green' }}>
                 Добавить
               </Button>

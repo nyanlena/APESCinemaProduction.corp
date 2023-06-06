@@ -20,6 +20,7 @@ const orderRouter = require("./routers/orderRouter");
 const projectRouter = require("./routers/projectRouter");
 const nodemailerRouter = require("./routers/nodemailerRouter");
 const chatRouter = require("./routers/chatRouter");
+const addRouter = require("./routers/addRouter");
 const api = require("./routers/api");
 require("dotenv").config();
 
@@ -77,6 +78,7 @@ app.use("/projects", projectRouter);
 app.use("/favorites", favoriteRouter);
 app.use("/orders", orderRouter);
 app.use("/chat", chatRouter);
+app.use("/addpeople", addRouter);
 app.use("/api/v1", api);
 app.use("/api/auth/login/forget", nodemailerRouter);
 

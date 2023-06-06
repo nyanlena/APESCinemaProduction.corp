@@ -50,11 +50,18 @@ function FavoriteCards({ profile }: favoriteProps): JSX.Element {
   };
 
   return (
-    <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
+    <Col
+      xs={12}
+      sm={6}
+      md={4}
+      lg={3}
+      className="mb-4"
+      style={{ marginRight: '30px', marginTop: '30px' }}
+    >
       <Box component="form">
         <Card
           // hoverable
-          style={{ width: 240, height: 400 }}
+          style={{ width: 240, height: 450 }}
         >
           <Card.Body>
             {' '}
