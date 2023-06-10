@@ -26,7 +26,7 @@ function SearchProfileCard({ profile, delay = 0 }: ProfileCardProps): JSX.Elemen
     <Container
       style={{
         marginTop: 30,
-        marginBottom: 30,
+        marginBottom: 40,
         opacity: isVisible ? 1 : 0,
         transition: 'opacity 0.8s',
         display: 'flex',
@@ -54,21 +54,21 @@ function SearchProfileCard({ profile, delay = 0 }: ProfileCardProps): JSX.Elemen
                 title={profile.lastName + ' ' + profile.firstName}
                 style={{ marginTop: '20px' }}
               /> */}
-              <h4 style={{ marginTop: '20px', textDecoration: 'none' }}>
+              <h5 style={{ marginTop: '20px', textDecoration: 'none' }}>
                 ФИО: {profile.lastName + ' ' + profile.firstName}
-              </h4>
+              </h5>
               {/* <Meta title={categoryTitle || 'No Category'} style={{ marginTop: '20px' }} />
               <Meta title={profile.phone} style={{ marginTop: '20px' }} /> */}
-              <h5 style={{ marginTop: '20px', textDecoration: 'none' }}>
+              <h6 style={{ marginTop: '20px', textDecoration: 'none' }}>
                 Профессия: {categoryTitle || 'No Category'}
-              </h5>
-              <h5 style={{ marginTop: '20px', textDecoration: 'none' }}>
+              </h6>
+              <h6 style={{ marginTop: '20px', textDecoration: 'none' }}>
                 Контактные данные:
                 <br />
                 {profile.phone}
                 <br />
                 e-mail: {profile.email}
-              </h5>
+              </h6>
             </div>
           </div>
         </Card>
