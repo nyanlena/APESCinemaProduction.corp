@@ -61,7 +61,7 @@ function FavoriteCards({ profile }: favoriteProps): JSX.Element {
       <Box component="form">
         <Card
           // hoverable
-          style={{ width: 240, height: 450 }}
+          style={{ width: 260, height: 480 }}
         >
           <Card.Body>
             {' '}
