@@ -18,9 +18,47 @@ export default function SignUpPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const [password, setPassword] = React.useState<string>('');
+  const [passwordError, setPasswordError] = React.useState<string>('');
+
+  function validatePassword(password: string): boolean {
+    setPassword(password);
+
+    if (!/^[a-zA-Z0-9!]*$/.test(password)) {
+      setPasswordError('Пароль должен содержать только символы латиницы');
+      return false;
+    }
+
+    if (!/^[A-Z]/.test(password)) {
+      setPasswordError('Пароль должен начинаться с заглавной буквы');
+      return false;
+    }
+
+    if (!/\d/.test(password)) {
+      setPasswordError('Пароль должен содержать цифры');
+      return false;
+    }
+
+    if (!/[!@#$%^&*]/.test(password)) {
+      setPasswordError('Пароль должен иметь символы "!@#$%^&*"');
+      return false;
+    }
+
+    if (!/.{8,}/.test(password)) {
+      setPasswordError('Пароль должен быть не меньше 8 символов');
+      return false;
+    }
+
+    setPasswordError('');
+    return true;
+  }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.currentTarget)) as SignUpType;
+    if (!validatePassword(password)) {
+      return;
+    }
     dispatch(signUpThunk(formData));
     navigate('/signup/role');
     console.log(formData);
@@ -101,6 +139,9 @@ export default function SignUpPage(): JSX.Element {
                 id="password"
                 autoComplete="new-password"
                 onClick={handleCloseEyeClick}
+                onChange={(e) => validatePassword(e.target.value)}
+                error={Boolean(passwordError)}
+                helperText={passwordError}
               />
             </Grid>
           </Grid>

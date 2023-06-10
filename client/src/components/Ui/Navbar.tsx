@@ -129,13 +129,13 @@ export default function Navbar(): JSX.Element {
         {user.status === 'logged' && (
           <Menu theme="dark" mode="horizontal">
             <Menu.Item key={logoutItem.key}>
-              <Link
+              <a
                 onClick={() => dispatch(logoutThunk())}
-                to={logoutItem.path}
+                href={logoutItem.path}
                 style={{ textDecoration: 'none' }}
               >
                 {logoutItem.label}
-              </Link>
+              </a>
             </Menu.Item>
           </Menu>
         )}
