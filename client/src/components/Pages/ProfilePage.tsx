@@ -19,6 +19,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Dropdown from 'react-bootstrap/Dropdown';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import { log } from 'console';
 import store, { useAppDispatch, useAppSelector } from '../../features/redux/store';
 import { changeProfileThunk, profileThunk } from '../../features/redux/profile/profileThunk';
@@ -35,18 +37,19 @@ function ProfilePage(): JSX.Element {
   const user = useAppSelector((store) => store.user as BackendChangeProfileType);
 
   // favorites
-  const { favorites } = useAppSelector((store) => store.favorites);
-  const isLiked = favorites.some((favorite) => favorite.toId === Number(id));
-  const [liked, setLiked] = useState(isLiked);
+  const [liked, setLiked] = useState(() => {
+    const isLiked = localStorage.getItem(`liked-${id}`);
+    return isLiked ? JSON.parse(isLiked) : isLiked;
+  });
+  const tooltip = liked ? 'Удалить из избранного' : 'Добавить в избранное';
 
   useEffect(() => {
     dispatch(profileThunk(Number(id)));
   }, []);
 
   useEffect(() => {
-    const isLiked = favorites.some((favorite) => favorite.toId === Number(id));
-    setLiked(isLiked);
-  }, [favorites]);
+    localStorage.setItem(`liked-${id}`, JSON.stringify(liked));
+  }, [id, liked]);
 
   // модальное окно с фотографией
   const [showModal, setShowModal] = useState(false);
@@ -141,16 +144,19 @@ function ProfilePage(): JSX.Element {
   console.log(inputProfile);
 
   // favorite
-
-  // Обработчик нажатия кнопки
-
   const handleClick = async () => {
-    if (isLiked) {
+    if (liked) {
       const result = await dispatch(deleteFavoriteProfileThunk(Number(id)));
-      setLiked(!result); // обновляем состояние на основе результата удаления
+      if (result) {
+        setLiked(false);
+        localStorage.setItem(`liked-${id}`, JSON.stringify(false));
+      }
     } else {
       const result = await dispatch(addFavoriteProfileThunk(oneUser.id));
-      setLiked(result); // обновляем состояние на основе результата добавления
+      if (result) {
+        setLiked(true);
+        localStorage.setItem(`liked-${id}`, JSON.stringify(true));
+      }
     }
   };
 
@@ -166,7 +172,7 @@ function ProfilePage(): JSX.Element {
               fluid
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseEnter}
-              style={{ width: '400px', height: '400px', borderRadius: '15px' }}
+              style={{ width: '400px', height: '400px', objectFit: 'cover', borderRadius: '15px' }}
             />
 
             <Button
@@ -266,15 +272,18 @@ function ProfilePage(): JSX.Element {
             </Dropdown>
           )}
           {Number(id) !== (user ? user.id : 'Ошибка') && (
-            <Button
-              onClick={handleClick}
-              variant="outline-secondary"
-              style={{
-                border: 'none',
-              }}
-            >
-              {liked ? '❤️' : '🤍'}
-            </Button>
+            <OverlayTrigger placement="top" overlay={<Tooltip>{tooltip}</Tooltip>}>
+              <Button
+                onClick={handleClick}
+                variant="outline-secondary"
+                style={{
+                  border: 'none',
+                  fontSize: '32px',
+                }}
+              >
+                {liked ? '❤️' : '🤍'}
+              </Button>
+            </OverlayTrigger>
           )}
         </Col>
       </Row>

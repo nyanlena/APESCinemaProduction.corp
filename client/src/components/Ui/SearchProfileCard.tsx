@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from 'antd';
-import { Container } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
 import { BackendUserType } from '../../types';
 import { useAppSelector } from '../../features/redux/store';
 
@@ -8,7 +8,7 @@ const { Meta } = Card;
 
 type ProfileCardProps = {
   profile: BackendUserType;
-  delay?: number; // Delay before the card appears
+  delay?: number;
 };
 
 function SearchProfileCard({ profile, delay = 0 }: ProfileCardProps): JSX.Element {
@@ -26,15 +26,22 @@ function SearchProfileCard({ profile, delay = 0 }: ProfileCardProps): JSX.Elemen
     <Container
       style={{
         marginTop: 30,
-        marginBottom: 30,
+        marginBottom: 40,
         opacity: isVisible ? 1 : 0,
         transition: 'opacity 0.8s',
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
       <a href={`/profile/${profile.id}`}>
         <Card
           hoverable
-          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+          style={{
+            width: '850px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <img
@@ -42,13 +49,26 @@ function SearchProfileCard({ profile, delay = 0 }: ProfileCardProps): JSX.Elemen
               src={profile.img !== null ? `http://localhost:3001/${profile.img}` : '/img/400.png'}
               style={{ width: 150, objectFit: 'contain', borderRadius: '5px' }}
             />
-            <div style={{ marginLeft: '100px' }}>
-              <Meta
+            <div style={{ marginLeft: '200px' }}>
+              {/* <Meta
                 title={profile.lastName + ' ' + profile.firstName}
                 style={{ marginTop: '20px' }}
-              />
-              <Meta title={categoryTitle || 'No Category'} style={{ marginTop: '20px' }} />
-              <Meta title={profile.phone} style={{ marginTop: '20px' }} />
+              /> */}
+              <h5 style={{ marginTop: '20px', textDecoration: 'none' }}>
+                ФИО: {profile.lastName + ' ' + profile.firstName}
+              </h5>
+              {/* <Meta title={categoryTitle || 'No Category'} style={{ marginTop: '20px' }} />
+              <Meta title={profile.phone} style={{ marginTop: '20px' }} /> */}
+              <h6 style={{ marginTop: '20px', textDecoration: 'none' }}>
+                Профессия: {categoryTitle || 'No Category'}
+              </h6>
+              <h6 style={{ marginTop: '20px', textDecoration: 'none' }}>
+                Контактные данные:
+                <br />
+                {profile.phone}
+                <br />
+                e-mail: {profile.email}
+              </h6>
             </div>
           </div>
         </Card>

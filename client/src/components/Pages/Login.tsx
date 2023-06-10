@@ -114,6 +114,18 @@ export default function Login(): JSX.Element {
                 У вас нет учетной записи? Зарегистрируйтесь
               </Link>
             </Grid>
+            <a
+              href="http://localhost:3001/api/v1/login/google"
+              style={{ textAlign: 'center', marginTop: '10px' }}
+            >
+              {/* <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}> */}
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
+                alt="google"
+                style={{ width: '8%' }}
+              />
+              {/* </Button> */}
+            </a>
           </Grid>
         </Box>
       </Box>

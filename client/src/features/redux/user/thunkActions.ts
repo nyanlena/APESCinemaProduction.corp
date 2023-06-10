@@ -9,10 +9,14 @@ export const checkUserThunk: ThunkActionCreater = () => (dispatch) => {
     .catch(() => dispatch(setUser({ status: 'guest' })));
 };
 
-export const logoutThunk: ThunkActionCreater = () => (dispatch) => {
-  axios('api/auth/logout')
-    .then(() => dispatch(logoutUser()))
-    .catch((err) => console.log(err));
+export const logoutThunk: ThunkActionCreater = () => async (dispatch) => {
+  try {
+    await axios('api/auth/logout');
+    dispatch(logoutUser());
+    window.location.href = '/';
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const signUpThunk: ThunkActionCreater<SignUpType> = (userData) => (dispatch) => {

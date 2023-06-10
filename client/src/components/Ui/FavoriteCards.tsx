@@ -50,57 +50,80 @@ function FavoriteCards({ profile }: favoriteProps): JSX.Element {
   };
 
   return (
-    <Col
-      xs={12}
-      sm={6}
-      md={4}
-      lg={3}
-      className="mb-4"
-      style={{ marginRight: '30px', marginTop: '30px' }}
-    >
-      <Box component="form">
+    <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          height: '100%',
+          marginTop: '30px',
+        }}
+      >
         <Card
-          // hoverable
-          style={{ width: 240, height: 450 }}
+          style={{
+            width: 260,
+            height: 400,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
         >
-          <Card.Body>
-            {' '}
-            <a href={`profile/${profile.id}`}>
-              <img
-                alt="example"
-                src={profile.img !== null ? `http://localhost:3001/${profile.img}` : '/img/400.png'}
-                style={{ width: 210, objectFit: 'contain', borderRadius: '5px' }}
-              />
-            </a>
-            <Card.Title>{`${profile.lastName} ${profile.firstName} ${profile.patronymicname}`}</Card.Title>
-            <Card.Text>{categoryTitle || 'No category'}</Card.Text>
-            <Button variant="primary" onClick={openModal}>
+          <a href={`profile/${profile.id}`}>
+            <Card.Img
+              variant="top"
+              src={profile.img !== null ? `http://localhost:3001/${profile.img}` : '/img/400.png'}
+              style={{
+                width: 230,
+                height: 240,
+                objectFit: 'cover',
+                borderRadius: '5px',
+                marginTop: '20px',
+              }}
+            />
+          </a>
+          <Card.Body
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              flex: '1 0 auto',
+              marginTop: 'auto',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div>
+              <Card.Title>{`${profile.lastName} ${profile.firstName} ${profile.patronymicname}`}</Card.Title>
+              <Card.Text>{categoryTitle || 'No category'}</Card.Text>
+            </div>
+            <Button variant="primary" onClick={openModal} style={{ width: '100%' }}>
               Отправить заявку
             </Button>
           </Card.Body>
         </Card>
+        <Modal show={modalVisible} onHide={closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Отправить сообщение</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <textarea
+              value={contactInfo}
+              onChange={handleContactInfoChange}
+              placeholder="Введите контактные данные"
+              style={{ width: '100%', height: '150px' }}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeModal}>
+              Отмена
+            </Button>
+            <Button variant="primary" onClick={handleSendMessage}>
+              Отправить
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Box>
-      <Modal show={modalVisible} onHide={closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Отправить сообщение</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <textarea
-            value={contactInfo}
-            onChange={handleContactInfoChange}
-            placeholder="Введите контактные данные"
-            style={{ width: '100%', height: '150px' }}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={closeModal}>
-            Отмена
-          </Button>
-          <Button variant="primary" onClick={handleSendMessage}>
-            Отправить
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </Col>
   );
 }
