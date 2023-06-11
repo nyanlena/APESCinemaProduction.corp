@@ -1,6 +1,6 @@
 const express = require('express');
 const { User, Favorite } = require('../db/models');
-const mailer = require('../mailer/mailer');
+const { mailer } = require('../mailer/mailer');
 
 const favoriteRouter = express.Router();
 
