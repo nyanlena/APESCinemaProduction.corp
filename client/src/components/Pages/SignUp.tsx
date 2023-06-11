@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 // import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,9 +18,44 @@ import { signUpThunk } from '../../features/redux/user/thunkActions';
 export default function SignUpPage(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const [email, setEmail] = React.useState<string>('');
+  const [emailError, setEmailError] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
   const [passwordError, setPasswordError] = React.useState<string>('');
+
+  function validateEmail(email: string): boolean {
+    setEmail(email);
+
+    const emailRegexp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ru)$/;
+
+    if (!emailRegexp.test(email)) {
+      setEmailError(
+        'Электронный адрес должен быть валидным, содержать только латинские буквы, и оканчиваться на .com или .ru',
+      );
+      return false;
+    }
+
+    if (email.length <= 8) {
+      setEmailError('Электронный адрес должен быть длиннее 8 символов');
+      return false;
+    }
+
+    axios
+      .post('api/auth/check-email', { email })
+      .then(({ data }) => {
+        if (data.exists) {
+          setEmailError('Электронный адрес уже зарегистрирован, пожалуйста, войдите в систему');
+          return false;
+        } else {
+          setEmailError('');
+          return true;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return false;
+      });
+  }
 
   function validatePassword(password: string): boolean {
     setPassword(password);
@@ -56,7 +92,7 @@ export default function SignUpPage(): JSX.Element {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.currentTarget)) as SignUpType;
-    if (!validatePassword(password)) {
+    if (!validatePassword(password) || !validateEmail(email)) {
       return;
     }
     dispatch(signUpThunk(formData));
@@ -127,6 +163,9 @@ export default function SignUpPage(): JSX.Element {
                 autoComplete="email"
                 autoFocus
                 onClick={handleOpenEyeClick}
+                onChange={(e) => validateEmail(e.target.value)}
+                error={Boolean(emailError)}
+                helperText={emailError}
               />
             </Grid>
             <Grid item xs={12}>

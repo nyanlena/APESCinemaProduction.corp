@@ -134,4 +134,22 @@ authRouter.post('/signup/role', async (req, res) => {
   }
 });
 
+authRouter.post('/check-email', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const foundUser = await User.findOne({
+      where: { email },
+    });
+
+    if (foundUser) {
+      res.json({ exists: true });
+    } else {
+      res.json({ exists: false });
+    }
+  } catch (error) {
+    console.log('Email check error!!!', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = authRouter;

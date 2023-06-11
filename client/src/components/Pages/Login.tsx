@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,13 +19,75 @@ import type { LoginType } from '../../types';
 export default function Login(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [email, setEmail] = React.useState<string>('');
+  const [emailError, setEmailError] = React.useState<string>('');
+  const [password, setPassword] = React.useState<string>('');
+  const [passwordError, setPasswordError] = React.useState<string>('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const validateEmail = (email: string) => {
+    setEmail(email);
+
+    const emailRegexp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ru)$/;
+    if (!emailRegexp.test(email)) {
+      setEmailError(
+        'Электронный адрес должен быть валидным, содержать только латинские буквы, и оканчиваться на .com или .ru',
+      );
+      return false;
+    }
+
+    if (email.length <= 8) {
+      setEmailError('Электронный адрес должен быть длиннее 8 символов');
+      return false;
+    }
+
+    axios
+      .post('api/auth/check-email', { email })
+      .then(({ data }) => {
+        if (!data.exists) {
+          setEmailError(
+            'Пользователь с таким электронным адресом не найден, пожалуйста, зарегистрируйтесь',
+          );
+          return false;
+        } else {
+          setEmailError('');
+          return true;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return false;
+      });
+  };
+
+  const validatePassword = (password: string) => {
+    setPassword(password);
+
+    if (password.length < 6) {
+      setPasswordError('Пароль должен содержать не менее 6 символов');
+      return false;
+    } else {
+      setPasswordError('');
+      return true;
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.currentTarget)) as LoginType;
 
-    dispatch(loginThunk(data));
-    navigate('/');
+    try {
+      const response = await axios.post('api/auth/login', data);
+
+      setEmailError('');
+      setPasswordError('');
+
+      dispatch(loginThunk(data));
+      navigate('/');
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setPasswordError('Пароль введен неверно, пожалуйста, повторите попытку');
+      }
+    }
   };
 
   const handleOpenEyeClick = () => {
@@ -85,6 +148,9 @@ export default function Login(): JSX.Element {
                 autoComplete="email"
                 autoFocus
                 onClick={handleOpenEyeClick}
+                onChange={(e) => validateEmail(e.target.value)}
+                error={Boolean(emailError)}
+                helperText={emailError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -96,7 +162,9 @@ export default function Login(): JSX.Element {
                 type="password"
                 id="password"
                 autoComplete="new-password"
-                onClick={handleCloseEyeClick}
+                onChange={(e) => validatePassword(e.target.value)}
+                error={Boolean(passwordError)}
+                helperText={passwordError}
               />
             </Grid>
           </Grid>
