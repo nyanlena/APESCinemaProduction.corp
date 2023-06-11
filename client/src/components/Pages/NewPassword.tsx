@@ -8,15 +8,13 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useAppDispatch } from '../../features/redux/store';
 import { Modal } from 'antd';
 
 export default function NewPassword(): JSX.Element {
   const [password, setPassword] = React.useState<string>('');
   const [passwordError, setPasswordError] = React.useState<string>('');
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { uuid } = useParams();
+  const { uuid } = useParams<{ uuid: string }>();
 
   const [haveAccess, setHaveAccess] = React.useState(false);
   React.useEffect(() => {
@@ -71,7 +69,7 @@ export default function NewPassword(): JSX.Element {
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const values: Record<string, string> = {};
+    const values: Record<string, FormDataEntryValue> = {};
     formData.forEach((value, key) => {
       values[key] = value;
     });
