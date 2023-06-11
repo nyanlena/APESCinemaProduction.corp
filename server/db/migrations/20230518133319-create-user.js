@@ -96,6 +96,16 @@ module.exports = {
         allowNull: true,
         onDelete: 'SET NULL',
       },
+      uuid: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        onDelete: 'SET NULL',
+      },
+      codeword: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        onDelete: 'SET NULL',
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

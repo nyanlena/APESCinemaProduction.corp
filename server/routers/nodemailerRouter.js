@@ -1,13 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const sendEmail = require('../mailer/mailer');
+const { sendEmail, generateCodeWord } = require('../mailer/mailer');
 const { v4: uuidv4 } = require('uuid');
 const { User } = require('../db/models');
 
-const mailerRouter = express.Router();
+const nodeMailerRouter = express.Router();
 
-// endpoint на email (кому отправлять сгенерированный код)
-mailerRouter.post('/', async (req, res) => {
+nodeMailerRouter.post('/', async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ where: { email } });
@@ -21,16 +20,23 @@ mailerRouter.post('/', async (req, res) => {
     user.uuid = uuid;
     await user.save();
 
-    sendEmail(user, uuid);
-    return res.sendStatus(200);
-  } catch (e) {
-    console.log('Nodemailer post:', e);
+    const userEmail = user.get('email');
+
+    if (user && userEmail) {
+      console.log(`Sending email to: ${userEmail}`);
+      sendEmail(user, uuid);
+      return res.sendStatus(200);
+    } else {
+      console.log('User email not defined:', user);
+      return res.status(400).send('User email not defined');
+    }
+  } catch (error) {
+    console.log('Nodemailer post error:', error);
     res.status(500).json({ e: 'Internal server error' });
   }
 });
-//добавить "проверьте почту"
 
-mailerRouter.post('/:uuid', async (req, res) => {
+nodeMailerRouter.post('/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
 
@@ -40,32 +46,34 @@ mailerRouter.post('/:uuid', async (req, res) => {
     } else {
       res.sendStatus(404);
     }
-  } catch (e) {
-    console.log('Nodemailer uuid:', e);
+  } catch (error) {
+    console.log('Nodemailer uuid error:', error);
     res.status(500).json({ e: 'Internal server error' });
   }
 });
 
-// endpoint на ввод у нас на сайте сгенерированных цифр, полученных на почте для подтверждения
-mailerRouter.post('/new-pass/:uuid', async (req, res) => {
+nodeMailerRouter.post('/new-password/:uuid', async (req, res) => {
   try {
     const { uuid } = req.params;
-    const { password } = req.body;
+    const { codeword, password } = req.body;
     const founduuid = await User.findOne({ where: { uuid } });
     if (!founduuid) {
       return res.sendStatus(401);
     }
+
+    if (founduuid.codeword !== codeword) {
+      return res.sendStatus(401);
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    // await founduuid.update({ password: hashedPassword, uuid: null });
-    founduuid.hashpass = hashedPassword;
-    founduuid.uuid = null;
+    founduuid.password = hashedPassword;
+    founduuid.codeword = null;
     await founduuid.save();
-    // await founduuid.reload();
     return res.sendStatus(200);
-  } catch (e) {
-    console.log('New-pass nodemailer:', e);
+  } catch (error) {
+    console.log('New-password nodemailer:', error);
     res.status(500).json({ e: 'Internal server error' });
   }
 });
 
-module.exports = mailerRouter;
+module.exports = nodeMailerRouter;

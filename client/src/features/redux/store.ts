@@ -10,6 +10,7 @@ import userReducer from './user/userSlice';
 import FavoritesReducer from './favorite/favoriteSlice';
 import wsSlice from './wsActions/wsSlice';
 import rootSaga from '../saga/rootSagaWs';
+import forgetReducer from './passwordForget/forgetSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -21,6 +22,7 @@ const store = configureStore({
     profiles: profileCategoriesReducer,
     categories: profileCategoriesReducer,
     favorites: FavoritesReducer,
+    forgetPass: forgetReducer,
     ws: wsSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),

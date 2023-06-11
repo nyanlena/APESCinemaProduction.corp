@@ -20,6 +20,8 @@ import Loader from './HOC/Loader';
 import SeachProjects from './components/Pages/SeachProjects';
 import { wsInitAction } from './features/redux/wsActions';
 import ImagePage from './components/Pages/ImagePage';
+import EmailForgotPassword from './components/Pages/EmailForgotPassword';
+import NewPassword from './components/Pages/NewPassword';
 
 function App(): JSX.Element {
   const location = useLocation();
@@ -54,6 +56,8 @@ function App(): JSX.Element {
             <Route element={<PrivateRouter isAllowed={user.status === 'guest'} />}>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/login/forget" element={<EmailForgotPassword />} />
+              <Route path="/login/forget/:uuid" element={<NewPassword />} />
             </Route>
             <Route path="/signup/role" element={<ChooseRole />} />
             <Route element={<PrivateRouter isAllowed={user.status === 'logged'} />}>
