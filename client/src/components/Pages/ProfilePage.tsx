@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import {
   BsWrenchAdjustable,
@@ -37,10 +38,7 @@ function ProfilePage(): JSX.Element {
   const user = useAppSelector((store) => store.user as BackendChangeProfileType);
 
   // favorites
-  const [liked, setLiked] = useState(() => {
-    const isLiked = localStorage.getItem(`liked-${id}`);
-    return isLiked ? JSON.parse(isLiked) : isLiked;
-  });
+  const [liked, setLiked] = useState(false);
   const tooltip = liked ? 'Удалить из избранного' : 'Добавить в избранное';
 
   useEffect(() => {
@@ -48,8 +46,20 @@ function ProfilePage(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(`liked-${id}`, JSON.stringify(liked));
-  }, [id, liked]);
+    axios
+      .get(`favorites/check/${id}`)
+      .then(({ data }) => {
+        if (data.exists) {
+          setLiked(true);
+        } else {
+          setLiked(false);
+          localStorage.removeItem(`liked-${id}`);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   // модальное окно с фотографией
   const [showModal, setShowModal] = useState(false);
@@ -149,7 +159,7 @@ function ProfilePage(): JSX.Element {
       const result = await dispatch(deleteFavoriteProfileThunk(Number(id)));
       if (result) {
         setLiked(false);
-        localStorage.setItem(`liked-${id}`, JSON.stringify(false));
+        localStorage.removeItem(`liked-${id}`);
       }
     } else {
       const result = await dispatch(addFavoriteProfileThunk(oneUser.id));

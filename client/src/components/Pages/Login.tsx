@@ -124,9 +124,6 @@ export default function Login(): JSX.Element {
           height: '76vh',
         }}
       >
-        {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
-        </Avatar> */}
         <Box className="animcon" id="animcon">
           <img
             id="hands"
@@ -162,6 +159,7 @@ export default function Login(): JSX.Element {
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                onClick={handleCloseEyeClick}
                 onChange={(e) => validatePassword(e.target.value)}
                 error={Boolean(passwordError)}
                 helperText={passwordError}
@@ -171,28 +169,26 @@ export default function Login(): JSX.Element {
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Войти
           </Button>
-          <Grid container>
-            {/* <Grid item xs>
-              <Link component={RouterLink} to="/" variant="body2">
-                Забыли пароль?
-              </Link>
-            </Grid> */}
+          <Grid container direction="column" alignItems="center">
             <Grid item>
               <Link component={RouterLink} to="/signup" variant="body2">
                 У вас нет учетной записи? Зарегистрируйтесь
+              </Link>
+            </Grid>
+            <Grid item xs>
+              <Link component={RouterLink} to="/login/forget" variant="body2">
+                Забыли пароль?
               </Link>
             </Grid>
             <a
               href="http://localhost:3001/api/v1/login/google"
               style={{ textAlign: 'center', marginTop: '10px' }}
             >
-              {/* <Button type="button" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}> */}
               <img
                 src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
                 alt="google"
                 style={{ width: '8%' }}
               />
-              {/* </Button> */}
             </a>
           </Grid>
         </Box>

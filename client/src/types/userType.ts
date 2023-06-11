@@ -49,6 +49,10 @@ export type LoginType = {
   password: string;
 };
 
+export type forgetType = {
+  email: string;
+};
+
 export type User = {
   id: number;
   firstName: string;

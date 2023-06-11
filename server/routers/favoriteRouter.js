@@ -93,4 +93,23 @@ favoriteRouter.put('/:id', async (req, res) => {
   }
 });
 
+favoriteRouter.get('/check/:id', async (req, res) => {
+  try {
+    const toId = req.params.id;
+    const fromId = req.session.user.id;
+    const favoriteToCheck = await Favorite.findOne({
+      where: { fromId, toId },
+    });
+
+    if (favoriteToCheck) {
+      res.json({ exists: true });
+    } else {
+      res.json({ exists: false });
+    }
+  } catch (error) {
+    console.log('Check favorites error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = favoriteRouter;
